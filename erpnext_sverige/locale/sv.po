@@ -32659,6 +32659,9 @@ msgstr "Variantartiklar"
 msgid "Variant {0} and its template {1} cannot both be added to the same Pricing Rule"
 msgstr "Variant {0} och dess mall {1} kan inte läggas till samma prissättningsregel"
 
+msgid "Variants"
+msgstr "Varianter"
+
 msgid "Vehicle Date"
 msgstr "Fordonsdatum"
 
