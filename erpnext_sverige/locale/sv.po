@@ -22915,6 +22915,9 @@ msgstr "Referens till inköpsorderartikel saknas på underleverantörsinleverans
 msgid "Purchase Order Items not received on time"
 msgstr "Inköpsorderartiklar som inte mottogs i tid"
 
+msgid "Purchase Order No"
+msgstr "Inköpsordernr"
+
 msgid "Purchase Order Pricing Rule"
 msgstr "Prissättningsregel för inköpsorder"
 
@@ -24470,6 +24473,9 @@ msgstr "Offertbegäransleverantör"
 
 msgid "Request for Raw Materials"
 msgstr "Begäran om råmaterial"
+
+msgid "Requested Delivery Date"
+msgstr "Önskat leveransdatum"
 
 msgid "Requested Items To Be Transferred"
 msgstr "Begärda artiklar att överföra"
@@ -29293,6 +29299,9 @@ msgstr "Leverantörsnamn"
 msgid "Supplier Naming By"
 msgstr "Leverantörsnamngivning efter"
 
+msgid "Supplier No"
+msgstr "Leverantörsnr"
+
 msgid "Supplier Number At Customer"
 msgstr "Leverantörsnummer hos kund"
 
@@ -32450,6 +32459,9 @@ msgstr "Användning av negativt lager inaktiverar FIFO/MV-värderingssätt när 
 
 msgid "Utility Expenses"
 msgstr "Kostnader för el, vatten och värme"
+
+msgid "VAT"
+msgstr "Moms"
 
 msgid "VAT Accounts"
 msgstr "Momskonton"

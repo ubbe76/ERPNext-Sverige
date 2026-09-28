@@ -1,0 +1,23 @@
+{%- from "erpnext_sverige/templates/includes/se_print.html" import styles, header, items, totals, terms, footer with context -%}
+{%- set ctx = get_print_context(doc) -%}
+{{ styles() }}
+<div class="se-doc">
+	{% if letter_head and not no_letterhead %}<div class="letter-head">{{ letter_head }}</div>{% endif %}
+
+	{{ header(
+		_("Purchase Order"),
+		[
+			(_("Purchase Order No"), doc.name),
+			(_("Date"), doc.get_formatted("transaction_date")),
+			(_("Requested Delivery Date"), doc.get_formatted("schedule_date") if doc.schedule_date),
+			(_("Supplier No"), doc.supplier),
+		],
+		_("Supplier"), doc.supplier_name, doc.address_display, None,
+		[(_("Delivery Address"), doc.shipping_address_display)]
+	) }}
+
+	{{ items(doc) }}
+	{{ totals(doc, ctx, _("Total incl. VAT")) }}
+	{{ terms(doc) }}
+	{{ footer(doc, ctx) }}
+</div>

@@ -10,6 +10,7 @@ PRINT_FORMATS = {
 	"Sales Order": "Orderbekräftelse Sverige",
 	"Delivery Note": "Följesedel Sverige",
 	"Sales Invoice": INVOICE_PRINT_FORMAT,
+	"Purchase Order": "Inköpsorder Sverige",
 }
 GOODS = "Vara"
 SERVICE = "Tjänst"

@@ -196,3 +196,22 @@ class TestDeliveryNotePrint(PrintTestCase):
 		html = render(self.make_delivery_note(so))
 		self.assertNotIn("Transportör", html)
 		self.assertNotIn("Fraktsedelsnr", html)
+
+
+class TestPurchaseOrderPrint(PrintTestCase):
+	def test_renders_in_swedish(self):
+		po = make_doc("Purchase Order", [(self.service, 1000)], supplier=self.supplier_se)
+		html = render(po)
+		for text in ("Inköpsorder", "Inköpsordernr", "Önskat leveransdatum", "Leverantörsnr", "Leverantör"):
+			self.assertIn(text, html)
+		for text in ("Test SE Leverantör AB", ">Moms<", "Totalt inkl. moms", ">St<"):
+			self.assertIn(text, html)
+		for text in ("Kundnummer", "Moms 25 % på", ">Nos<", "In Words", "Bankgiro"):
+			self.assertNotIn(text, html)
+
+	def test_eu_reverse_charge_has_no_vat_row(self):
+		po = make_doc("Purchase Order", [(self.service, 1000)], supplier=self.supplier_eu)
+		self.assertFalse(po.total_taxes_and_charges)
+		html = render(po)
+		self.assertNotIn(">Moms<", html)
+		self.assertEqual(po.grand_total, po.net_total)
