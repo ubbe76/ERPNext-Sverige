@@ -1,10 +1,11 @@
 import frappe
 from erpnext.selling.doctype.sales_order.sales_order import make_delivery_note
+from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_days, today
 
 from erpnext_sverige.setup.company import TAX_CATEGORY_EU, TAX_CATEGORY_SE
-from erpnext_sverige.setup.custom_fields import GOODS, SERVICE
+from erpnext_sverige.setup.custom_fields import GOODS, PRINT_FORMATS, SERVICE, set_default_print_formats
 from erpnext_sverige.sweden_compliance.print_context import get_print_context
 from erpnext_sverige.tests.utils import COMPANY, ensure_test_company, make_item, make_party
 
@@ -37,8 +38,6 @@ def make_doc(doctype, items, submit=False, **fields):
 
 
 def render(doc) -> str:
-	from erpnext_sverige.setup.custom_fields import PRINT_FORMATS
-
 	frappe.local.lang = "sv"
 	return frappe.get_print(doc.doctype, doc.name, print_format=PRINT_FORMATS[doc.doctype], doc=doc)
 
@@ -215,3 +214,28 @@ class TestPurchaseOrderPrint(PrintTestCase):
 		html = render(po)
 		self.assertNotIn(">Moms<", html)
 		self.assertEqual(po.grand_total, po.net_total)
+
+
+class TestDefaultPrintFormats(PrintTestCase):
+	def test_swedish_formats_are_default(self):
+		set_default_print_formats()
+		for doctype, print_format in PRINT_FORMATS.items():
+			frappe.clear_cache(doctype=doctype)
+			self.assertEqual(frappe.get_meta(doctype).default_print_format, print_format, doctype)
+
+	def test_own_print_format_is_kept(self):
+		own = frappe.get_doc(
+			{
+				"doctype": "Print Format",
+				"name": "Test egen offert",
+				"doc_type": "Quotation",
+				"standard": "No",
+				"custom_format": 1,
+				"print_format_type": "Jinja",
+				"html": "<p>egen</p>",
+			}
+		).insert()
+		make_property_setter("Quotation", None, "default_print_format", own.name, "Data", for_doctype=True)
+		set_default_print_formats()
+		frappe.clear_cache(doctype="Quotation")
+		self.assertEqual(frappe.get_meta("Quotation").default_print_format, own.name)

@@ -96,21 +96,20 @@ def get_custom_fields():
 
 def create_custom_fields():
 	_create_custom_fields(get_custom_fields(), update=True)
-	set_default_invoice_print_format()
+	set_default_print_formats()
 
 
-def set_default_invoice_print_format():
-	"""Gör "Faktura Sverige" till standardmall för kundfakturor.
+def set_default_print_formats():
+	"""Gör de svenska mallarna (PRINT_FORMATS) till standardmallar.
 
 	ERPNext:s egna standardmallar ersätts, men en egen (icke-standard) mall som valts lämnas orörd.
 	"""
-	if not frappe.db.exists("Print Format", INVOICE_PRINT_FORMAT):
-		return
-	current = frappe.get_meta("Sales Invoice").default_print_format
-	if current == INVOICE_PRINT_FORMAT:
-		return
-	if current and frappe.db.get_value("Print Format", current, "standard") == "No":
-		return
-	make_property_setter(
-		"Sales Invoice", None, "default_print_format", INVOICE_PRINT_FORMAT, "Data", for_doctype=True
-	)
+	for doctype, print_format in PRINT_FORMATS.items():
+		if not frappe.db.exists("Print Format", print_format):
+			continue
+		current = frappe.get_meta(doctype).default_print_format
+		if current == print_format:
+			continue
+		if current and frappe.db.get_value("Print Format", current, "standard") == "No":
+			continue
+		make_property_setter(doctype, None, "default_print_format", print_format, "Data", for_doctype=True)
