@@ -3,7 +3,7 @@ app_title = "ERPNext Sverige"
 app_publisher = "ERPNext Sverige"
 app_description = "Swedish localization and manufacturing adaptations for ERPNext"
 app_email = "18618863+ubbe76@users.noreply.github.com"
-app_license = "mit"
+app_license = "gpl-3.0"
 
 # Apps
 # ------------------
@@ -261,4 +261,3 @@ required_apps = ["erpnext"]
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-
