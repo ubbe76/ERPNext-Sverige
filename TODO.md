@@ -84,3 +84,10 @@ Fynd:
   ```bash
   bench --site svensk-erp.local execute erpnext_sverige.scripts.sarskrivningar.report --kwargs "{'title_case_only': True}"
   ```
+
+## 5. Inför publicering (publikt repo eller Frappe Marketplace)
+
+- [ ] Byt `app_email` i `erpnext_sverige/hooks.py` och e-posten under `authors` i `pyproject.toml` till en
+  adress som tar emot e-post, till exempel en vidarebefordringsadress (alias på egen domän eller SimpleLogin/Proton/Firefox Relay).
+  Dagens adress är GitHubs anonyma adress, som inte kan ta emot e-post. Marketplace kräver en adress som fungerar.
+  Commits kan behålla den anonyma adressen.
