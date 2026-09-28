@@ -53,3 +53,27 @@ jspm_packages/
 
 # Aider AI Chat
 .aider*
+
+# Frappe build output and compiled translations
+erpnext_sverige/public/dist/
+*.mo
+
+# Test, lint and type-check caches
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.eslintcache
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Logs
+*.log
+
+# Editor backups
+*.swo
+*~
+
+# Claude Code (personal settings; shared settings.json is committed)
+.claude/settings.local.json
