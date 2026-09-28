@@ -7,7 +7,7 @@ from frappe.utils import add_days, today
 from erpnext_sverige.setup.company import TAX_CATEGORY_EU, TAX_CATEGORY_SE
 from erpnext_sverige.setup.custom_fields import GOODS, PRINT_FORMATS, SERVICE, set_default_print_formats
 from erpnext_sverige.sweden_compliance.print_context import get_print_context
-from erpnext_sverige.tests.utils import COMPANY, ensure_test_company, make_item, make_party
+from erpnext_sverige.tests.utils import COMPANY, account, ensure_test_company, make_item, make_party
 
 # Datum som krävs på raderna för att dokumenten ska gå att spara
 ROW_DATES = {
@@ -239,3 +239,40 @@ class TestDefaultPrintFormats(PrintTestCase):
 		set_default_print_formats()
 		frappe.clear_cache(doctype="Quotation")
 		self.assertEqual(frappe.get_meta("Quotation").default_print_format, own.name)
+
+
+class TestOtherCharges(PrintTestCase):
+	"""Frakt och andra avgifter i skattetabellen är inte moms och ska visas på en egen rad."""
+
+	def add_freight(self, doc, account_number):
+		doc.append(
+			"taxes",
+			{
+				"charge_type": "Actual",
+				"account_head": account(account_number),
+				"description": "Frakt",
+				"tax_amount": 100,
+				"category": "Total",
+				"add_deduct_tax": "Add",
+			},
+		)
+		doc.save()
+		return doc
+
+	def test_sales_order_shows_freight(self):
+		so = make_doc("Sales Order", [(self.service, 1000)], customer=self.customer_se)
+		self.add_freight(so, "3520")
+		html = render(so)
+		self.assertIn("Övriga avgifter", html)
+		self.assertIn("100,00 kr", html)
+		self.assertIn("2 600,00 kr", html)  # 2 000 + 500 moms + 100 frakt
+
+	def test_purchase_order_does_not_call_freight_vat(self):
+		frappe.db.set_value("Account", account("5710"), "account_type", "Chargeable")
+		po = make_doc("Purchase Order", [(self.service, 1000)], supplier=self.supplier_se)
+		self.add_freight(po, "5710")
+		html = render(po)
+		self.assertIn("Övriga avgifter", html)
+		self.assertIn(
+			'<td>Moms</td><td class="se-right">500,00 kr</td>', html
+		)  # frakten räknas inte som moms

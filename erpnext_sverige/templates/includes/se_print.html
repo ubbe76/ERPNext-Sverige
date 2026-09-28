@@ -87,6 +87,9 @@
 {%- macro totals(doc, ctx, grand_label) -%}
 <table class="se-totals">
 	<tr><td>{{ _("Total excl. VAT") }}</td><td class="se-right">{{ money(doc, doc.net_total) }}</td></tr>
+	{% if ctx.other_charges %}
+	<tr><td>{{ _("Other charges") }}</td><td class="se-right">{{ money(doc, ctx.other_charges) }}</td></tr>
+	{% endif %}
 	{% if ctx.vat_summary %}
 		{% for row in ctx.vat_summary %}
 			{% if row.rate %}
@@ -98,8 +101,8 @@
 			<tr><td>{{ _("Exempt from VAT") }}</td><td class="se-right">{{ money(doc, row.base) }}</td></tr>
 			{% endif %}
 		{% endfor %}
-	{% elif doc.total_taxes_and_charges %}
-	<tr><td>{{ _("VAT") }}</td><td class="se-right">{{ money(doc, doc.total_taxes_and_charges) }}</td></tr>
+	{% elif ctx.vat_total %}
+	<tr><td>{{ _("VAT") }}</td><td class="se-right">{{ money(doc, ctx.vat_total) }}</td></tr>
 	{% endif %}
 	{% if doc.rounding_adjustment %}
 	<tr><td>{{ _("Rounding Adjustment") }}</td><td class="se-right">{{ money(doc, doc.rounding_adjustment) }}</td></tr>

@@ -19607,6 +19607,9 @@ msgstr "Övriga rapporter"
 msgid "Other Settings"
 msgstr "Övriga inställningar"
 
+msgid "Other charges"
+msgstr "Övriga avgifter"
+
 msgid "Out Qty"
 msgstr "Utgående kvantitet"
 
