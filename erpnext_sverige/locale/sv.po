@@ -8866,6 +8866,9 @@ msgstr "Levereras av leverantör (drop ship)"
 msgid "Delivery Date"
 msgstr "Leveransdatum"
 
+msgid "Delivery Date:"
+msgstr "Leveransdatum:"
+
 msgid "Delivery Details"
 msgstr "Leveransdetaljer"
 
@@ -12723,6 +12726,9 @@ msgstr "Totalt belopp (transaktionsvaluta)"
 msgid "Grand Total must match sum of Payment References"
 msgstr "Total summa måste stämma med summan av betalningsreferenser"
 
+msgid "Grand Total:"
+msgstr "Totalt belopp:"
+
 msgid "Grant Commission"
 msgstr "Tillåt provision"
 
@@ -13767,6 +13773,9 @@ msgstr "I ord kommer att visas vid sparande av försäljningsfaktura."
 
 msgid "In Words will be visible once you save the Sales Order."
 msgstr "I ord kommer att visas vid sparande av försäljningsorder."
+
+msgid "In Words:"
+msgstr "I ord:"
 
 msgid "In mins"
 msgstr "I minuter"
@@ -15126,6 +15135,9 @@ msgstr "Det är inte möjligt att fördela avgifter proportionellt när det tota
 
 msgid "Italic Text"
 msgstr "Kursiv text"
+
+msgid "Item"
+msgstr "Artikel"
 
 msgid "Item Alternative"
 msgstr "Artikelalternativ"
@@ -19516,6 +19528,9 @@ msgstr "Orderantal"
 
 msgid "Order Date"
 msgstr "Orderdatum"
+
+msgid "Order Date:"
+msgstr "Orderdatum:"
 
 msgid "Order Information"
 msgstr "Orderinformation"
@@ -26010,6 +26025,9 @@ msgstr "Försäljningsorder {0} ej godkänd"
 msgid "Sales Order {0} is not valid"
 msgstr "Försäljningsorder {0} är inte giltig"
 
+msgid "Sales Order:"
+msgstr "Försäljningsorder:"
+
 msgid "Sales Orders"
 msgstr "Försäljningsordrar"
 
@@ -28946,6 +28964,9 @@ msgstr "Underenhetsartiklar"
 
 msgid "Sub Assembly Warehouse"
 msgstr "Underenhetslager"
+
+msgid "Sub Total:"
+msgstr "Delsumma:"
 
 msgid "Sub assembly item references are missing. Please fetch the sub assemblies and raw materials again."
 msgstr "Underenhetsreferenser saknas. Hämta underenheter och råmaterial igen."
