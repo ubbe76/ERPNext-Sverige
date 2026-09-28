@@ -10681,6 +10681,9 @@ msgstr "Ange statiska url-parametrar här (T.ex.. Avsändare = System, användar
 msgid "Enter the Bank Guarantee Number before submitting."
 msgstr "Ange bankgarantinummer innan godkännande."
 
+msgid "Enter the Full Name of the Customer"
+msgstr "Ange kundens fullständiga namn"
+
 msgid "Enter the Item Code that this customer uses at their end. This will be shown in Sales Orders for the customer's reference."
 msgstr "Ange artikelkod som denna kund använder. Kommer att visas i försäljningsordrar som kundreferens."
 
