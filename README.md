@@ -44,6 +44,7 @@ Se [TODO.md](TODO.md). Det viktigaste:
 - **Fakturamall** som uppfyller svenska krav: organisationsnummer, momsregistreringsnummer, F-skatt,
   bankgiro och OCR-nummer
 - Bankfiler för Bankgirot
+- **PAXml-export** av tid och frånvaro till svenska lönesystem (t.ex. Visma Lön, Hogia, Fortnox Lön)
 
 ## Installation
 

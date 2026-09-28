@@ -28,6 +28,11 @@ Inga transaktioner är bokförda ännu. Gör klart steg 1 innan första verifika
 3. [ ] **Fakturakrav**: utskriftsmall med organisationsnummer, momsregistreringsnummer,
    "Godkänd för F-skatt", bankgiro och OCR-nummer
 4. [ ] Bankfiler (senare): Bankgirots betalfiler och inläsning av inbetalningar
+5. [ ] **PAXml-export till svenska lönesystem** (Visma Lön, Hogia, Fortnox Lön m.fl.)
+   - Exportera tidrapporter och frånvaro per anställd och löneperiod som PAXml-fil
+   - Bestäm datakälla: ERPNext:s tidrapporter (Timesheet) räcker för tid. Frånvaro och
+     närvaro kräver Frappe HRMS, som inte är installerat i dag.
+   - Mappning mellan aktivitetstyper/frånvaroorsaker och lönearter per lönesystem
 
 ## 4. Översättningar och namn
 
