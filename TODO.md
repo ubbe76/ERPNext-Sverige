@@ -46,7 +46,11 @@ Fynd:
 
 ## 3. Funktioner i erpnext_sverige
 
-1. [ ] **SIE-export (SIE 4)**: för revisor och bokslutsprogram
+1. [x] **SIE-export (SIE 4)**: rapporten "SIE-export" (modul Sweden Compliance) laddar ner en SIE 4-fil per
+   räkenskapsår med kontoplan, IB/UB/RES, resultatenheter (dim 1), projekt (dim 6) och alla verifikationer
+   (serie A journalposter, B kundfakturor, C leverantörsfakturor, D betalningar, E lager, F övrigt)
+   - [ ] Provimportera filen i ett bokslutsprogram eller hos revisorn och kontrollera att allt kommer med
+   - [ ] SIE-import (t.ex. ingående balanser från tidigare bokföringsprogram)
 2. [x] **Momsdeklaration**: rapporten "Momsdeklaration" (modul Sweden Compliance) räknar fram Skatteverkets
    rutor ur huvudboken, laddar ner eSKD-fil och skapar momsomföring (utkast) mot 2650
    - [ ] **Verifiera eSKD-filen mot Skatteverkets aktuella specifikation** (filformat, elementnamn, OrgNr-format)

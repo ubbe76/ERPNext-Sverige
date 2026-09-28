@@ -29,7 +29,8 @@ exempel är "Party" (motpart), som tidigare översattes med "Parti", det vill s�
 `erpnext_sverige.setup.company.setup_swedish_company` sätter upp ett bolag med BAS-kontoplan för svensk
 bokföring. Funktionen går att köra flera gånger utan att något dubbleras.
 
-- Standardkonton på bolaget (kostnad för sålda varor, kursdifferenser, öresutjämning, kassarabatt m.m.)
+- Standardkonton på bolaget (kundfordringar 1510, leverantörsskulder 2440, bank, kassa, kostnad för sålda varor,
+  kursdifferenser, öresutjämning, kassarabatt m.m.)
 - **Immutable Ledger**, så att verifikationer inte kan ändras i efterhand, bara rättas (Bokföringslagen)
 - Momsmallar som bokför på rätt BAS-konton (2611/2621/2631/2641)
 - Momskategorier med skatteregler för Sverige, EU (omvänd skattskyldighet) och länder utanför EU
@@ -67,6 +68,20 @@ och momsomföringar räknas inte med. Beloppen anges i hela kronor, och öretal 
 
 Rutorna 06, 07, 08, 37 och 38 stöds inte än och är alltid 0.
 
+### SIE-export
+
+Rapporten **SIE-export** (modul Sweden Compliance) sammanställer verifikationerna per serie för valt
+räkenskapsår. Knappen **Ladda ner SIE-fil** ger en SIE 4-fil (PC8) till revisor eller bokslutsprogram med:
+
+- bolagsuppgifter, kontoplan och kontotyper
+- ingående och utgående balanser (`#IB`/`#UB`) och periodens resultat (`#RES`), även för föregående år om det finns
+- resultatenheter som dimension 1 (kostnadsställe) och projekt som dimension 6
+- alla verifikationer med rader (`#VER`/`#TRANS`) i serierna A journalposter, B kundfakturor,
+  C leverantörsfakturor, D betalningar, E lager och F övrigt, numrerade i datumordning. ERPNext-namnet står
+  i verifikationstexten. En makulering exporteras som en egen verifikation, "Makulering av …".
+
+Bokslutsverifikationer (Period Closing Voucher) exporteras inte, eftersom det mottagande programmet gör eget bokslut.
+
 ### Kontrollskript för nya strängar
 
 När Frappe eller ERPNext uppdateras kan nya strängar med särskrivningar tillkomma. Skriptet
@@ -82,7 +97,6 @@ Utan `title_case_only` listas fler kandidater, men då följer också fler falsk
 
 Se [TODO.md](TODO.md). Det viktigaste:
 
-- **SIE-export (SIE 4)** till revisor och bokslutsprogram
 - **Fakturamall** som uppfyller svenska krav: organisationsnummer, momsregistreringsnummer, F-skatt,
   bankgiro och OCR-nummer
 - Bankfiler för Bankgirot
@@ -144,6 +158,7 @@ appens grunduppsättning på det. Kör dem på en testsite, inte på den riktiga
 bench --site <testsite> set-config allow_tests true
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_account_selection
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_vat_return
+bench --site <testsite> run-tests --module erpnext_sverige.tests.test_sie_export
 ```
 
 Stilregler för översättningarna:

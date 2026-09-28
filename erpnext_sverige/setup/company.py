@@ -15,6 +15,12 @@ TAX_CATEGORY_NON_EU = "Utanför EU"
 
 # Company-fält -> BAS-kontonummer
 COMPANY_ACCOUNTS = {
+	# ERPNext väljer annars sista kontot av rätt typ, t.ex. 1519 Nedskrivning av kundfordringar
+	"default_receivable_account": "1510",
+	"default_payable_account": "2440",
+	"default_bank_account": "1930",
+	"default_cash_account": "1910",
+	"round_off_account": "3740",
 	"default_expense_account": "4000",
 	"exchange_gain_loss_account": "3960",
 	"unrealized_exchange_gain_loss_account": "3960",
