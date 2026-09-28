@@ -11,7 +11,8 @@
 	.se-invoice table.se-items { width: 100%; border-collapse: collapse; margin-top: 18px; }
 	.se-invoice table.se-items th { border-bottom: 1px solid #222; font-weight: 600; padding: 4px; }
 	.se-invoice table.se-items td { border-bottom: 1px solid #ddd; padding: 4px; vertical-align: top; }
-	.se-invoice .se-right { text-align: right; }
+	.se-invoice .se-right { text-align: right; white-space: nowrap; }
+	.se-invoice .se-nowrap { white-space: nowrap; }
 	.se-invoice table.se-totals { margin-left: auto; margin-top: 12px; border-collapse: collapse; }
 	.se-invoice table.se-totals td { padding: 2px 0 2px 24px !important; border: 0 !important; }
 	.se-invoice table.se-totals tr.se-grand td { border-top: 1px solid #222 !important; padding-top: 6px !important; font-weight: 700; font-size: 12pt; }
@@ -132,7 +133,7 @@
 					{% if pay.bankgiro %}{{ _("Bankgiro") }}: {{ pay.bankgiro }}<br>{% endif %}
 					{% if pay.plusgiro %}{{ _("Plusgiro") }}: {{ pay.plusgiro }}<br>{% endif %}
 					{% if pay.clearing and pay.account_no %}{{ _("Bank Account") }}: {{ pay.clearing }}-{{ pay.account_no }}<br>{% endif %}
-					{% if pay.iban %}IBAN: {{ pay.iban }}<br>{% endif %}
+					{% if pay.iban %}<span class="se-nowrap">IBAN: {{ pay.iban }}</span><br>{% endif %}
 					{% if pay.bic %}BIC: {{ pay.bic }}{% endif %}
 				</td>
 			</tr>
