@@ -125,8 +125,8 @@ Granska ändringen med `git diff`, lägg till filen och committa igen.
 
 ### Tester
 
-Testerna körs mot en site med ett BAS-bolag (integrationstesterna använder bolaget BOLAG och hoppas annars
-över). Kör dem på en testsite, inte på den riktiga:
+Integrationstesterna skapar ett eget testbolag, `_Test Svenska AB`, med ERPNext:s BAS-kontoplan och kör
+appens grunduppsättning på det. Kör dem på en testsite, inte på den riktiga:
 
 ```bash
 bench --site <testsite> set-config allow_tests true

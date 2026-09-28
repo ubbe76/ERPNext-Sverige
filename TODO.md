@@ -1,11 +1,11 @@
 # TODO
 
-Siten `svensk-erp.local`, bolag **BOLAG** (SEK, kontoplan BAS 2024 med nummer).
+Siten `svensk-erp.local`, ett bolag (SEK, kontoplan BAS 2024 med nummer).
 Inga transaktioner är bokförda ännu. Gör klart steg 1 innan första verifikationen.
 
 ## 1. Bokföringsgrund (innan första verifikationen)
 
-Klart för BOLAG via `erpnext_sverige.setup.company.setup_swedish_company`:
+Klart för bolaget via `erpnext_sverige.setup.company.setup_swedish_company`:
 
 - [x] Standardkonton: COGS 4000, kursdifferenser 3960, write-off 3740, kassarabatt 3731,
   förutbetalda intäkter 2970 / kostnader 1790
@@ -30,7 +30,7 @@ Kvar / begränsningar:
 
 ## 2. Provkör ett helt flöde
 
-Provkört 2026-09-28 på testsiten `test-erp.local`, som är en kopia av `svensk-erp.local`. BOLAG:s riktiga bokföring är orörd.
+Provkört 2026-09-28 på testsiten `test-erp.local`, som är en kopia av `svensk-erp.local`. Den riktiga bokföringen är orörd.
 
 - [x] Kundfaktura (25 % + 12 %) → betalning: 1510 → 1930, moms på 2611 och 2621, 1510 nollställd
 - [x] EU-kundfaktura → betalning: ingen moms, 1510 nollställd

@@ -2,10 +2,18 @@ import frappe
 from frappe.tests import IntegrationTestCase, UnitTestCase
 
 from erpnext_sverige.accounting.account_selection import PURCHASE, SALES, resolve_account
-from erpnext_sverige.setup.company import TAX_CATEGORY_EU, TAX_CATEGORY_NON_EU, TAX_CATEGORY_SE
+from erpnext_sverige.setup.company import (
+	TAX_CATEGORY_EU,
+	TAX_CATEGORY_NON_EU,
+	TAX_CATEGORY_SE,
+	setup_swedish_company,
+)
 from erpnext_sverige.setup.custom_fields import GOODS, SERVICE
 
-COMPANY = "BOLAG"
+# Eget testbolag med ERPNext:s BAS-kontoplan. Skapas första gången och återanvänds sedan.
+COMPANY = "_Test Svenska AB"
+COMPANY_ABBR = "_TSA"
+BAS_CHART = "BAS 2024 med Nummer"
 
 
 class TestResolveAccount(UnitTestCase):
@@ -40,9 +48,8 @@ class TestAccountSelectionOnInvoices(IntegrationTestCase):
 	@classmethod
 	def setUpClass(cls):
 		super().setUpClass()
-		if not frappe.db.exists("Company", COMPANY):
-			raise cls.skipTest(cls, f"Bolaget {COMPANY} saknas")
-		cls.abbr = frappe.get_cached_value("Company", COMPANY, "abbr")
+		_ensure_test_company()
+		cls.abbr = COMPANY_ABBR
 
 	def setUp(self):
 		self.service = _item("TEST-SE-TJANST", kind=SERVICE)
@@ -91,6 +98,22 @@ class TestAccountSelectionOnInvoices(IntegrationTestCase):
 		pi.set_missing_values()
 		pi.insert()
 		self.assertEqual(pi.items[0].expense_account, self.account("4535"))
+
+
+def _ensure_test_company():
+	if not frappe.db.exists("Company", COMPANY):
+		frappe.get_doc(
+			{
+				"doctype": "Company",
+				"company_name": COMPANY,
+				"abbr": COMPANY_ABBR,
+				"country": "Sweden",
+				"default_currency": "SEK",
+				"create_chart_of_accounts_based_on": "Standard Template",
+				"chart_of_accounts": BAS_CHART,
+			}
+		).insert()
+	setup_swedish_company(COMPANY)  # idempotent, committar
 
 
 def _item(item_code, kind, template=None):

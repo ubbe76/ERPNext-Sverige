@@ -3,7 +3,7 @@
 Idempotent: kan köras flera gånger. Konton slås upp via kontonummer, så funktionen fungerar för alla
 bolag vars kontoplan bygger på BAS.
 
-    bench --site <site> execute erpnext_sverige.setup.company.setup_swedish_company --kwargs "{'company': 'BOLAG'}"
+    bench --site <site> execute erpnext_sverige.setup.company.setup_swedish_company --kwargs "{'company': '<bolag>'}"
 """
 
 import frappe
