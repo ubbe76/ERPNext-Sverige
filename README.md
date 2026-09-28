@@ -45,7 +45,7 @@ PDF kräver att wkhtmltopdf är installerat, eller att Chrome-generatorn väljs 
 `erpnext_sverige.setup.company.setup_swedish_company` sätter upp ett bolag med BAS-kontoplan för svensk
 bokföring. Funktionen går att köra flera gånger utan att något dubbleras.
 
-- Svenskt talformat (1 234,56) och kronor efter beloppet (1 234,56 kr)
+- Svenskt talformat (1 234,56), kronor efter beloppet (1 234,56 kr) och måndag som första veckodag
 - Standardkonton på bolaget (kundfordringar 1510, leverantörsskulder 2440, bank, kassa, kostnad för sålda varor,
   kursdifferenser, öresutjämning, kassarabatt m.m.)
 - **Immutable Ledger**, så att verifikationer inte kan ändras i efterhand, bara rättas (Bokföringslagen)
