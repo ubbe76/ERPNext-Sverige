@@ -5629,6 +5629,10 @@ msgstr "Kortlänkar"
 msgid "Carriage and Insurance Paid to"
 msgstr "Fraktfritt inklusive försäkring"
 
+msgctxt "Swedish print"
+msgid "Carrier"
+msgstr "Transportör"
+
 msgid "Carrier Service"
 msgstr "Leverantörsservice"
 
@@ -8884,11 +8888,19 @@ msgstr "Leveransansvarig"
 msgid "Delivery Note"
 msgstr "Försäljningsföljesedel"
 
+msgctxt "Swedish print"
+msgid "Delivery Note"
+msgstr "Följesedel"
+
 msgid "Delivery Note Item"
 msgstr "Försäljningsföljesedelsartikel"
 
 msgid "Delivery Note No"
 msgstr "Försäljningsföljesedelsnummer"
+
+msgctxt "Swedish print"
+msgid "Delivery Note No"
+msgstr "Följesedelsnr"
 
 msgid "Delivery Note Packed Item"
 msgstr "Packad artikel på försäljningsföljesedel"
@@ -33112,6 +33124,9 @@ msgstr "Våglängd i kilometer"
 
 msgid "Wavelength In Megametres"
 msgstr "Våglängd i megameter"
+
+msgid "Waybill No"
+msgstr "Fraktsedelsnr"
 
 msgid "We do not allow editing of this document. Simply click the Edit button on the workspace page to make your workspace editable and customize it as you wish"
 msgstr "Vi tillåter inte redigering av detta dokument. Klicka på knappen Redigera på arbetsytan för att göra din arbetsyta redigerbar och anpassa den som du vill"

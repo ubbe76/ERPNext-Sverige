@@ -8,6 +8,7 @@ INVOICE_PRINT_FORMAT = "Faktura Sverige"
 PRINT_FORMATS = {
 	"Quotation": "Offert Sverige",
 	"Sales Order": "Orderbekräftelse Sverige",
+	"Delivery Note": "Följesedel Sverige",
 	"Sales Invoice": INVOICE_PRINT_FORMAT,
 }
 GOODS = "Vara"

@@ -1,4 +1,5 @@
 import frappe
+from erpnext.selling.doctype.sales_order.sales_order import make_delivery_note
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_days, today
 
@@ -155,3 +156,43 @@ class TestSalesOrderPrint(PrintTestCase):
 		html = render(so)
 		self.assertNotIn("Ert ordernr", html)
 		self.assertNotIn("Er referens", html)
+
+
+class TestDeliveryNotePrint(PrintTestCase):
+	def make_delivery_note(self, *orders):
+		dn = make_delivery_note(orders[0].name)
+		for order in orders[1:]:
+			dn = make_delivery_note(order.name, target_doc=dn)
+		dn.insert()
+		return dn
+
+	def test_renders_without_prices(self):
+		so = make_doc(
+			"Sales Order", [(self.service, 1000)], submit=True, customer=self.customer_se, po_no="PO-4711"
+		)
+		dn = self.make_delivery_note(so)
+		dn.transporter_name = "Schenker"
+		dn.lr_no = "FS-123"
+		html = render(dn)
+		for text in ("Följesedel", "Följesedelsnr", "Leveransadress", so.name, "Ert ordernr", "PO-4711"):
+			self.assertIn(text, html)
+		for text in ("Transportör", "Schenker", "Fraktsedelsnr", "FS-123", ">St<"):
+			self.assertIn(text, html)
+		for text in ("Enhetspris", "Belopp", "Totalt", "Moms 25", ">Nos<", "Customer Name", "Bankgiro"):
+			self.assertNotIn(text, html)
+
+	def test_lists_each_sales_order_once(self):
+		first = make_doc("Sales Order", [(self.service, 100)], submit=True, customer=self.customer_se)
+		second = make_doc(
+			"Sales Order", [(self.service, 200), (self.goods, 300)], submit=True, customer=self.customer_se
+		)
+		dn = self.make_delivery_note(first, second)
+		html = render(dn)
+		self.assertIn(", ".join(sorted([first.name, second.name])), html)
+		self.assertEqual(html.count(second.name), 1)
+
+	def test_empty_carrier_is_left_out(self):
+		so = make_doc("Sales Order", [(self.service, 1000)], submit=True, customer=self.customer_se)
+		html = render(self.make_delivery_note(so))
+		self.assertNotIn("Transportör", html)
+		self.assertNotIn("Fraktsedelsnr", html)
