@@ -89,3 +89,49 @@ class TestPrintContext(PrintTestCase):
 		self.assertEqual(ctx["notes"], [])
 		self.assertIsNone(ctx["customer"])
 		self.assertIsNone(ctx["customer_vat_no"])
+
+
+class TestQuotationPrint(PrintTestCase):
+	def test_renders_in_swedish(self):
+		qtn = make_doc(
+			"Quotation",
+			[(self.service, 1000)],
+			quotation_to="Customer",
+			party_name=self.customer_se,
+			valid_till=add_days(today(), 30),  # sätts annars bara av formuläret i webbläsaren
+		)
+		qtn.contact_display = "Anna Andersson"
+		html = render(qtn)
+		for text in ("Offert", "Offertnr", "Giltig till", "Er referens", "Anna Andersson", "Kundnummer"):
+			self.assertIn(text, html)
+		for text in ("Moms 25 % på", "Totalt inkl. moms", ">St<", "556000-0000"):
+			self.assertIn(text, html)
+		for text in ("Customer Name", "Bill to", ">Nos<", "In Words", "Grand Total", "Bankgiro"):
+			self.assertNotIn(text, html)
+
+	def test_quotation_to_lead(self):
+		lead = frappe.get_doc({"doctype": "Lead", "lead_name": "Test Leadsson"}).insert()
+		qtn = make_doc(
+			"Quotation",
+			[(self.service, 1000)],
+			quotation_to="Lead",
+			party_name=lead.name,
+			currency="SEK",  # en Lead har ingen standardvaluta
+			conversion_rate=1,
+		)
+		html = render(qtn)
+		self.assertIn("Offert", html)
+		self.assertNotIn("Kundnummer", html)
+		self.assertIn("Test Leadsson", html)
+
+	def test_foreign_currency_shows_vat_in_sek(self):
+		qtn = make_doc(
+			"Quotation",
+			[(self.service, 1000)],
+			quotation_to="Customer",
+			party_name=self.customer_se,
+			currency="EUR",
+			conversion_rate=11.5,
+		)
+		html = render(qtn)
+		self.assertIn(frappe._("VAT in {0}", lang="sv").format("SEK"), html)

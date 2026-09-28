@@ -23359,6 +23359,10 @@ msgstr "Offert/potentiell kund %"
 msgid "Quotation"
 msgstr "Försäljningsoffert"
 
+msgctxt "Swedish print"
+msgid "Quotation"
+msgstr "Offert"
+
 msgid "Quotation Amount"
 msgstr "Försäljningsoffertbelopp"
 
@@ -23370,6 +23374,9 @@ msgstr "Anledning till förlorad försäljningsoffert"
 
 msgid "Quotation Lost Reason Detail"
 msgstr "Detalj om anledning till förlorad försäljningsoffert"
+
+msgid "Quotation No"
+msgstr "Offertnr"
 
 msgid "Quotation Number"
 msgstr "Försäljningsoffertnummer"
@@ -31346,6 +31353,9 @@ msgstr "Totalt fördelat belopp {0} måste vara lika med budgetbelopp {1}"
 
 msgid "Total excl. VAT"
 msgstr "Summa exkl. moms"
+
+msgid "Total incl. VAT"
+msgstr "Totalt inkl. moms"
 
 msgid "Total number of emails to sync in initial sync process"
 msgstr "Totalt antal e-postmeddelanden som ska synkroniseras i första synkronisering"

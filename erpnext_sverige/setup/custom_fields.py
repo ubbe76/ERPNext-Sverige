@@ -4,6 +4,11 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 
 INVOICE_PRINT_FORMAT = "Faktura Sverige"
+# Svenska utskriftsmallar (sweden_compliance/print_format) per doctype
+PRINT_FORMATS = {
+	"Quotation": "Offert Sverige",
+	"Sales Invoice": INVOICE_PRINT_FORMAT,
+}
 GOODS = "Vara"
 SERVICE = "Tjänst"
 
