@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ERPNext Sverige VERSION\n"
-"Report-Msgid-Bugs-To: 18618863+ubbe76@users.noreply.github.com\n"
+"Report-Msgid-Bugs-To: https://github.com/ubbe76/ERPNext-Sverige/issues\n"
 "POT-Creation-Date: 2026-09-28 02:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
