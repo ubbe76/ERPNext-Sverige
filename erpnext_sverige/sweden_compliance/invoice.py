@@ -103,18 +103,10 @@ def _item_rate(item, doc, account_rates) -> int:
 
 
 def get_invoice_context(doc) -> dict:
-	"""Jinja-metod: allt utskriftsmallen behöver utöver fakturans egna fält."""
-	company = frappe.get_cached_doc("Company", doc.company)
-	return {
-		"org_nr": format_org_nr(company.tax_id),
-		"vat_no": vat_number(company.tax_id),
-		"f_skatt": company.get("se_f_skatt"),
-		"payment": get_payment_details(doc.company),
-		"ocr": doc.get("se_ocr"),
-		"vat_summary": get_vat_summary(doc),
-		"notes": get_exemption_notes(doc),
-		"customer_vat_no": doc.tax_id or frappe.get_cached_value("Customer", doc.customer, "tax_id"),
-	}
+	"""Jinja-metod: allt fakturamallen behöver utöver fakturans egna fält."""
+	from erpnext_sverige.sweden_compliance.print_context import get_print_context  # undviker cirkulär import
+
+	return {**get_print_context(doc), "ocr": doc.get("se_ocr")}
 
 
 def get_exemption_notes(doc) -> list[str]:

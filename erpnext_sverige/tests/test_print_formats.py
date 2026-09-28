@@ -1,0 +1,91 @@
+import frappe
+from frappe.tests import IntegrationTestCase
+from frappe.utils import add_days, today
+
+from erpnext_sverige.setup.company import TAX_CATEGORY_EU, TAX_CATEGORY_SE
+from erpnext_sverige.setup.custom_fields import GOODS, SERVICE
+from erpnext_sverige.sweden_compliance.print_context import get_print_context
+from erpnext_sverige.tests.utils import COMPANY, ensure_test_company, make_item, make_party
+
+# Datum som krävs på raderna för att dokumenten ska gå att spara
+ROW_DATES = {
+	"Sales Order": {"delivery_date": add_days(today(), 14)},
+	"Purchase Order": {"schedule_date": add_days(today(), 14)},
+}
+
+
+def make_doc(doctype, items, submit=False, **fields):
+	"""items: [(item_code, rate)]; qty är alltid 2."""
+	doc = frappe.get_doc(
+		{
+			"doctype": doctype,
+			"company": COMPANY,
+			**fields,
+			"items": [
+				{"item_code": code, "qty": 2, "rate": rate, **ROW_DATES.get(doctype, {})}
+				for code, rate in items
+			],
+		}
+	)
+	doc.update(ROW_DATES.get(doctype, {}))
+	doc.set_missing_values()
+	doc.insert()
+	if submit:
+		doc.submit()
+	return doc
+
+
+def render(doc) -> str:
+	from erpnext_sverige.setup.custom_fields import PRINT_FORMATS
+
+	frappe.local.lang = "sv"
+	return frappe.get_print(doc.doctype, doc.name, print_format=PRINT_FORMATS[doc.doctype], doc=doc)
+
+
+class PrintTestCase(IntegrationTestCase):
+	@classmethod
+	def setUpClass(cls):
+		super().setUpClass()
+		ensure_test_company()
+		frappe.db.set_value("Company", COMPANY, {"tax_id": "5560000000", "se_f_skatt": 1})
+		frappe.db.commit()
+
+	def setUp(self):
+		self.service = make_item("TEST-SE-TJANST", kind=SERVICE)
+		self.goods = make_item("TEST-SE-VARA", kind=GOODS)
+		self.customer_se = make_party("Customer", "Test SE Kund AB", TAX_CATEGORY_SE)
+		self.customer_eu = make_party("Customer", "Test EU Kunde GmbH", TAX_CATEGORY_EU)
+		self.supplier_se = make_party("Supplier", "Test SE Leverantör AB", TAX_CATEGORY_SE)
+		self.supplier_eu = make_party("Supplier", "Test EU Lieferant GmbH", TAX_CATEGORY_EU)
+
+	def tearDown(self):
+		frappe.db.rollback()
+		frappe.local.lang = "en"
+
+
+class TestPrintContext(PrintTestCase):
+	def test_sales_order_context(self):
+		so = make_doc("Sales Order", [(self.service, 1000)], customer=self.customer_se)
+		ctx = get_print_context(so)
+		self.assertEqual(ctx["org_nr"], "556000-0000")
+		self.assertEqual(ctx["vat_no"], "SE556000000001")
+		self.assertEqual(ctx["customer"], self.customer_se)
+		self.assertEqual({row["rate"]: row["vat"] for row in ctx["vat_summary"]}, {25: 500})
+		self.assertEqual(ctx["notes"], [])
+
+	def test_eu_quotation_has_notes_and_customer_vat_number(self):
+		qtn = make_doc(
+			"Quotation", [(self.service, 100)], quotation_to="Customer", party_name=self.customer_eu
+		)
+		ctx = get_print_context(qtn)
+		self.assertTrue(ctx["notes"])
+		self.assertEqual(ctx["customer"], self.customer_eu)
+		self.assertEqual(ctx["customer_vat_no"], "DE123456789")
+
+	def test_purchase_order_has_no_vat_summary_or_customer(self):
+		po = make_doc("Purchase Order", [(self.service, 100)], supplier=self.supplier_se)
+		ctx = get_print_context(po)
+		self.assertEqual(ctx["vat_summary"], [])
+		self.assertEqual(ctx["notes"], [])
+		self.assertIsNone(ctx["customer"])
+		self.assertIsNone(ctx["customer_vat_no"])

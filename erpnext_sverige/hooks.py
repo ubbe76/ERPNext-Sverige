@@ -83,6 +83,7 @@ doctype_js = {
 jinja = {
 	"methods": [
 		"erpnext_sverige.sweden_compliance.invoice.get_invoice_context",
+		"erpnext_sverige.sweden_compliance.print_context.get_print_context",
 	],
 }
 
