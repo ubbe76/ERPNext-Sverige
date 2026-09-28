@@ -24,6 +24,21 @@ Frappe och ERPNext. Katalogen laddas efter deras egna, och därför ersätter de
 Utöver särskrivningar och versaler har även böjningsfel och ett antal rena felöversättningar rättats. Ett
 exempel är "Party" (motpart), som tidigare översattes med "Parti", det vill säga batch.
 
+### Grunduppsättning av bokföring och moms
+
+`erpnext_sverige.setup.company.setup_swedish_company` sätter upp ett bolag med BAS-kontoplan för svensk
+bokföring. Funktionen går att köra flera gånger utan att något dubbleras.
+
+- Standardkonton på bolaget (kostnad för sålda varor, kursdifferenser, öresutjämning, kassarabatt m.m.)
+- **Immutable Ledger**, så att verifikationer inte kan ändras i efterhand, bara rättas (Bokföringslagen)
+- Momsmallar som bokför på rätt BAS-konton (2611/2621/2631/2641)
+- Momskategorier med skatteregler för Sverige, EU (omvänd skattskyldighet) och länder utanför EU
+- Artikelmomsmallar för 12 %, 6 % och momsfritt
+
+```bash
+bench --site <site> execute erpnext_sverige.setup.company.setup_swedish_company --kwargs "{'company': '<bolag>'}"
+```
+
 ### Kontrollskript för nya strängar
 
 När Frappe eller ERPNext uppdateras kan nya strängar med särskrivningar tillkomma. Skriptet

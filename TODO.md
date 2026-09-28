@@ -5,16 +5,25 @@ Inga transaktioner är bokförda ännu. Gör klart steg 1 innan första verifika
 
 ## 1. Bokföringsgrund (innan första verifikationen)
 
-- [ ] Sätt standardkonton som saknas på bolaget BOLAG:
-  - [ ] Standard kostnadskonto (t.ex. 4010 eller 4000)
-  - [ ] Konto för valutakursvinst/-förlust (3960 / 7960)
-  - [ ] Avskrivningskonto för småbelopp/write-off (t.ex. 3740 eller 6990)
-  - [ ] Rabattkonto
-- [ ] Aktivera **Immutable Ledger** i Bokföringsinställningar (Bokföringslagen: verifikationer får inte ändras, bara rättas)
-- [ ] Moms utöver "Svensk moms":
-  - [ ] Momskategori och mallar för omvänd skattskyldighet vid EU-försäljning/-inköp
-  - [ ] Momsfri export utanför EU
-  - [ ] Skatteregler (Tax Rule) som väljer rätt mall utifrån kundens/leverantörens land
+Klart för BOLAG via `erpnext_sverige.setup.company.setup_swedish_company`:
+
+- [x] Standardkonton: COGS 4000, kursdifferenser 3960, write-off 3740, kassarabatt 3731,
+  förutbetalda intäkter 2970 / kostnader 1790
+- [x] **Immutable Ledger** aktiverad (Bokföringslagen: verifikationer får inte ändras, bara rättas)
+- [x] Moms på rätt BAS-konton (2611/2621/2631/2641) i stället för summakontona 2610–2640
+- [x] Momskategorier Svensk moms / EU / Utanför EU med mallar och Tax Rules:
+  EU-försäljning och export utan moms, EU-inköp med omvänd skattskyldighet (2645/2614),
+  varuimport (2645/2615), tjänsteinköp utanför EU (manuellt val)
+- [x] Artikelmomsmallar Moms 12 %, Moms 6 % och Momsfri. Sätt dem på artikeln med momskategori "Svensk moms".
+- [x] Konto 3308 Försäljning tjänster till annat EU-land skapat
+
+Kvar / begränsningar:
+- [ ] Välj intäkts-/kostnadskonto automatiskt utifrån momskategori. I dag måste 3108/3308/3105/3305
+  och 4515/4535/4545/4531 väljas manuellt på EU- och exportfakturor.
+- [ ] Omvänd skattskyldighet för varor med 12 och 6 % (2624/2634)
+- [ ] Förskottskonton (2420/1480) om "bokför förskott på separat konto" ska användas. ERPNext kräver då
+  att kontotyperna ändras (Receivable/Payable).
+- [ ] Sätt momskategori (EU / Utanför EU) på utländska kunder och leverantörer, eller på deras adresser
 
 ## 2. Provkör ett helt flöde
 
