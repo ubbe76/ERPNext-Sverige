@@ -42,12 +42,20 @@ Fynd:
 - [x] ~~ERPNext sparar första avvikande intäktskonto som artikelns standard~~. Löst av det automatiska
   kontovalet: hanterade konton skrivs alltid över utifrån momskategori (regressionstest finns).
 - [x] ~~Svensk försäljning bokförs på 3000~~. Nu 3001/3002/3003/3004 per momssats.
-- [ ] Momsomföring till 2650 vid periodens slut är inte testad. Tas med i momsdeklarationen (punkt 3.2).
+- [x] ~~Momsomföring till 2650 vid periodens slut är inte testad~~. Finns nu i rapporten Momsdeklaration (punkt 3.2).
 
 ## 3. Funktioner i erpnext_sverige
 
 1. [ ] **SIE-export (SIE 4)**: för revisor och bokslutsprogram
-2. [ ] **Momsdeklaration**: summera Skatteverkets rutor (05, 10, 20, 30, 48 …) från huvudboken
+2. [x] **Momsdeklaration**: rapporten "Momsdeklaration" (modul Sweden Compliance) räknar fram Skatteverkets
+   rutor ur huvudboken, laddar ner eSKD-fil och skapar momsomföring (utkast) mot 2650
+   - [ ] **Verifiera eSKD-filen mot Skatteverkets aktuella specifikation** (filformat, elementnamn, OrgNr-format)
+     innan den laddas upp på riktigt. Testa uppladdningen i Skatteverkets e-tjänst, gärna med en testdeklaration.
+   - [ ] **Valbar redovisningsperiod** (månad, kvartal, år) per bolag. I dag utgår rapporten från räkenskapsåret
+     (bolaget redovisar per år), men valfria datum kan väljas i filtret. Perioden ska styra standardfiltret och
+     kontrollera att datumen motsvarar en hel redovisningsperiod.
+   - [ ] Rutor som inte stöds och alltid är 0: 06 (uttag), 07 (vinstmarginal), 08 (frivillig skattskyldighet för hyra),
+     37/38 (trepartshandel)
 3. [ ] **Fakturakrav**: utskriftsmall med organisationsnummer, momsregistreringsnummer,
    "Godkänd för F-skatt", bankgiro och OCR-nummer
 4. [ ] Bankfiler (senare): Bankgirots betalfiler och inläsning av inbetalningar

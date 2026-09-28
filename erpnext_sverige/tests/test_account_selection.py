@@ -2,18 +2,12 @@ import frappe
 from frappe.tests import IntegrationTestCase, UnitTestCase
 
 from erpnext_sverige.accounting.account_selection import PURCHASE, SALES, resolve_account
-from erpnext_sverige.setup.company import (
-	TAX_CATEGORY_EU,
-	TAX_CATEGORY_NON_EU,
-	TAX_CATEGORY_SE,
-	setup_swedish_company,
-)
+from erpnext_sverige.setup.company import TAX_CATEGORY_EU, TAX_CATEGORY_NON_EU, TAX_CATEGORY_SE
 from erpnext_sverige.setup.custom_fields import GOODS, SERVICE
-
-# Eget testbolag med ERPNext:s BAS-kontoplan. Skapas första gången och återanvänds sedan.
-COMPANY = "_Test Svenska AB"
-COMPANY_ABBR = "_TSA"
-BAS_CHART = "BAS 2024 med Nummer"
+from erpnext_sverige.tests.utils import COMPANY, COMPANY_ABBR
+from erpnext_sverige.tests.utils import ensure_test_company as _ensure_test_company
+from erpnext_sverige.tests.utils import make_item as _item
+from erpnext_sverige.tests.utils import make_party as _party
 
 
 class TestResolveAccount(UnitTestCase):
@@ -98,50 +92,6 @@ class TestAccountSelectionOnInvoices(IntegrationTestCase):
 		pi.set_missing_values()
 		pi.insert()
 		self.assertEqual(pi.items[0].expense_account, self.account("4535"))
-
-
-def _ensure_test_company():
-	if not frappe.db.exists("Company", COMPANY):
-		frappe.get_doc(
-			{
-				"doctype": "Company",
-				"company_name": COMPANY,
-				"abbr": COMPANY_ABBR,
-				"country": "Sweden",
-				"default_currency": "SEK",
-				"create_chart_of_accounts_based_on": "Standard Template",
-				"chart_of_accounts": BAS_CHART,
-			}
-		).insert()
-	setup_swedish_company(COMPANY)  # idempotent, committar
-
-
-def _item(item_code, kind, template=None):
-	if not frappe.db.exists("Item", item_code):
-		frappe.get_doc(
-			{
-				"doctype": "Item",
-				"item_code": item_code,
-				"item_group": "Services",
-				"stock_uom": "Nos",
-				"is_stock_item": 0,
-				"se_goods_or_service": kind,
-				"taxes": [{"item_tax_template": template, "tax_category": TAX_CATEGORY_SE}]
-				if template
-				else [],
-			}
-		).insert()
-	return item_code
-
-
-def _party(doctype, name, tax_category):
-	if not frappe.db.exists(doctype, name):
-		doc = frappe.new_doc(doctype)
-		doc.update({f"{doctype.lower()}_name": name, "tax_category": tax_category})
-		if doctype == "Supplier":
-			doc.supplier_group = frappe.db.get_value("Supplier Group", {"is_group": 0})
-		doc.insert()
-	return name
 
 
 def _sales_invoice(customer, items, income_account=None):

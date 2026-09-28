@@ -54,6 +54,19 @@ momskategori, artikelns momssats och om artikeln är en vara eller en tjänst (n
 Ett konto som har valts manuellt utanför dessa, till exempel 3590, lämnas orört. Inköp av lagerartiklar bokförs
 som tidigare mot lagret.
 
+### Momsdeklaration
+
+Rapporten **Momsdeklaration** (Redovisning → rapporter, modul Sweden Compliance) räknar fram Skatteverkets
+rutor 05–62 och 49 ur huvudboken för vald period, utifrån BAS-kontonummer. Makulerade verifikationer, bokslut
+och momsomföringar räknas inte med. Beloppen anges i hela kronor, och öretal stryks.
+
+- **Ladda ner eSKD-fil**: fil för uppladdning i Skatteverkets e-tjänst för momsdeklaration.
+  **Verifiera formatet mot Skatteverkets aktuella specifikation innan filen används på riktigt.**
+- **Skapa momsomföring**: skapar en journalpost som **utkast**, daterad periodens sista dag, som nollställer
+  momskontona (2610–2649) mot 2650. Öresavrundningen bokförs på 3740. Granska och bokför den själv.
+
+Rutorna 06, 07, 08, 37 och 38 stöds inte än och är alltid 0.
+
 ### Kontrollskript för nya strängar
 
 När Frappe eller ERPNext uppdateras kan nya strängar med särskrivningar tillkomma. Skriptet
@@ -70,7 +83,6 @@ Utan `title_case_only` listas fler kandidater, men då följer också fler falsk
 Se [TODO.md](TODO.md). Det viktigaste:
 
 - **SIE-export (SIE 4)** till revisor och bokslutsprogram
-- **Momsdeklaration** med Skatteverkets rutor
 - **Fakturamall** som uppfyller svenska krav: organisationsnummer, momsregistreringsnummer, F-skatt,
   bankgiro och OCR-nummer
 - Bankfiler för Bankgirot
@@ -131,6 +143,7 @@ appens grunduppsättning på det. Kör dem på en testsite, inte på den riktiga
 ```bash
 bench --site <testsite> set-config allow_tests true
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_account_selection
+bench --site <testsite> run-tests --module erpnext_sverige.tests.test_vat_return
 ```
 
 Stilregler för översättningarna:

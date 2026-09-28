@@ -20,6 +20,17 @@ def get_custom_fields():
 				),
 			},
 		],
+		"Journal Entry": [
+			{
+				"fieldname": "se_vat_settlement_period",
+				"label": _("Momsomföring för period"),
+				"fieldtype": "Data",
+				"read_only": 1,
+				"no_copy": 1,
+				"insert_after": "user_remark",
+				"description": _("Sätts av Momsdeklaration. Verifikationen räknas inte med i momsrapporten."),
+			},
+		],
 	}
 
 
