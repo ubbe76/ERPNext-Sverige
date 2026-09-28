@@ -371,7 +371,7 @@ msgstr ""
 "                    <code>.{fieldname}.</code> - Fältnamn på dokument t.ex.\n"
 "                    <code>branch</code>\n"
 "                </li>\n"
-"                <li><code>.FY.</code> - Bokföringsår (erfordrar att ERPNext är installerat)</li>\n"
+"                <li><code>.FY.</code> - Räkenskapsår (erfordrar att ERPNext är installerat)</li>\n"
 "                <li><code>.ABBR.</code> - Bolagsförkortning (erfordrar att ERPNext är installerat)</li>\n"
 "            </ul>\n"
 "        </li>\n"
@@ -1366,6 +1366,9 @@ msgstr "Konto: {0} kan endast uppdateras via lagertransaktioner"
 
 msgid "Account: {0} is not permitted under Payment Entry"
 msgstr "Konto: {0} är inte tillåtet enligt betalningspost"
+
+msgid "Accounting"
+msgstr "Redovisning"
 
 msgid "Accounting Details"
 msgstr "Bokföringsdetaljer"
@@ -2948,7 +2951,7 @@ msgid "Anonymization Matrix"
 msgstr "Anonymiseringsmatris"
 
 msgid "Another Budget record '{0}' already exists against {1} '{2}' and account '{3}' with overlapping fiscal years."
-msgstr "Annan budgetpost '{0}' finns redan mot {1} '{2}' och konto '{3}' med överlappande bokföringsår."
+msgstr "Annan budgetpost '{0}' finns redan mot {1} '{2}' och konto '{3}' med överlappande räkenskapsår."
 
 msgid "Another Cost Center Allocation record {0} applicable from {1}, hence this allocation will be applicable upto {2}"
 msgstr "Annan resultatenhetstilldelningspost {0} är tillämplig från {1}, därför kommer denna tilldelning att gälla upp till {2}"
@@ -5369,7 +5372,7 @@ msgid "Cannot Remove"
 msgstr "Kan inte ta bort"
 
 msgid "Cannot Resubmit Ledger entries for vouchers in Closed fiscal year."
-msgstr "Kan inte återgodkänna registerposter för verifikationer under stängt bokföringsår."
+msgstr "Kan inte återgodkänna registerposter för verifikationer under stängt räkenskapsår."
 
 msgid "Cannot Update After Submit"
 msgstr "Kan inte uppdatera efter godkännande"
@@ -10522,7 +10525,7 @@ msgid "Enabling this checkbox will force each Job Card Time Log to have From Tim
 msgstr "Om aktiverad tvingas varje Tidslogg för Jobbkort att ha från tid och till tid"
 
 msgid "Enabling this ensures each Purchase Invoice has a unique value in Supplier Invoice No. field within a particular fiscal year"
-msgstr "Aktivera för att säkerställa att varje Inköpsfaktura har unikt värde i fältet Leverantörsfakturanummer per bokföringsår"
+msgstr "Aktivera för att säkerställa att varje Inköpsfaktura har unikt värde i fältet Leverantörsfakturanummer per räkenskapsår"
 
 msgid "Enabling this option will allow you to record - <br><br> 1. Advances Received in a <b>Liability Account</b> instead of the <b>Asset Account</b><br><br>2. Advances Paid in an <b>Asset Account</b> instead of the <b> Liability Account</b>"
 msgstr "Aktivera för att möjliggöra bokföring av: <br><br> 1. Mottagna förskottsbetalningar bokförs på <b>Skuldkonto</b> istället för <b>Tillgångskonto</b><br><br>2. Betalade förskottsbetalningar bokförs på <b>Tillgångskonto</b> istället för <b>Skuldkonto</b>"
@@ -11157,7 +11160,7 @@ msgid "FX Revaluation"
 msgstr "Valutaomvärdering"
 
 msgid "FY"
-msgstr "Bokföringsår"
+msgstr "Räkenskapsår"
 
 msgid "Failed Emails"
 msgstr "Misslyckade e-post"
@@ -11658,31 +11661,31 @@ msgid "Fiscal Regime is mandatory, kindly set the fiscal regime in the company {
 msgstr "Skatteregler erfordras, ange skatteregler i bolag {0}"
 
 msgid "Fiscal Year"
-msgstr "Bokföringsår"
+msgstr "Räkenskapsår"
 
 msgid "Fiscal Year (requires ERPNext to be installed)"
-msgstr "Bokföringsår (erfordrar installerat System)"
+msgstr "Räkenskapsår (erfordrar installerat System)"
 
 msgid "Fiscal Year Company"
-msgstr "Bokföringsårsbolag"
+msgstr "Räkenskapsårsbolag"
 
 msgid "Fiscal Year Details"
-msgstr "Bokföringsårsdetaljer"
+msgstr "Räkenskapsårsdetaljer"
 
 msgid "Fiscal Year End Date should be one year after Fiscal Year Start Date"
-msgstr "Bokföringsårets slutdatum ska vara ett år efter bokföringsårets startdatum"
+msgstr "Räkenskapsårets slutdatum ska vara ett år efter räkenskapsårets startdatum"
 
 msgid "Fiscal Year {0} Does Not Exist"
-msgstr "Bokföringsår {0} finns inte"
+msgstr "Räkenskapsår {0} finns inte"
 
 msgid "Fiscal Year {0} does not exist"
-msgstr "Bokföringsår {0} finns inte"
+msgstr "Räkenskapsår {0} finns inte"
 
 msgid "Fiscal Year {0} is not available for Company {1}."
-msgstr "Bokföringsår {0} är inte tillgängligt för {1}."
+msgstr "Räkenskapsår {0} är inte tillgängligt för {1}."
 
 msgid "Fiscal Year {0} is required"
-msgstr "Bokföringsår {0} erfordras"
+msgstr "Räkenskapsår {0} erfordras"
 
 msgid "Fix SABB Entry"
 msgstr "Åtgärda serie- och partipaketpost"
@@ -12096,7 +12099,7 @@ msgid "From Date and To Date are mandatory"
 msgstr "Från datum och till datum erfordras"
 
 msgid "From Date and To Date lie in different Fiscal Year"
-msgstr "Från datum och till datum ligger i olika bokföringsår"
+msgstr "Från datum och till datum ligger i olika räkenskapsår"
 
 msgid "From Date cannot be greater than To Date"
 msgstr "Från datum kan inte vara senare än till datum"
@@ -12111,7 +12114,7 @@ msgid "From Date must be before To Date"
 msgstr "Från datum måste vara före till datum"
 
 msgid "From Date should be within the Fiscal Year. Assuming From Date = {0}"
-msgstr "Från datum ska ligga inom bokföringsår. Förutsatt från datum = {0}"
+msgstr "Från datum ska ligga inom räkenskapsår. Förutsatt från datum = {0}"
 
 msgid "From Date: {0} cannot be greater than To date: {1}"
 msgstr "Från datum: {0} kan inte vara senare än till datum: {1}"
@@ -12141,10 +12144,10 @@ msgid "From Field"
 msgstr "Från fält"
 
 msgid "From Fiscal Year"
-msgstr "Från bokföringsår"
+msgstr "Från räkenskapsår"
 
 msgid "From Fiscal Year cannot be greater than To Fiscal Year"
-msgstr "Från bokföringsår kan inte vara senare än till bokföringsår"
+msgstr "Från räkenskapsår kan inte vara senare än till räkenskapsår"
 
 msgid "From Folio No"
 msgstr "Från folionummer"
@@ -13259,7 +13262,7 @@ msgid "If enabled, a print of this document will be attached to each email"
 msgstr "Om aktiverad, kommer utskrift av detta dokument att bifogas till varje e-postmeddelande"
 
 msgid "If enabled, a weekly scheduler scans the Stock Ledger Variance for item-warehouses with incorrect valuation in the current financial year and auto-creates Item & Warehouse based reposts to fix them."
-msgstr "Om aktiverad, veckovis schemaläggare skannar lagerregisteravvikelse efter lagerartikel med felaktig värdering under innevarande bokföringsår och automatiskt skapar artikel- och lagerbaserade ombokningar för att fixa dem."
+msgstr "Om aktiverad, veckovis schemaläggare skannar lagerregisteravvikelse efter lagerartikel med felaktig värdering under innevarande räkenskapsår och automatiskt skapar artikel- och lagerbaserade ombokningar för att fixa dem."
 
 msgid "If enabled, additional ledger entries will be made for discounts in a separate Discount Account"
 msgstr "Om aktiverad, extra bokföringsposter kommer att skapas för rabatter på separat rabattkonto"
@@ -17568,7 +17571,7 @@ msgid "Multiple company fields available: {0}. Please select manually."
 msgstr "Flera bolagsfält tillgängliga: {0}. Välj manuellt."
 
 msgid "Multiple fiscal years exist for the date {0}. Please set company in Fiscal Year"
-msgstr "Flera bokföringsår finns för datum {0}. Ange bolag för bokföringsår"
+msgstr "Flera räkenskapsår finns för datum {0}. Ange bolag för räkenskapsår"
 
 msgid "Must be Whole Number"
 msgstr "Måste vara heltal"
@@ -17883,7 +17886,7 @@ msgid "New Expenses"
 msgstr "Nya kostnader"
 
 msgid "New Fiscal Year - {0}"
-msgstr "Nytt bokföringsår - {0}"
+msgstr "Nytt räkenskapsår - {0}"
 
 msgid "New Folder"
 msgstr "Ny mapp"
@@ -18595,7 +18598,7 @@ msgid "Not a valid Workflow Action"
 msgstr "Ej giltig arbetsflödesåtgärd"
 
 msgid "Not able to find the earliest Fiscal Year for the given company."
-msgstr "Kunde inte hitta det tidigaste bokföringsåret för angivet bolag."
+msgstr "Kunde inte hitta det tidigaste räkenskapsåret för angivet bolag."
 
 msgid "Not active"
 msgstr "Inte aktiv"
@@ -20779,7 +20782,7 @@ msgid "Period End Date"
 msgstr "Periodslutdatum"
 
 msgid "Period End Date cannot be greater than Fiscal Year End Date"
-msgstr "Periodslutdatum får inte vara senare än bokföringsårets slutdatum"
+msgstr "Periodslutdatum får inte vara senare än räkenskapsårets slutdatum"
 
 msgid "Period Movement (Debits - Credits)"
 msgstr "Periodförändring (debet - kredit)"
@@ -21415,7 +21418,7 @@ msgid "Please enter the phone number first"
 msgstr "Ange telefonnummer"
 
 msgid "Please enter valid Financial Year Start and End Dates"
-msgstr "Ange giltiga start- och slutdatum för bokföringsår"
+msgstr "Ange giltiga start- och slutdatum för räkenskapsår"
 
 msgid "Please enter valid mobile nos"
 msgstr "Ange mobilnummer"
@@ -22142,7 +22145,7 @@ msgid "Previous Document"
 msgstr "Föregående dokument"
 
 msgid "Previous Financial Year is not closed"
-msgstr "Föregående bokföringsår är inte stängt"
+msgstr "Föregående räkenskapsår är inte stängt"
 
 msgid "Previous Qty"
 msgstr "Föregående kvantitet"
@@ -24360,7 +24363,7 @@ msgid "Represents Company"
 msgstr "Internt bolag"
 
 msgid "Represents a Financial Year. All accounting entries and other major transactions are tracked against the Fiscal Year."
-msgstr "Representerar ett bokföringsår. Alla bokföringsposter och andra större transaktioner spåras mot bokföringsåret."
+msgstr "Representerar ett räkenskapsår. Alla bokföringsposter och andra större transaktioner spåras mot räkenskapsåret."
 
 msgid "Represents a User in the system."
 msgstr "Representerar en användare i systemet."
@@ -28069,7 +28072,7 @@ msgid "Show title in browser window as \"Prefix - title\""
 msgstr "Visar benämning i webbläsarfönster som 'Prefix - Benämning'"
 
 msgid "Show unclosed fiscal year's P&L balances"
-msgstr "Visa oavslutat bokföringsårs resultatsaldon"
+msgstr "Visa oavslutat räkenskapsårs resultatsaldon"
 
 msgid "Show with upcoming revenue/expense"
 msgstr "Visa med kommande intäkter/kostnader"
@@ -30006,7 +30009,7 @@ msgid "The fields From Shareholder and To Shareholder cannot be blank"
 msgstr "Fälten från aktieägare och till aktieägare kan inte vara tomma"
 
 msgid "The fiscal year has been automatically created in a Disabled state to maintain consistency with the previous fiscal year's status."
-msgstr "Bokföringsår är automatiskt skapat i inaktiverat status för att bibehålla överensstämmelse med föregående års status."
+msgstr "Räkenskapsår är automatiskt skapat i inaktiverat status för att bibehålla överensstämmelse med föregående års status."
 
 msgid "The folio numbers are not matching"
 msgstr "Folionummer stämmer inte"
@@ -30232,7 +30235,7 @@ msgid "There are no accounting entries in the system for the selected account an
 msgstr "Det finns inga bokföringsposter i system för vald konto och datum."
 
 msgid "There are no active Fiscal Years for which Demo Data can be generated."
-msgstr "Det finns inga aktiva bokföringsår för vilka demodata kan skapas."
+msgstr "Det finns inga aktiva räkenskapsår för vilka demodata kan skapas."
 
 msgid "There are no entries in the system where the clearance date is before the posting date."
 msgstr "Det finns inga poster i system där avräkningsdatum är före registreringsdatum."
@@ -30673,7 +30676,7 @@ msgid "To Date must be greater than From Date"
 msgstr "Till datum måste vara senare än från datum"
 
 msgid "To Date should be within the Fiscal Year. Assuming To Date = {0}"
-msgstr "Till datum ska vara inom bokföringsår. Förutsatt till datum = {0}"
+msgstr "Till datum ska vara inom räkenskapsår. Förutsatt till datum = {0}"
 
 msgid "To Datetime"
 msgstr "Till datum och tid"
@@ -30697,7 +30700,7 @@ msgid "To Employee"
 msgstr "Till personal"
 
 msgid "To Fiscal Year"
-msgstr "Till bokföringsår"
+msgstr "Till räkenskapsår"
 
 msgid "To Folio No"
 msgstr "Till folionummer"
@@ -31766,7 +31769,7 @@ msgid "Uncaught Exception"
 msgstr "Ofångat undantag"
 
 msgid "Unclosed Fiscal Years Profit / Loss (Credit)"
-msgstr "Resultat för ej avslutade bokföringsår (kredit)"
+msgstr "Resultat för ej avslutade räkenskapsår (kredit)"
 
 msgid "Under AMC"
 msgstr "Under serviceavtal"
@@ -32425,7 +32428,7 @@ msgid "Valid From"
 msgstr "Giltig från"
 
 msgid "Valid From date not in Fiscal Year {0}"
-msgstr "Giltig från-datum är inte inom bokföringsår {0}"
+msgstr "Giltig från-datum är inte inom räkenskapsår {0}"
 
 msgid "Valid From must be after {0} as last GL Entry against the cost center {1} posted on this date"
 msgstr "Giltig från-datum måste vara efter {0} eftersom senaste bokföringsregisterpost mot resultatenhet {1} postad detta datum"
@@ -32440,7 +32443,7 @@ msgid "Valid Up To date cannot be before Valid From date"
 msgstr "Giltig upp till-datum kan inte vara före giltigt från-datum"
 
 msgid "Valid Up To date not in Fiscal Year {0}"
-msgstr "Gäller upp till är inte under bokföringsår {0}"
+msgstr "Gäller upp till är inte under räkenskapsår {0}"
 
 msgid "Valid Upto"
 msgstr "Giltig till"
@@ -33932,7 +33935,7 @@ msgid "you must select Capital Work in Progress Account in accounts table"
 msgstr "Välj konto för pågående kapitalarbete i kontotabellen"
 
 msgid "{0} '{1}' not in Fiscal Year {2}"
-msgstr "{0} {1} inte under bokföringsår {2}"
+msgstr "{0} {1} inte under räkenskapsår {2}"
 
 msgid "{0} <b>{1}</b> has submitted Assets. Remove Item <b>{2}</b> from table to continue."
 msgstr "{0} <b>{1}</b> har godkänt tillgångar. Ta bort artikel <b>{2}</b> från tabellen för att fortsätta."
@@ -34196,7 +34199,7 @@ msgid "{0} {1} is associated with {2}, but Party Account is {3}"
 msgstr "{0} {1} är kopplad till {2}, men partskontot är {3}"
 
 msgid "{0} {1} is not in any active Fiscal Year"
-msgstr "{0} {1} är inte under något aktivt bokföringsår"
+msgstr "{0} {1} är inte under något aktivt räkenskapsår"
 
 msgid "{0} {1} via CSV File"
 msgstr "{0} {1} via CSV-fil"
@@ -34323,4 +34326,3 @@ msgstr "{} hittades inte i sökväg! Detta erfordras för att ta säkerhetskopia
 
 msgid "{} {} is not affecting bank account {}"
 msgstr "{} {} påverkar inte bankkonto {}"
-
