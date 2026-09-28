@@ -63,6 +63,15 @@ def get_custom_fields():
 				"insert_after": "due_date",
 			},
 		],
+		"Purchase Invoice": [
+			{
+				"fieldname": "se_payment_reference",
+				"label": _("OCR / betalningsreferens"),
+				"fieldtype": "Data",
+				"insert_after": "bill_date",
+				"description": _("OCR-nummer från leverantörens faktura. Används i betalfilen."),
+			},
+		],
 		"Journal Entry": [
 			{
 				"fieldname": "se_vat_settlement_period",

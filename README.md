@@ -54,6 +54,26 @@ Mallen följer kundens språk: svenska, eller engelska för kunder med engelska 
 
 PDF kräver att wkhtmltopdf är installerat, eller att Chrome-generatorn väljs i Utskriftsinställningar.
 
+### Bankfiler
+
+**Bankgiroinbetalning** (Inbetalningar): ladda upp inbetalningsfilen från banken eller Bankgirot (BgMax) och
+klicka **Läs in fil**. Varje betalning matchas mot en bokförd kundfaktura via OCR-numret och blir en betalning i
+utkastläge på bolagets bankkonto (1930). Betalningar som inte matchar listas; välj kundfaktura på raden och klicka
+**Skapa betalningar för valda fakturor**. **Bokför betalningar** bokför alla utkast. Samma betalning (Bankgirots
+löpnummer) kan inte registreras två gånger.
+
+**Leverantörsbetalning** (Utbetalningar): välj bolagets bankkonto och betalningsdag, klicka **Hämta förfallna
+fakturor** och sedan **Skapa betalfil**. Filen följer ISO 20022 pain.001.001.03 och laddas upp i internetbanken.
+Samtidigt skapas betalningar i utkastläge som bokförs med **Bokför betalningar** när banken har betalat.
+
+- Leverantörens betalningsuppgifter hämtas från leverantörens Bank Account (bankgiro, plusgiro, clearing- och
+  kontonummer eller IBAN/BIC). Bank Account kräver en bank; skapa t.ex. banken "Bankgirot" för bankgirokonton.
+- Leverantörens OCR-nummer skrivs i fältet **OCR / betalningsreferens** på leverantörsfakturan och skickas som
+  strukturerad referens. Annars används leverantörens fakturanummer.
+- Bara fakturor i SEK.
+
+Filformaten är skrivna enligt Bankgirots och bankernas anvisningar men **ska provas mot banken** innan skarp användning.
+
 ### Grunduppsättning av bokföring och moms
 
 `erpnext_sverige.setup.company.setup_swedish_company` sätter upp ett bolag med BAS-kontoplan för svensk
@@ -128,7 +148,6 @@ Utan `title_case_only` listas fler kandidater, men då följer också fler falsk
 
 Se [TODO.md](TODO.md). Det viktigaste:
 
-- Bankfiler för Bankgirot
 - **PAXml-export** av tid och frånvaro till svenska lönesystem (t.ex. Visma Lön, Hogia, Fortnox Lön)
 - **Transportbokning i Sverige**: boka frakt, skriv ut fraktsedlar och spåra sändningar hos t.ex. PostNord,
   DHL, Schenker och Bring
@@ -191,6 +210,8 @@ bench --site <testsite> run-tests --module erpnext_sverige.tests.test_sie_export
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_invoice
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_tax_category
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_credit_notes
+bench --site <testsite> run-tests --module erpnext_sverige.tests.test_bgmax
+bench --site <testsite> run-tests --module erpnext_sverige.tests.test_pain001
 ```
 
 Stilregler för översättningarna:

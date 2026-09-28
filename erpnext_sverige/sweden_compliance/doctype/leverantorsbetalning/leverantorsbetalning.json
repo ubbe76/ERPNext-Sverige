@@ -1,0 +1,121 @@
+{
+ "actions": [],
+ "creation": "2026-09-28 13:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "bank_account",
+  "column_break_1",
+  "execution_date",
+  "status",
+  "total_amount",
+  "payment_file",
+  "section_invoices",
+  "invoices"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Bolag",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "bank_account",
+   "fieldtype": "Link",
+   "label": "Bolagets bankkonto",
+   "options": "Bank Account",
+   "reqd": 1,
+   "description": "Kontot som betalningarna dras från (Bank Account med Company Account)."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "execution_date",
+   "fieldtype": "Date",
+   "label": "Betalningsdag",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Utkast\nFil skapad\nBokförd",
+   "default": "Utkast",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Summa",
+   "options": "SEK",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "payment_file",
+   "fieldtype": "Attach",
+   "label": "Betalfil (pain.001)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_invoices",
+   "fieldtype": "Section Break",
+   "label": "Fakturor"
+  },
+  {
+   "fieldname": "invoices",
+   "fieldtype": "Table",
+   "label": "Fakturor",
+   "options": "Leverantorsbetalning Rad"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-09-28 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sweden Compliance",
+ "name": "Leverantorsbetalning",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Accounts User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "format:LB-{YYYY}-{#####}",
+ "naming_rule": "Expression",
+ "title_field": "company",
+ "description": "Samla förfallna leverantörsfakturor och skapa en betalfil (ISO 20022 pain.001) till banken."
+}

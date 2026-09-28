@@ -4410,6 +4410,12 @@ msgstr "Bankavrundning (äldre system)"
 msgid "Bankgiro"
 msgstr "Bankgiro"
 
+msgid "Bankgiro Inbetalning"
+msgstr "Bankgiroinbetalning"
+
+msgid "Bankgiro Inbetalning Rad"
+msgstr "Bankgiroinbetalningsrad"
+
 msgid "Banner Image"
 msgstr "Bannerbild"
 
@@ -16092,6 +16098,12 @@ msgstr "Brev- eller e-posttext"
 
 msgid "Letter or Email Closing Text"
 msgstr "Avslutande text för brev eller e-post"
+
+msgid "Leverantorsbetalning"
+msgstr "Leverantörsbetalning"
+
+msgid "Leverantorsbetalning Rad"
+msgstr "Leverantörsbetalningsrad"
 
 msgid "License Details"
 msgstr "Körkortsdetaljer"

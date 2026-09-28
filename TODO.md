@@ -74,7 +74,16 @@ Fynd:
      Alternativt Chrome-generatorn i Utskriftsinställningar.
    - [x] Svenskt talformat (`# ###,##`) och SEK med "kr" efter beloppet samt måndag som första veckodag (`set_swedish_regional_settings`, ingår i grunduppsättningen)
    - [ ] Lägg in bolagets adress och bankkonto (Bank Account med bankgiro) på riktiga siten
-4. [ ] Bankfiler (senare): Bankgirots betalfiler och inläsning av inbetalningar
+4. [x] **Bankfiler**
+   - Inbetalningar: "Bankgiroinbetalning" läser BgMax-filen, matchar mot kundfakturor via OCR och skapar
+     betalningar (utkast). Dubbletter (samma löpnummer) stoppas.
+   - Utbetalningar: "Leverantörsbetalning" samlar förfallna leverantörsfakturor och skapar betalfil enligt
+     ISO 20022 pain.001.001.03 (bankgiro, plusgiro, bankkonto, IBAN; OCR som strukturerad referens) samt
+     betalningar (utkast) som bokförs när banken betalat.
+   - [ ] **Verifiera mot banken**: läs in en riktig BgMax-fil och ladda upp en provbetalfil hos banken.
+     Positioner och element är skrivna enligt Bankgirots manual och bankernas anvisningar men inte provade skarpt.
+   - [ ] Betalningar i utländsk valuta (EUR m.m.) i betalfilen; i dag bara SEK
+   - [ ] Inläsning av bankens kontoutdrag (camt.053) för avstämning
 5. [ ] **PAXml-export till svenska lönesystem** (Visma Lön, Hogia, Fortnox Lön m.fl.)
    - Exportera tidrapporter och frånvaro per anställd och löneperiod som PAXml-fil
    - Bestäm datakälla: ERPNext:s tidrapporter (Timesheet) räcker för tid. Frånvaro och
