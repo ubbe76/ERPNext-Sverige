@@ -45,6 +45,8 @@ Se [TODO.md](TODO.md). Det viktigaste:
   bankgiro och OCR-nummer
 - Bankfiler för Bankgirot
 - **PAXml-export** av tid och frånvaro till svenska lönesystem (t.ex. Visma Lön, Hogia, Fortnox Lön)
+- **Transportbokning i Sverige**: boka frakt, skriv ut fraktsedlar och spåra sändningar hos t.ex. PostNord,
+  DHL, Schenker och Bring
 
 ## Installation
 

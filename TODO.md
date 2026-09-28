@@ -33,6 +33,12 @@ Inga transaktioner är bokförda ännu. Gör klart steg 1 innan första verifika
    - Bestäm datakälla: ERPNext:s tidrapporter (Timesheet) räcker för tid. Frånvaro och
      närvaro kräver Frappe HRMS, som inte är installerat i dag.
    - Mappning mellan aktivitetstyper/frånvaroorsaker och lönearter per lönesystem
+6. [ ] **Transportbokning i Sverige**
+   - Bygg på ERPNext:s doctype Shipment (skapas från försäljningsföljesedel)
+   - Välj integrationsväg: direkt mot transportörer (PostNord, DHL Freight, Schenker, Bring, DSV)
+     eller via en fraktaggregator (t.ex. nShift/Unifaun) som täcker flera transportörer med ett API
+   - Boka sändning, hämta pris, skriv ut fraktsedel/etikett, spara sändnings-ID och spårningslänk
+   - Svenska tjänster: t.ex. PostNord MyPack, DHL Paket/Pall, ombudsval
 
 ## 4. Översättningar och namn
 
