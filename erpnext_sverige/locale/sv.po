@@ -3203,6 +3203,9 @@ msgstr "Tidsbokningar som skapas manuellt kan inte ha ”Overifierad” status."
 msgid "Approval Required"
 msgstr "Godkännande erfordras"
 
+msgid "Approved for F-tax"
+msgstr "Godkänd för F-skatt"
+
 msgid "Approving Role (above authorized value)"
 msgstr "Godkännanderoll (över auktoriserat värde)"
 
@@ -4404,6 +4407,9 @@ msgstr "Bankavrundning"
 msgid "Banker's Rounding (legacy)"
 msgstr "Bankavrundning (äldre system)"
 
+msgid "Bankgiro"
+msgstr "Bankgiro"
+
 msgid "Banner Image"
 msgstr "Bannerbild"
 
@@ -4643,6 +4649,9 @@ msgstr "Fakturadatum"
 
 msgid "Bill No"
 msgstr "Fakturanummer"
+
+msgid "Bill To"
+msgstr "Faktureringsadress"
 
 msgid "Bill for rejected quantity in Purchase Invoice"
 msgstr "Faktura för avvisad kvantitet i inköpsfaktura"
@@ -6901,6 +6910,9 @@ msgstr "System DocTypes kan inte anpassas."
 msgid "Core Modules {0} cannot be searched in Global Search."
 msgstr "Systemmoduler {0} kan inte sökas i systemsök."
 
+msgid "Corporate ID No."
+msgstr "Org.nr"
+
 msgid "Corrective Action"
 msgstr "Korrigerande åtgärd"
 
@@ -7546,6 +7558,9 @@ msgstr "Kreditfaktura {0} skapad automatiskt"
 msgid "Credit To"
 msgstr "Kredit till"
 
+msgid "Credit for invoice"
+msgstr "Kredit avser faktura"
+
 msgid "Credit in Company Currency"
 msgstr "Kredit i bolagsvaluta"
 
@@ -7912,6 +7927,9 @@ msgstr "Kundnamn:"
 msgid "Customer Naming By"
 msgstr "Kundnamngivning efter"
 
+msgid "Customer No"
+msgstr "Kundnummer"
+
 msgid "Customer Number At Supplier"
 msgstr "Kundnummer hos leverantör"
 
@@ -7950,6 +7968,9 @@ msgstr " Kunddistrikt"
 
 msgid "Customer Type"
 msgstr "Kundtyp"
+
+msgid "Customer VAT Reg. No."
+msgstr "Kundens momsreg.nr"
 
 msgid "Customer Warehouse"
 msgstr "Kundlager"
@@ -8796,6 +8817,9 @@ msgstr "Avgränsningsalternativ"
 
 msgid "Delimiter options"
 msgstr "Avgränsningsalternativ"
+
+msgid "Delivered"
+msgstr "Levererad"
 
 msgid "Delivered Amount"
 msgstr "Levererat belopp"
@@ -10890,6 +10914,9 @@ msgstr "Verkställande sökning"
 
 msgid "Exempt Supplies"
 msgstr "Undantagna leveranser"
+
+msgid "Exempt from VAT"
+msgstr "Momsfritt"
 
 msgid "Exempted Role"
 msgstr "Undantagen roll"
@@ -18828,6 +18855,9 @@ msgstr "OAuth-inställningar"
 msgid "OAuth has been enabled but not authorised. Please use \"Authorise API Access\" button to do the same."
 msgstr "OAuth är aktiverad men inte auktoriserad. Använd knappen \"Auktorisera API-tillgång\" för att göra detta."
 
+msgid "OCR"
+msgstr "OCR-nummer"
+
 msgid "OTP App"
 msgstr "OTP-app"
 
@@ -21927,6 +21957,9 @@ msgstr "Uppdatera reparationsstatus."
 
 msgid "Please use a valid LDAP search filter"
 msgstr "Använd giltigt LDAP-sökfilter"
+
+msgid "Plusgiro"
+msgstr "Plusgiro"
 
 msgid "Point-of-Sale Profile"
 msgstr "Kassaprofil"
@@ -31272,6 +31305,9 @@ msgstr "Totalt tilldelad procentsats för försäljningslag ska vara 100%"
 msgid "Total distributed amount {0} must be equal to Budget Amount {1}"
 msgstr "Totalt fördelat belopp {0} måste vara lika med budgetbelopp {1}"
 
+msgid "Total excl. VAT"
+msgstr "Summa exkl. moms"
+
 msgid "Total number of emails to sync in initial sync process"
 msgstr "Totalt antal e-postmeddelanden som ska synkroniseras i första synkronisering"
 
@@ -31283,6 +31319,9 @@ msgstr "Total procentsats mot resultatenheter ska vara 100%"
 
 msgid "Total quantity in delivery schedule cannot be greater than the item quantity"
 msgstr "Total kvantitet i leveransschema får inte vara högre än artikelkvantitet"
+
+msgid "Total to Pay"
+msgstr "Att betala"
 
 msgid "Total {0} for all items is zero, may be you should change 'Distribute Charges Based On'"
 msgstr "Totalt {0} för alla artiklar är noll, ändra 'Fördela avgifter baserad på'"
@@ -32354,11 +32393,21 @@ msgstr "Momsbelopp (AED)"
 msgid "VAT Audit Report"
 msgstr "Momsrevisionsrapport"
 
+msgid "VAT Reg. No."
+msgstr "Momsreg.nr"
+
+msgid "VAT in {0}"
+msgstr "Moms i {0}"
+
 msgid "VAT on Expenses and All Other Inputs"
 msgstr "Moms på kostnader och alla andra inköp (ingående moms)"
 
 msgid "VAT on Sales and All Other Outputs"
 msgstr "Moms på försäljning och alla andra utgående leveranser (utgående moms)"
+
+#, python-format
+msgid "VAT {0} % on {1}"
+msgstr "Moms {0} % på {1}"
 
 msgid "Valid From"
 msgstr "Giltig från"
@@ -33743,6 +33792,9 @@ msgstr "Ditt namn"
 
 msgid "Your Name (required)"
 msgstr "Ditt namn"
+
+msgid "Your Reference"
+msgstr "Er referens"
 
 msgid "Your connection request to Google Calendar was successfully accepted"
 msgstr "Anslutningsbegäran till Google Kalender godkändes"

@@ -24,6 +24,22 @@ Frappe och ERPNext. Katalogen laddas efter deras egna, och därför ersätter de
 Utöver särskrivningar och versaler har även böjningsfel och ett antal rena felöversättningar rättats. Ett
 exempel är "Party" (motpart), som tidigare översattes med "Parti", det vill säga batch.
 
+### Fakturamall "Faktura Sverige"
+
+Standardmall för kundfakturor med det som mervärdesskattelagen kräver:
+
+- organisationsnummer och momsregistreringsnummer (räknas fram ur bolagets Tax ID)
+- underlag och moms per momssats, samt kundens momsregistreringsnummer
+- hänvisning vid EU-försäljning ("Omvänd skattskyldighet", "Unionsintern leverans") och export, på svenska och engelska
+- "Godkänd för F-skatt" om rutan **Godkänd för F-skatt** är ikryssad på bolaget
+- bankgiro, plusgiro, clearing- och kontonummer, IBAN och BIC från bolagets bankkonto (Bank Account med
+  "Company Account"; bankgiro och plusgiro är nya fält)
+- OCR-nummer med längd- och kontrollsiffra (Bankgirots standard) om **OCR-nummer på fakturor** är ikryssat på bolaget
+
+Mallen följer kundens språk: svenska, eller engelska för kunder med engelska som språk.
+
+PDF kräver att wkhtmltopdf är installerat, eller att Chrome-generatorn väljs i Utskriftsinställningar.
+
 ### Grunduppsättning av bokföring och moms
 
 `erpnext_sverige.setup.company.setup_swedish_company` sätter upp ett bolag med BAS-kontoplan för svensk
@@ -97,8 +113,6 @@ Utan `title_case_only` listas fler kandidater, men då följer också fler falsk
 
 Se [TODO.md](TODO.md). Det viktigaste:
 
-- **Fakturamall** som uppfyller svenska krav: organisationsnummer, momsregistreringsnummer, F-skatt,
-  bankgiro och OCR-nummer
 - Bankfiler för Bankgirot
 - **PAXml-export** av tid och frånvaro till svenska lönesystem (t.ex. Visma Lön, Hogia, Fortnox Lön)
 - **Transportbokning i Sverige**: boka frakt, skriv ut fraktsedlar och spåra sändningar hos t.ex. PostNord,
@@ -159,6 +173,7 @@ bench --site <testsite> set-config allow_tests true
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_account_selection
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_vat_return
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_sie_export
+bench --site <testsite> run-tests --module erpnext_sverige.tests.test_invoice
 ```
 
 Stilregler för översättningarna:

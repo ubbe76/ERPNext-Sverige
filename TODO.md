@@ -60,8 +60,14 @@ Fynd:
      kontrollera att datumen motsvarar en hel redovisningsperiod.
    - [ ] Rutor som inte stöds och alltid är 0: 06 (uttag), 07 (vinstmarginal), 08 (frivillig skattskyldighet för hyra),
      37/38 (trepartshandel)
-3. [ ] **Fakturakrav**: utskriftsmall med organisationsnummer, momsregistreringsnummer,
-   "Godkänd för F-skatt", bankgiro och OCR-nummer
+3. [x] **Fakturamall "Faktura Sverige"** (standard för kundfakturor): organisationsnummer, momsreg.nr,
+   F-skatt (inställning på bolaget), underlag och moms per momssats, kundens momsreg.nr och hänvisning vid
+   EU-försäljning/export, bankgiro/plusgiro/bankkonto/IBAN/BIC från bolagets bankkonto, OCR-nummer
+   (inställning på bolaget). Svenska eller engelska efter kundens språk.
+   - [ ] **Installera en PDF-generator**: wkhtmltopdf saknas, så PDF (utskrift, e-post) fungerar inte.
+     Alternativt Chrome-generatorn i Utskriftsinställningar.
+   - [ ] Svenskt talformat i Systeminställningar (`# ###,##`) och valutan SEK med symbolen efter beloppet
+   - [ ] Lägg in bolagets adress och bankkonto (Bank Account med bankgiro) på riktiga siten
 4. [ ] Bankfiler (senare): Bankgirots betalfiler och inläsning av inbetalningar
 5. [ ] **PAXml-export till svenska lönesystem** (Visma Lön, Hogia, Fortnox Lön m.fl.)
    - Exportera tidrapporter och frånvaro per anställd och löneperiod som PAXml-fil

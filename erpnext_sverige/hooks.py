@@ -77,10 +77,11 @@ required_apps = ["erpnext"]
 # ----------
 
 # add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "erpnext_sverige.utils.jinja_methods",
-# 	"filters": "erpnext_sverige.utils.jinja_filters"
-# }
+jinja = {
+	"methods": [
+		"erpnext_sverige.sweden_compliance.invoice.get_invoice_context",
+	],
+}
 
 # Installation
 # ------------
@@ -147,7 +148,10 @@ after_migrate = "erpnext_sverige.setup.custom_fields.create_custom_fields"
 
 doc_events = {
 	"Sales Invoice": {
-		"validate": "erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
+		"validate": [
+			"erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
+			"erpnext_sverige.sweden_compliance.invoice.set_ocr",
+		],
 	},
 	"Purchase Invoice": {
 		"validate": "erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
