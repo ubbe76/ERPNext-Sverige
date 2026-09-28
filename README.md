@@ -140,4 +140,6 @@ Stilregler för översättningarna:
 
 ## Licens
 
+Copyright (C) 2026 Urban Källefors
+
 GPL-3.0, samma licens som ERPNext. Se [LICENSE](LICENSE).
