@@ -54,6 +54,9 @@ def set_ocr(doc, method=None):
 	"""doc_events-hook för Sales Invoice (validate)."""
 	if doc.get("se_ocr") or not doc.name or doc.name.startswith("new-"):
 		return
+	# Kreditfakturor ska inte betalas och kassafakturor betalas direkt: ingen betalningsreferens
+	if doc.get("is_return") or doc.get("is_pos"):
+		return
 	if frappe.get_cached_value("Company", doc.company, "se_use_ocr"):
 		doc.se_ocr = make_ocr(doc.name)
 

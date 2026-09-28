@@ -22,7 +22,11 @@ Kvar / begränsningar:
   hook på Sales/Purchase Invoice `validate`). Nytt fält "Vara eller tjänst (moms)" på Item.
   - Sverige: 3001–3004 per momssats. EU: 3108/3308. Export: 3105/3305.
   - Inköp EU: 4515–4517 / 4535. Import: 4545 / 4531. Svenska inköp och lagerartiklar vid inköp lämnas orörda.
-  - Kvar: POS Invoice och kreditnotor/returer är inte specialtestade
+  - [x] Kreditfakturor och debetnotor testade (`tests/test_credit_notes.py`): konton, moms, omvänd
+    skattskyldighet, momsdeklaration, utskrift "Kreditfaktura" utan OCR och förfallodatum
+  - [x] Kassafaktura (Sales Invoice med kassa/POS) kontrollerad: moms, konto, kassa 1910, inget OCR
+  - [ ] **Kassaregister**: ERPNext:s kassa är inte ett certifierat kassaregister. Kontant- och kortförsäljning
+    till kunder på plats kräver ett certifierat kassaregister med kontrollenhet (Skatteverket). Används inte i dag.
 - [ ] Omvänd skattskyldighet för varor med 12 och 6 % (2624/2634)
 - [ ] Förskottskonton (2420/1480) om "bokför förskott på separat konto" ska användas. ERPNext kräver då
   att kontotyperna ändras (Receivable/Payable).

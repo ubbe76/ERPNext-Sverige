@@ -47,7 +47,8 @@ Standardmall för kundfakturor med det som mervärdesskattelagen kräver:
 - "Godkänd för F-skatt" om rutan **Godkänd för F-skatt** är ikryssad på bolaget
 - bankgiro, plusgiro, clearing- och kontonummer, IBAN och BIC från bolagets bankkonto (Bank Account med
   "Company Account"; bankgiro och plusgiro är nya fält)
-- OCR-nummer med längd- och kontrollsiffra (Bankgirots standard) om **OCR-nummer på fakturor** är ikryssat på bolaget
+- OCR-nummer med längd- och kontrollsiffra (Bankgirots standard) om **OCR-nummer på fakturor** är ikryssat på bolaget (inte på kreditfakturor och kassafakturor)
+- kreditfakturor skrivs ut som "Kreditfaktura" med hänvisning till originalfakturan, utan förfallodatum
 
 Mallen följer kundens språk: svenska, eller engelska för kunder med engelska som språk.
 
@@ -189,6 +190,7 @@ bench --site <testsite> run-tests --module erpnext_sverige.tests.test_vat_return
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_sie_export
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_invoice
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_tax_category
+bench --site <testsite> run-tests --module erpnext_sverige.tests.test_credit_notes
 ```
 
 Stilregler för översättningarna:
