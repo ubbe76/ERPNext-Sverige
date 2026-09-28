@@ -8863,6 +8863,9 @@ msgstr "Levererad av leverantör"
 msgid "Delivered by Supplier (Drop Ship)"
 msgstr "Levereras av leverantör (drop ship)"
 
+msgid "Delivery Address"
+msgstr "Leveransadress"
+
 msgid "Delivery Date"
 msgstr "Leveransdatum"
 
@@ -19516,6 +19519,9 @@ msgstr "Sortera efter"
 
 msgid "Order By must be a string"
 msgstr "Sortera efter måste vara en sträng"
+
+msgid "Order Confirmation"
+msgstr "Orderbekräftelse"
 
 msgid "Order Confirmation Date"
 msgstr "Bekräftelsedatum för inköpsorder"

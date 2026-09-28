@@ -7,6 +7,7 @@ INVOICE_PRINT_FORMAT = "Faktura Sverige"
 # Svenska utskriftsmallar (sweden_compliance/print_format) per doctype
 PRINT_FORMATS = {
 	"Quotation": "Offert Sverige",
+	"Sales Order": "Orderbekräftelse Sverige",
 	"Sales Invoice": INVOICE_PRINT_FORMAT,
 }
 GOODS = "Vara"

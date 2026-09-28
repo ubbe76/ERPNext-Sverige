@@ -135,3 +135,23 @@ class TestQuotationPrint(PrintTestCase):
 		)
 		html = render(qtn)
 		self.assertIn(frappe._("VAT in {0}", lang="sv").format("SEK"), html)
+
+
+class TestSalesOrderPrint(PrintTestCase):
+	def test_renders_in_swedish(self):
+		so = make_doc("Sales Order", [(self.service, 1000)], customer=self.customer_se, po_no="PO-4711")
+		so.contact_display = "Anna Andersson"
+		html = render(so)
+		for text in ("Orderbekräftelse", "Orderdatum", "Leveransdatum", "Ert ordernr", "PO-4711"):
+			self.assertIn(text, html)
+		for text in ("Er referens", "Anna Andersson", "Moms 25 % på", "Totalt inkl. moms", ">St<"):
+			self.assertIn(text, html)
+		for text in ("Customer Name", "Bill to", ">Nos<", "In Words", "Grand Total", ">Nej<"):
+			self.assertNotIn(text, html)
+
+	def test_empty_references_are_left_out(self):
+		so = make_doc("Sales Order", [(self.service, 1000)], customer=self.customer_se)
+		so.contact_display = None
+		html = render(so)
+		self.assertNotIn("Ert ordernr", html)
+		self.assertNotIn("Er referens", html)
