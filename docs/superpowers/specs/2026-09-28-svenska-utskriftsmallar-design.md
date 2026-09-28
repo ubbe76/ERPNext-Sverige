@@ -69,12 +69,17 @@ Var och en med `<namn>.json` (`standard: Yes`, `custom_format: 1`, `print_format
 | | Offert | Orderbekräftelse | Följesedel | Inköpsorder |
 |---|---|---|---|---|
 | Titel | Offert | Orderbekräftelse | Följesedel | Inköpsorder |
-| Rader vänster | Offertnr, Datum (`transaction_date`), Giltig till (`valid_till`), Kundnr (bara om `quotation_to == "Customer"`) | Ordernr, Orderdatum, Leveransdatum (`delivery_date`), Er referens (`po_no`), Kundnr | Följesedelsnr, Datum (`posting_date`), Ordernr (unika `items.against_sales_order`), Er referens (`po_no`), Transportör (`transporter_name`), Fraktsedelsnr (`lr_no`) | Inköpsordernr, Datum, Önskat leveransdatum (`schedule_date`), Leverantörsnr |
+| Rader vänster | Offertnr, Datum (`transaction_date`), Giltig till (`valid_till`), Er referens, Kundnr (bara om `quotation_to == "Customer"`) | Ordernr, Orderdatum, Leveransdatum (`delivery_date`), Er referens, Ert ordernr (`po_no`), Kundnr | Följesedelsnr, Datum (`posting_date`), Ordernr (unika `items.against_sales_order`), Er referens, Ert ordernr (`po_no`), Transportör (`transporter_name`), Fraktsedelsnr (`lr_no`) | Inköpsordernr, Datum, Önskat leveransdatum (`schedule_date`), Leverantörsnr |
 | Höger | Kund (`customer_name`), `address_display`, kundens momsnr | Kund, `address_display`, kundens momsnr; leveransadress (`shipping_address_display`) om den skiljer sig | Leveransadress (`shipping_address_display`, annars `address_display`) med kundnamn | Leverantör (`supplier_name`), `address_display`; vår leveransadress (`shipping_address_display`) |
 | Priser | Ja | Ja | Nej | Ja |
 | Summor | Per momssats | Per momssats | – | En momsrad (`total_taxes_and_charges`) |
 | Undantagstext | Ja | Ja | Nej | Nej |
 | Betalning i sidfot | Nej | Nej | Nej | Nej |
+
+**Er referens** är kundens kontaktperson (`contact_display`) och **Ert ordernr** är kundens eget ordernummer
+(`po_no`), på alla försäljningsdokument. Fakturan ändras på samma sätt: dagens rad "Er referens" (`po_no`)
+byter etikett till "Ert ordernr" och en rad "Er referens" (`contact_display`) läggs till. I övrigt ska fakturans
+utskrift vara oförändrad.
 
 Villkor (`doc.terms`) skrivs ut under tabellen när de finns. Brevhuvud visas som på fakturan
 (`letter_head and not no_letterhead`).
@@ -89,13 +94,14 @@ eller redan är vår. En egen (icke-standard) mall lämnas orörd. Körs vid `af
 ## Felhantering
 
 - Tomma fält (organisationsnummer, bankkonto, adress, referenser) ger ingen rad – inga fel.
+- Ingen kontaktperson eller inget ordernummer: raden utelämnas.
 - Offert till Lead: inget kundnummer och inget kundmomsnummer.
 - Utländsk valuta: belopp i dokumentvalutan, momsen även i bolagets valuta (som fakturan).
 
 ## Översättningar
 
 Nya etiketter skrivs på engelska i `_()` och översätts i `erpnext_sverige/locale/sv.po` (t.ex. "Quotation No",
-"Valid Till", "Delivery Note No", "Carrier", "Waybill No"). Tänk på att Frappe trimmar blanksteg före uppslag.
+"Valid Till", "Delivery Note No", "Carrier", "Waybill No", "Your Order No"). Tänk på att Frappe trimmar blanksteg före uppslag.
 
 ## Tester – `erpnext_sverige/tests/test_print_formats.py`
 
@@ -109,7 +115,7 @@ För varje ny mall: skapa dokumentet, rendera med `frappe.get_print(doctype, nam
 - `set_default_print_formats()` sätter rätt mall och lämnar en egen mall orörd
 
 `test_invoice.py` och `test_credit_notes.py` ska passera oförändrade. Fakturans renderade text jämförs före och
-efter ombyggnaden.
+efter ombyggnaden; den enda tillåtna skillnaden är referensraderna ovan.
 
 ## Verifiering
 
