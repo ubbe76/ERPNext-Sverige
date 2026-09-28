@@ -2,7 +2,7 @@
 
 import frappe
 
-from erpnext_sverige.setup.company import TAX_CATEGORY_SE, setup_swedish_company
+from erpnext_sverige.setup.company import TAX_CATEGORY_EU, TAX_CATEGORY_SE, setup_swedish_company
 
 COMPANY = "_Test Svenska AB"
 COMPANY_ABBR = "_TSA"
@@ -49,10 +49,15 @@ def make_item(item_code, kind, template=None):
 	return item_code
 
 
+EU_TEST_VAT_NUMBER = "DE123456789"
+
+
 def make_party(doctype, name, tax_category):
 	if not frappe.db.exists(doctype, name):
 		doc = frappe.new_doc(doctype)
 		doc.update({f"{doctype.lower()}_name": name, "tax_category": tax_category})
+		if tax_category == TAX_CATEGORY_EU:
+			doc.tax_id = EU_TEST_VAT_NUMBER  # krävs på fakturan vid omvänd skattskyldighet
 		if doctype == "Supplier":
 			doc.supplier_group = frappe.db.get_value("Supplier Group", {"is_group": 0})
 		doc.insert()

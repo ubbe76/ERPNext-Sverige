@@ -26,7 +26,9 @@ Kvar / begränsningar:
 - [ ] Omvänd skattskyldighet för varor med 12 och 6 % (2624/2634)
 - [ ] Förskottskonton (2420/1480) om "bokför förskott på separat konto" ska användas. ERPNext kräver då
   att kontotyperna ändras (Receivable/Payable).
-- [ ] Sätt momskategori (EU / Utanför EU) på utländska kunder och leverantörer, eller på deras adresser
+- [x] Momskategori sätts automatiskt utifrån adressens land (Sverige / EU / utanför EU); privatpersoner i EU får
+  svensk moms. EU-företags momsreg.nr formatkontrolleras, krävs vid bokföring av EU-faktura och kan kontrolleras i VIES
+  - [ ] OSS (köparlandets moms) om försäljningen till privatpersoner i EU överstiger 99 680 kr/år
 
 ## 2. Provkör ett helt flöde
 

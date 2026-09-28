@@ -24,6 +24,19 @@ Frappe och ERPNext. Katalogen laddas efter deras egna, och därför ersätter de
 Utöver särskrivningar och versaler har även böjningsfel och ett antal rena felöversättningar rättats. Ett
 exempel är "Party" (motpart), som tidigare översattes med "Parti", det vill säga batch.
 
+### Momskategori för utländska kunder och leverantörer
+
+Momskategorin (Svensk moms, EU eller Utanför EU) sätts automatiskt utifrån landet i adressen när den sparas,
+och kunden eller leverantören får samma kategori om den saknar en. ERPNext använder adressens kategori på
+fakturan, så en kund med adresser i flera länder får rätt moms per faktura.
+
+- Privatpersoner i andra EU-länder får svensk moms (omvänd skattskyldighet gäller bara företag).
+- En manuellt vald kategori skrivs inte över, utom när adressens land eller kundtypen ändras.
+- Momsregistreringsnumret för EU-företag kontrolleras (landskod och format) när kunden sparas, och en
+  EU-faktura kan inte bokföras utan kundens momsregistreringsnummer.
+- Knappen **Kontrollera i VIES** på kund och leverantör frågar EU-kommissionens register om numret är giltigt
+  och visar företagets namn och adress.
+
 ### Fakturamall "Faktura Sverige"
 
 Standardmall för kundfakturor med det som mervärdesskattelagen kräver:
@@ -175,6 +188,7 @@ bench --site <testsite> run-tests --module erpnext_sverige.tests.test_account_se
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_vat_return
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_sie_export
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_invoice
+bench --site <testsite> run-tests --module erpnext_sverige.tests.test_tax_category
 ```
 
 Stilregler för översättningarna:

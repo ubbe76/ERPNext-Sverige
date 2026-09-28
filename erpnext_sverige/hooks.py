@@ -43,7 +43,10 @@ required_apps = ["erpnext"]
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+	"Customer": "public/js/vies.js",
+	"Supplier": "public/js/vies.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -152,6 +155,18 @@ doc_events = {
 			"erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
 			"erpnext_sverige.sweden_compliance.invoice.set_ocr",
 		],
+		"before_submit": "erpnext_sverige.sweden_compliance.tax_category.validate_invoice_vat_number",
+	},
+	"Address": {
+		"validate": "erpnext_sverige.sweden_compliance.tax_category.set_address_tax_category",
+		"on_update": "erpnext_sverige.sweden_compliance.tax_category.propagate_address_tax_category",
+	},
+	"Customer": {
+		"validate": "erpnext_sverige.sweden_compliance.tax_category.set_party_tax_category",
+		"on_update": "erpnext_sverige.sweden_compliance.tax_category.update_addresses_on_customer_type_change",
+	},
+	"Supplier": {
+		"validate": "erpnext_sverige.sweden_compliance.tax_category.set_party_tax_category",
 	},
 	"Purchase Invoice": {
 		"validate": "erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
