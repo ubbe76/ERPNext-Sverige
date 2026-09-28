@@ -39,6 +39,21 @@ bokföring. Funktionen går att köra flera gånger utan att något dubbleras.
 bench --site <site> execute erpnext_sverige.setup.company.setup_swedish_company --kwargs "{'company': '<bolag>'}"
 ```
 
+### Automatiskt kontoval på fakturor
+
+På kund- och leverantörsfakturor sätter appen intäkts- och kostnadskonto enligt BAS utifrån fakturans
+momskategori, artikelns momssats och om artikeln är en vara eller en tjänst (nytt fält
+**Vara eller tjänst (moms)** på artikeln; tomt = lagerartiklar är varor, övriga tjänster).
+
+| Momskategori | Försäljning | Inköp |
+|---|---|---|
+| Svensk moms | 3001 (25 %), 3002 (12 %), 3003 (6 %), 3004 (momsfri) | ändras inte |
+| EU | 3108 varor, 3308 tjänster | 4515–4517 varor, 4535 tjänster |
+| Utanför EU | 3105 varor, 3305 tjänster | 4545 varor, 4531 tjänster |
+
+Ett konto som har valts manuellt utanför dessa, till exempel 3590, lämnas orört. Inköp av lagerartiklar bokförs
+som tidigare mot lagret.
+
 ### Kontrollskript för nya strängar
 
 När Frappe eller ERPNext uppdateras kan nya strängar med särskrivningar tillkomma. Skriptet
@@ -107,6 +122,16 @@ Granska ändringen med `git diff`, lägg till filen och committa igen.
    ```
 
 Ändra aldrig `sv.po` i `apps/frappe` eller `apps/erpnext`. De filerna skrivs över vid `bench update`.
+
+### Tester
+
+Testerna körs mot en site med ett BAS-bolag (integrationstesterna använder bolaget BOLAG och hoppas annars
+över). Kör dem på en testsite, inte på den riktiga:
+
+```bash
+bench --site <testsite> set-config allow_tests true
+bench --site <testsite> run-tests --module erpnext_sverige.tests.test_account_selection
+```
 
 Stilregler för översättningarna:
 - Skriv sammansatta ord ihop: Artikelgrupp, Leverantörsgrupp, Bankkonto.

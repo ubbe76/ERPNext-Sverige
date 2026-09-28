@@ -18,11 +18,11 @@ Klart för BOLAG via `erpnext_sverige.setup.company.setup_swedish_company`:
 - [x] Konto 3308 Försäljning tjänster till annat EU-land skapat
 
 Kvar / begränsningar:
-- [ ] **Välj intäkts-/kostnadskonto automatiskt utifrån momskategori och momssats** (hook på
-  Sales/Purchase Invoice `validate`). Viktigt, se fynd i steg 2.
-  - Sverige: 3001 (25 %), 3002 (12 %), 3003 (6 %), 3004 (momsfri). I dag hamnar allt på 3000.
-  - EU: 3108 varor / 3308 tjänster. Export: 3105 varor / 3305 tjänster.
-  - Inköp EU: 4515 varor / 4535 tjänster. Import: 4545 varor / 4531 tjänster.
+- [x] **Automatiskt kontoval utifrån momskategori och momssats** (`accounting/account_selection.py`,
+  hook på Sales/Purchase Invoice `validate`). Nytt fält "Vara eller tjänst (moms)" på Item.
+  - Sverige: 3001–3004 per momssats. EU: 3108/3308. Export: 3105/3305.
+  - Inköp EU: 4515–4517 / 4535. Import: 4545 / 4531. Svenska inköp och lagerartiklar vid inköp lämnas orörda.
+  - Kvar: POS Invoice och kreditnotor/returer är inte specialtestade
 - [ ] Omvänd skattskyldighet för varor med 12 och 6 % (2624/2634)
 - [ ] Förskottskonton (2420/1480) om "bokför förskott på separat konto" ska användas. ERPNext kräver då
   att kontotyperna ändras (Receivable/Payable).
@@ -39,12 +39,9 @@ Provkört 2026-09-28 på testsiten `test-erp.local`, som är en kopia av `svensk
 - [x] Makulering med Immutable Ledger: motverifikation bokförs, originalraderna ligger kvar
 
 Fynd:
-- [ ] **ERPNext sparar första avvikande intäktskonto som artikelns standard**
-  (`set_default_income_account_for_item` i `erpnext/controllers/selling_controller.py`). När 3308
-  valdes manuellt på en EU-faktura bokfördes alla senare svenska försäljningar av samma artikel på 3308.
-  Löses av den automatiska kontovalsfunktionen ovan, som alltid sätter kontot utifrån momskategori.
-  Till dess: välj konto manuellt på varje faktura och kontrollera artikelns "Item Defaults".
-- [ ] Svensk försäljning bokförs på 3000 i stället för 3001/3002/3003 per momssats. Det behövs för momsdeklarationen (ruta 05).
+- [x] ~~ERPNext sparar första avvikande intäktskonto som artikelns standard~~. Löst av det automatiska
+  kontovalet: hanterade konton skrivs alltid över utifrån momskategori (regressionstest finns).
+- [x] ~~Svensk försäljning bokförs på 3000~~. Nu 3001/3002/3003/3004 per momssats.
 - [ ] Momsomföring till 2650 vid periodens slut är inte testad. Tas med i momsdeklarationen (punkt 3.2).
 
 ## 3. Funktioner i erpnext_sverige

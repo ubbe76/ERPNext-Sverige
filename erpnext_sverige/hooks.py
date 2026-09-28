@@ -86,7 +86,8 @@ required_apps = ["erpnext"]
 # ------------
 
 # before_install = "erpnext_sverige.install.before_install"
-# after_install = "erpnext_sverige.install.after_install"
+after_install = "erpnext_sverige.setup.custom_fields.create_custom_fields"
+after_migrate = "erpnext_sverige.setup.custom_fields.create_custom_fields"
 
 # Uninstallation
 # ------------
@@ -144,13 +145,14 @@ required_apps = ["erpnext"]
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Sales Invoice": {
+		"validate": "erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
+	},
+	"Purchase Invoice": {
+		"validate": "erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
+	},
+}
 
 # Scheduled Tasks
 # ---------------
