@@ -66,7 +66,7 @@ Fynd:
    (inställning på bolaget). Svenska eller engelska efter kundens språk.
    - [ ] **Installera en PDF-generator**: wkhtmltopdf saknas, så PDF (utskrift, e-post) fungerar inte.
      Alternativt Chrome-generatorn i Utskriftsinställningar.
-   - [ ] Svenskt talformat i Systeminställningar (`# ###,##`) och valutan SEK med symbolen efter beloppet
+   - [x] Svenskt talformat (`# ###,##`) och SEK med "kr" efter beloppet (`set_swedish_number_format`, ingår i grunduppsättningen)
    - [ ] Lägg in bolagets adress och bankkonto (Bank Account med bankgiro) på riktiga siten
 4. [ ] Bankfiler (senare): Bankgirots betalfiler och inläsning av inbetalningar
 5. [ ] **PAXml-export till svenska lönesystem** (Visma Lön, Hogia, Fortnox Lön m.fl.)

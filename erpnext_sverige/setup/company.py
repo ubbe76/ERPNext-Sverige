@@ -82,6 +82,7 @@ def setup_swedish_company(company: str):
 	if not abbr:
 		frappe.throw(_("Company {0} not found").format(company))
 
+	set_swedish_number_format()
 	create_missing_accounts(company)
 	set_company_accounts(company)
 	enable_immutable_ledger()
@@ -94,6 +95,21 @@ def setup_swedish_company(company: str):
 	set_default_party_tax_category()
 	frappe.db.commit()
 	print(f"Svensk grunduppsättning klar för {company}")
+
+
+SWEDISH_NUMBER_FORMAT = "# ###,##"
+
+
+def set_swedish_number_format():
+	"""Svenskt talformat (1 234,56) och kronor efter beloppet (1 234,56 kr)."""
+	frappe.db.set_single_value("System Settings", "number_format", SWEDISH_NUMBER_FORMAT)
+	# Formateringen läser standardvärdet (som System Settings annars sätter när formuläret sparas)
+	frappe.db.set_default("number_format", SWEDISH_NUMBER_FORMAT)
+	if frappe.db.exists("Currency", "SEK"):
+		frappe.db.set_value(
+			"Currency", "SEK", {"number_format": SWEDISH_NUMBER_FORMAT, "symbol": "kr", "symbol_on_right": 1}
+		)
+	frappe.clear_cache()
 
 
 def account(company: str, number: str) -> str:
