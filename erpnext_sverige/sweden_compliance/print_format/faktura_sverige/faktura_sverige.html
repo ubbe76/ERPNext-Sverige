@@ -1,142 +1,27 @@
+{%- from "erpnext_sverige/templates/includes/se_print.html" import styles, header, items, totals, notes, terms, footer with context -%}
 {%- set ctx = get_invoice_context(doc) -%}
-{%- set pay = ctx.payment -%}
-{%- macro money(value) -%}{{ frappe.utils.fmt_money(value, currency=doc.currency) }}{%- endmacro -%}
-<style>
-	.se-invoice { font-size: 10pt; color: #222; }
-	.se-invoice h1 { font-size: 20pt; margin: 0 0 4px 0; }
-	.se-invoice .se-muted { color: #666; }
-	.se-invoice .se-label { color: #666; font-size: 8pt; text-transform: uppercase; letter-spacing: .03em; }
-	.se-invoice table td { line-height: 1.35; }
-	.se-invoice table.se-meta td { padding: 1px 12px 1px 0 !important; vertical-align: top; border: 0 !important; }
-	.se-invoice table.se-items { width: 100%; border-collapse: collapse; margin-top: 18px; }
-	.se-invoice table.se-items th { border-bottom: 1px solid #222; font-weight: 600; padding: 4px; }
-	.se-invoice table.se-items td { border-bottom: 1px solid #ddd; padding: 4px; vertical-align: top; }
-	.se-invoice .se-right { text-align: right; white-space: nowrap; }
-	.se-invoice .se-nowrap { white-space: nowrap; }
-	.se-invoice table.se-totals { margin-left: auto; margin-top: 12px; border-collapse: collapse; }
-	.se-invoice table.se-totals td { padding: 2px 0 2px 24px !important; border: 0 !important; }
-	.se-invoice table.se-totals tr.se-grand td { border-top: 1px solid #222 !important; padding-top: 6px !important; font-weight: 700; font-size: 12pt; }
-	.se-invoice .se-notes { margin-top: 14px; padding: 6px 8px; border: 1px solid #ccc; }
-	.se-invoice .se-footer { margin-top: 28px; padding-top: 8px; border-top: 1px solid #999; font-size: 8pt; }
-	.se-invoice .se-footer td { padding: 0 18px 0 0 !important; vertical-align: top; border: 0 !important; }
-</style>
-
-<div class="se-invoice">
+{{ styles() }}
+<div class="se-doc">
 	{% if letter_head and not no_letterhead %}<div class="letter-head">{{ letter_head }}</div>{% endif %}
 
-	<table style="width: 100%; margin-top: 8px;">
-		<tr>
-			<td style="width: 55%; vertical-align: top;">
-				<h1>{{ _("Credit Note") if doc.is_return else _("Invoice") }}</h1>
-				<table class="se-meta">
-					<tr><td class="se-label">{{ _("Invoice No") }}</td><td>{{ doc.name }}</td></tr>
-					<tr><td class="se-label">{{ _("Invoice Date") }}</td><td>{{ doc.get_formatted("posting_date") }}</td></tr>
-					{% if not doc.is_return %}
-					<tr><td class="se-label">{{ _("Due Date") }}</td><td><b>{{ doc.get_formatted("due_date") }}</b></td></tr>
-					{% endif %}
-					{% if ctx.ocr %}
-					<tr><td class="se-label">{{ _("OCR") }}</td><td><b>{{ ctx.ocr }}</b></td></tr>
-					{% endif %}
-					{% if doc.return_against %}
-					<tr><td class="se-label">{{ _("Credit for invoice") }}</td><td>{{ doc.return_against }}</td></tr>
-					{% endif %}
-					{% if doc.po_no %}
-					<tr><td class="se-label">{{ _("Your Reference") }}</td><td>{{ doc.po_no }}</td></tr>
-					{% endif %}
-					<tr><td class="se-label">{{ _("Customer No") }}</td><td>{{ doc.customer }}</td></tr>
-				</table>
-			</td>
-			<td style="width: 45%; vertical-align: top;">
-				<div class="se-label">{{ _("Bill To") }}</div>
-				<div><b>{{ doc.customer_name }}</b></div>
-				{% if doc.address_display %}<div>{{ doc.address_display }}</div>{% endif %}
-				{% if ctx.customer_vat_no %}
-				<div style="margin-top: 4px;"><span class="se-label">{{ _("Customer VAT Reg. No.") }}</span> {{ ctx.customer_vat_no }}</div>
-				{% endif %}
-			</td>
-		</tr>
-	</table>
+	{{ header(
+		_("Credit Note") if doc.is_return else _("Invoice"),
+		[
+			(_("Invoice No"), doc.name),
+			(_("Invoice Date"), doc.get_formatted("posting_date")),
+			(_("Due Date"), "<b>" ~ doc.get_formatted("due_date") ~ "</b>" if not doc.is_return),
+			(_("OCR"), "<b>" ~ ctx.ocr ~ "</b>" if ctx.ocr),
+			(_("Credit for invoice"), doc.return_against),
+			(_("Your Reference"), doc.contact_display),
+			(_("Your Order No"), doc.po_no),
+			(_("Customer No"), doc.customer),
+		],
+		_("Bill To"), doc.customer_name, doc.address_display, ctx.customer_vat_no
+	) }}
 
-	<table class="se-items">
-		<thead>
-			<tr>
-				<th>{{ _("Description") }}</th>
-				<th class="se-right">{{ _("Qty") }}</th>
-				<th>{{ _("Unit") }}</th>
-				<th class="se-right">{{ _("Unit Price") }}</th>
-				<th class="se-right">{{ _("Amount") }}</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for item in doc.items %}
-			<tr>
-				<td>
-					<b>{{ item.item_name }}</b>
-					{% if item.description and item.description != item.item_name %}<div class="se-muted">{{ item.description }}</div>{% endif %}
-					{% if item.delivery_date and item.delivery_date != doc.posting_date %}<div class="se-muted">{{ _("Delivered") }} {{ item.get_formatted("delivery_date") }}</div>{% endif %}
-				</td>
-				<td class="se-right">{{ item.get_formatted("qty") }}</td>
-				<td>{{ _(item.uom) }}</td>
-				<td class="se-right">{{ money(item.net_rate) }}</td>
-				<td class="se-right">{{ money(item.net_amount) }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<table class="se-totals">
-		<tr><td>{{ _("Total excl. VAT") }}</td><td class="se-right">{{ money(doc.net_total) }}</td></tr>
-		{% for row in ctx.vat_summary %}
-			{% if row.rate %}
-			<tr>
-				<td>{{ _("VAT {0} % on {1}").format(row.rate, money(row.base)) }}</td>
-				<td class="se-right">{{ money(row.vat) }}</td>
-			</tr>
-			{% elif row.base %}
-			<tr><td>{{ _("Exempt from VAT") }}</td><td class="se-right">{{ money(row.base) }}</td></tr>
-			{% endif %}
-		{% endfor %}
-		{% if doc.rounding_adjustment %}
-		<tr><td>{{ _("Rounding Adjustment") }}</td><td class="se-right">{{ money(doc.rounding_adjustment) }}</td></tr>
-		{% endif %}
-		<tr class="se-grand">
-			<td>{{ _("Total to Pay") if not doc.is_return else _("Total Credit") }}</td>
-			<td class="se-right">{{ money(doc.rounded_total or doc.grand_total) }}</td>
-		</tr>
-		{% if doc.currency != doc.company_currency %}
-		<tr><td class="se-muted">{{ _("VAT in {0}").format(doc.company_currency) }}</td>
-			<td class="se-right se-muted">{{ frappe.utils.fmt_money(doc.base_total_taxes_and_charges, currency=doc.company_currency) }}</td></tr>
-		{% endif %}
-	</table>
-
-	{% if ctx.notes %}
-	<div class="se-notes">
-		{% for note in ctx.notes %}<div>{{ note }}</div>{% endfor %}
-	</div>
-	{% endif %}
-
-	{% if doc.terms %}<div style="margin-top: 12px;">{{ doc.terms }}</div>{% endif %}
-
-	<div class="se-footer">
-		<table>
-			<tr>
-				<td>
-					<b>{{ doc.company }}</b><br>
-					{% if doc.company_address_display %}{{ doc.company_address_display }}{% endif %}
-				</td>
-				<td>
-					{% if ctx.org_nr %}{{ _("Corporate ID No.") }}: {{ ctx.org_nr }}<br>{% endif %}
-					{% if ctx.vat_no %}{{ _("VAT Reg. No.") }}: {{ ctx.vat_no }}<br>{% endif %}
-					{% if ctx.f_skatt %}{{ _("Approved for F-tax") }}{% endif %}
-				</td>
-				<td>
-					{% if pay.bankgiro %}{{ _("Bankgiro") }}: {{ pay.bankgiro }}<br>{% endif %}
-					{% if pay.plusgiro %}{{ _("Plusgiro") }}: {{ pay.plusgiro }}<br>{% endif %}
-					{% if pay.clearing and pay.account_no %}{{ _("Bank Account") }}: {{ pay.clearing }}-{{ pay.account_no }}<br>{% endif %}
-					{% if pay.iban %}<span class="se-nowrap">IBAN: {{ pay.iban }}</span><br>{% endif %}
-					{% if pay.bic %}BIC: {{ pay.bic }}{% endif %}
-				</td>
-			</tr>
-		</table>
-	</div>
+	{{ items(doc) }}
+	{{ totals(doc, ctx, _("Total Credit") if doc.is_return else _("Total to Pay")) }}
+	{{ notes(ctx) }}
+	{{ terms(doc) }}
+	{{ footer(doc, ctx, show_payment=True) }}
 </div>

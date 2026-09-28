@@ -33835,6 +33835,9 @@ msgstr "Ditt namn"
 msgid "Your Name (required)"
 msgstr "Ditt namn"
 
+msgid "Your Order No"
+msgstr "Ert ordernr"
+
 msgid "Your Reference"
 msgstr "Er referens"
 

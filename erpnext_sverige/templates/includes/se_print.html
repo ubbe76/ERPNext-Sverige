@@ -1,0 +1,156 @@
+{#- Byggstenar för de svenska utskriftsmallarna (sweden_compliance/print_format). -#}
+
+{%- macro money(doc, value) -%}{{ frappe.utils.fmt_money(value, currency=doc.currency) }}{%- endmacro -%}
+
+{%- macro styles() -%}
+<style>
+	.se-doc { font-size: 10pt; color: #222; }
+	.se-doc h1 { font-size: 20pt; margin: 0 0 4px 0; }
+	.se-doc .se-muted { color: #666; }
+	.se-doc .se-label { color: #666; font-size: 8pt; text-transform: uppercase; letter-spacing: .03em; }
+	.se-doc table td { line-height: 1.35; }
+	.se-doc table.se-meta td { padding: 1px 12px 1px 0 !important; vertical-align: top; border: 0 !important; }
+	.se-doc table.se-items { width: 100%; border-collapse: collapse; margin-top: 18px; }
+	.se-doc table.se-items th { border-bottom: 1px solid #222; font-weight: 600; padding: 4px; }
+	.se-doc table.se-items td { border-bottom: 1px solid #ddd; padding: 4px; vertical-align: top; }
+	.se-doc .se-right { text-align: right; white-space: nowrap; }
+	.se-doc .se-nowrap { white-space: nowrap; }
+	.se-doc table.se-totals { margin-left: auto; margin-top: 12px; border-collapse: collapse; }
+	.se-doc table.se-totals td { padding: 2px 0 2px 24px !important; border: 0 !important; }
+	.se-doc table.se-totals tr.se-grand td { border-top: 1px solid #222 !important; padding-top: 6px !important; font-weight: 700; font-size: 12pt; }
+	.se-doc .se-notes { margin-top: 14px; padding: 6px 8px; border: 1px solid #ccc; }
+	.se-doc .se-footer { margin-top: 28px; padding-top: 8px; border-top: 1px solid #999; font-size: 8pt; }
+	.se-doc .se-footer td { padding: 0 18px 0 0 !important; vertical-align: top; border: 0 !important; }
+</style>
+{%- endmacro -%}
+
+{%- macro header(title, meta_rows, party_label, party_name, address, vat_no=None, extra=[]) -%}
+<table style="width: 100%; margin-top: 8px;">
+	<tr>
+		<td style="width: 55%; vertical-align: top;">
+			<h1>{{ title }}</h1>
+			<table class="se-meta">
+				{% for label, value in meta_rows %}{% if value %}
+				<tr><td class="se-label">{{ label }}</td><td>{{ value }}</td></tr>
+				{% endif %}{% endfor %}
+			</table>
+		</td>
+		<td style="width: 45%; vertical-align: top;">
+			<div class="se-label">{{ party_label }}</div>
+			<div><b>{{ party_name }}</b></div>
+			{% if address %}<div>{{ address }}</div>{% endif %}
+			{% if vat_no %}
+			<div style="margin-top: 4px;"><span class="se-label">{{ _("Customer VAT Reg. No.") }}</span> {{ vat_no }}</div>
+			{% endif %}
+			{% for label, value in extra %}{% if value %}
+			<div class="se-label" style="margin-top: 8px;">{{ label }}</div>
+			<div>{{ value }}</div>
+			{% endif %}{% endfor %}
+		</td>
+	</tr>
+</table>
+{%- endmacro -%}
+
+{%- macro items(doc, show_prices=True) -%}
+<table class="se-items">
+	<thead>
+		<tr>
+			<th>{{ _("Description") }}</th>
+			<th class="se-right">{{ _("Qty") }}</th>
+			<th>{{ _("Unit") }}</th>
+			{% if show_prices %}
+			<th class="se-right">{{ _("Unit Price") }}</th>
+			<th class="se-right">{{ _("Amount") }}</th>
+			{% endif %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in doc.items %}
+		<tr>
+			<td>
+				<b>{{ item.item_name }}</b>
+				{% if item.description and item.description != item.item_name %}<div class="se-muted">{{ item.description }}</div>{% endif %}
+				{% if doc.doctype == "Sales Invoice" and item.delivery_date and item.delivery_date != doc.posting_date %}<div class="se-muted">{{ _("Delivered") }} {{ item.get_formatted("delivery_date") }}</div>{% endif %}
+			</td>
+			<td class="se-right">{{ item.get_formatted("qty") }}</td>
+			<td>{{ _(item.uom) }}</td>
+			{% if show_prices %}
+			<td class="se-right">{{ money(doc, item.net_rate) }}</td>
+			<td class="se-right">{{ money(doc, item.net_amount) }}</td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{%- endmacro -%}
+
+{%- macro totals(doc, ctx, grand_label) -%}
+<table class="se-totals">
+	<tr><td>{{ _("Total excl. VAT") }}</td><td class="se-right">{{ money(doc, doc.net_total) }}</td></tr>
+	{% if ctx.vat_summary %}
+		{% for row in ctx.vat_summary %}
+			{% if row.rate %}
+			<tr>
+				<td>{{ _("VAT {0} % on {1}").format(row.rate, money(doc, row.base)) }}</td>
+				<td class="se-right">{{ money(doc, row.vat) }}</td>
+			</tr>
+			{% elif row.base %}
+			<tr><td>{{ _("Exempt from VAT") }}</td><td class="se-right">{{ money(doc, row.base) }}</td></tr>
+			{% endif %}
+		{% endfor %}
+	{% elif doc.total_taxes_and_charges %}
+	<tr><td>{{ _("VAT") }}</td><td class="se-right">{{ money(doc, doc.total_taxes_and_charges) }}</td></tr>
+	{% endif %}
+	{% if doc.rounding_adjustment %}
+	<tr><td>{{ _("Rounding Adjustment") }}</td><td class="se-right">{{ money(doc, doc.rounding_adjustment) }}</td></tr>
+	{% endif %}
+	<tr class="se-grand">
+		<td>{{ grand_label }}</td>
+		<td class="se-right">{{ money(doc, doc.rounded_total or doc.grand_total) }}</td>
+	</tr>
+	{% if doc.currency != doc.company_currency %}
+	<tr><td class="se-muted">{{ _("VAT in {0}").format(doc.company_currency) }}</td>
+		<td class="se-right se-muted">{{ frappe.utils.fmt_money(doc.base_total_taxes_and_charges, currency=doc.company_currency) }}</td></tr>
+	{% endif %}
+</table>
+{%- endmacro -%}
+
+{%- macro notes(ctx) -%}
+{% if ctx.notes %}
+<div class="se-notes">
+	{% for note in ctx.notes %}<div>{{ note }}</div>{% endfor %}
+</div>
+{% endif %}
+{%- endmacro -%}
+
+{%- macro terms(doc) -%}
+{% if doc.terms %}<div style="margin-top: 12px;">{{ doc.terms }}</div>{% endif %}
+{%- endmacro -%}
+
+{%- macro footer(doc, ctx, show_payment=False) -%}
+{%- set pay = ctx.payment -%}
+<div class="se-footer">
+	<table>
+		<tr>
+			<td>
+				<b>{{ doc.company }}</b><br>
+				{% if doc.company_address_display %}{{ doc.company_address_display }}{% endif %}
+			</td>
+			<td>
+				{% if ctx.org_nr %}{{ _("Corporate ID No.") }}: {{ ctx.org_nr }}<br>{% endif %}
+				{% if ctx.vat_no %}{{ _("VAT Reg. No.") }}: {{ ctx.vat_no }}<br>{% endif %}
+				{% if ctx.f_skatt %}{{ _("Approved for F-tax") }}{% endif %}
+			</td>
+			{% if show_payment and pay %}
+			<td>
+				{% if pay.bankgiro %}{{ _("Bankgiro") }}: {{ pay.bankgiro }}<br>{% endif %}
+				{% if pay.plusgiro %}{{ _("Plusgiro") }}: {{ pay.plusgiro }}<br>{% endif %}
+				{% if pay.clearing and pay.account_no %}{{ _("Bank Account") }}: {{ pay.clearing }}-{{ pay.account_no }}<br>{% endif %}
+				{% if pay.iban %}<span class="se-nowrap">IBAN: {{ pay.iban }}</span><br>{% endif %}
+				{% if pay.bic %}BIC: {{ pay.bic }}{% endif %}
+			</td>
+			{% endif %}
+		</tr>
+	</table>
+</div>
+{%- endmacro -%}

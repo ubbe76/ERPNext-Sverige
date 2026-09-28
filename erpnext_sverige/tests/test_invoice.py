@@ -105,9 +105,16 @@ class TestSwedishInvoice(IntegrationTestCase):
 
 	def test_print_format_renders_in_swedish(self):
 		si = make_invoice("Sales Invoice", self.customer_se, [(self.service, 1000), (self.goods_12, 500)])
+		si.po_no = "PO-4711"
+		si.contact_display = "Anna Andersson"
 		frappe.local.lang = "sv"
 		html = frappe.get_print("Sales Invoice", si.name, print_format=INVOICE_PRINT_FORMAT, doc=si)
 		for text in ("Faktura", "Förfallodatum", "Moms 25 % på", "Moms 12 % på", "Att betala"):
 			self.assertIn(text, html)
 		for text in ("556000-0000", "SE556000000001", "Godkänd för F-skatt", si.se_ocr):
 			self.assertIn(text, html)
+		self.assertIn("Ert ordernr", html)
+		self.assertIn("PO-4711", html)
+		self.assertIn("Er referens", html)
+		self.assertIn("Anna Andersson", html)
+		self.assertNotIn(">Nos<", html)
