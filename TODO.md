@@ -39,6 +39,14 @@ Inga transaktioner är bokförda ännu. Gör klart steg 1 innan första verifika
      eller via en fraktaggregator (t.ex. nShift/Unifaun) som täcker flera transportörer med ett API
    - Boka sändning, hämta pris, skriv ut fraktsedel/etikett, spara sändnings-ID och spårningslänk
    - Svenska tjänster: t.ex. PostNord MyPack, DHL Paket/Pall, ombudsval
+7. [ ] **Breddat stöd för e-faktura i Sverige**
+   - Utgående: skapa Peppol BIS Billing 3.0 (UBL) från försäljningsfaktura och kreditnota.
+     Det är krav vid fakturering till offentlig sektor (lag 2018:1277).
+   - Inkommande: läs in Peppol-fakturor som leverantörsfakturor, med matchning mot inköpsorder
+   - Överföring via Peppol-accesspunkt (t.ex. InExchange, Pagero eller Crediflow)
+   - Svenska fält: Peppol-ID/GLN, organisationsnummer, referens/beställar-ID, bankgiro och OCR i betalinstruktionen
+   - Utgå från ERPNext:s kodlistor (modulen EDI: Code List, Common Code). Undersök om en befintlig
+     EU-e-fakturaapp för Frappe kan återanvändas innan egen UBL-generering byggs.
 
 ## 4. Översättningar och namn
 

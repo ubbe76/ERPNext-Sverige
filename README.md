@@ -47,6 +47,8 @@ Se [TODO.md](TODO.md). Det viktigaste:
 - **PAXml-export** av tid och frånvaro till svenska lönesystem (t.ex. Visma Lön, Hogia, Fortnox Lön)
 - **Transportbokning i Sverige**: boka frakt, skriv ut fraktsedlar och spåra sändningar hos t.ex. PostNord,
   DHL, Schenker och Bring
+- **E-faktura för Sverige**: skicka och ta emot fakturor enligt Peppol BIS Billing 3.0, vilket är krav vid
+  fakturering till offentlig sektor
 
 ## Installation
 
