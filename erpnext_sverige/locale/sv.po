@@ -4918,10 +4918,10 @@ msgid "Btu/Hour"
 msgstr "Btu/timme"
 
 msgid "Btu/Minutes"
-msgstr "Btu/minuter"
+msgstr "Btu/minut"
 
 msgid "Btu/Seconds"
-msgstr "Btu/sekunder"
+msgstr "Btu/sekund"
 
 msgid "Bucket Size"
 msgstr "Hinkstorlek"
@@ -17228,7 +17228,7 @@ msgid "Meta title for SEO"
 msgstr "Metabenämning för SEO"
 
 msgid "Meter Of Water"
-msgstr "Meter av vatten"
+msgstr "Meter vattenpelare"
 
 msgid "Meter/Second"
 msgstr "Meter/sekund"
@@ -17249,13 +17249,13 @@ msgid "Middle Income"
 msgstr "Intäktsmedelvärde"
 
 msgid "Mile/Hour"
-msgstr "Mil/timme"
+msgstr "Engelsk mil/timme"
 
 msgid "Mile/Minute"
-msgstr "Mil/minut"
+msgstr "Engelsk mil/minut"
 
 msgid "Mile/Second"
-msgstr "Mil/sekund"
+msgstr "Engelsk mil/sekund"
 
 msgid "Milestone Tracker"
 msgstr "Milstolpespårare"
@@ -17273,10 +17273,10 @@ msgid "Milligram/Litre"
 msgstr "Milligram/liter"
 
 msgid "Millimeter Of Mercury"
-msgstr "Millimeter av kvicksilver"
+msgstr "Millimeter kvicksilver"
 
 msgid "Millimeter Of Water"
-msgstr "Millimeter av vatten"
+msgstr "Millimeter vattenpelare"
 
 msgid "Min Amount"
 msgstr "Minimalt belopp"
@@ -20280,7 +20280,7 @@ msgid "Partner website"
 msgstr "Partnerwebbplats"
 
 msgid "Parts Per Million"
-msgstr "Delar per miljon"
+msgstr "Miljondelar (ppm)"
 
 msgid "Party"
 msgstr "Part"
@@ -28469,7 +28469,7 @@ msgid "Splitting {0} {1} into {2} rows as per Payment Terms"
 msgstr "Delar {0} {1} i {2} rader enligt betalningsvillkor"
 
 msgid "Square Centimeter"
-msgstr "Kubikcentimeter"
+msgstr "Kvadratcentimeter"
 
 msgid "Sr No."
 msgstr "Serienummer."
@@ -30944,7 +30944,7 @@ msgid "Token Type"
 msgstr "Token-typ"
 
 msgid "Ton (Short)/Cubic Yard"
-msgstr "Ton (Kort)/Kubikyard"
+msgstr "Ton (kort)/kubikyard"
 
 msgid "Too Many Documents"
 msgstr "För många dokument"
@@ -34402,3 +34402,415 @@ msgstr "{} hittades inte i sökväg! Detta erfordras för att ta säkerhetskopia
 
 msgid "{} {} is not affecting bank account {}"
 msgstr "{} {} påverkar inte bankkonto {}"
+
+#. Name of a UOM
+msgid "Calorie/Seconds"
+msgstr "Kalorier/sekund"
+
+#. Name of a UOM
+msgid "Ampere"
+msgstr "Ampere"
+
+#. Name of a UOM
+msgid "Ampere-Hour"
+msgstr "Amperetimme"
+
+#. Name of a UOM
+msgid "Ampere-Minute"
+msgstr "Ampereminut"
+
+#. Name of a UOM
+msgid "Ampere-Second"
+msgstr "Amperesekund"
+
+#. Name of a UOM
+msgid "Kiloampere"
+msgstr "Kiloampere"
+
+#. Name of a UOM
+msgid "Milliampere"
+msgstr "Milliampere"
+
+#. Name of a UOM
+msgid "Kilogram/Cubic Centimeter"
+msgstr "Kilogram/kubikcentimeter"
+
+#. Name of a UOM
+msgid "Kilogram/Cubic Meter"
+msgstr "Kilogram/kubikmeter"
+
+#. Name of a UOM
+msgid "Kilometer/Hour"
+msgstr "Kilometer/timme"
+
+#. Name of a UOM
+msgid "Watt-Hour"
+msgstr "Wattimme"
+
+#. Name of a UOM
+msgid "Horsepower-Hours"
+msgstr "Hästkrafttimme"
+
+#. Name of a UOM
+msgid "Cycle/Second"
+msgstr "Cykler/sekund"
+
+#. Name of a UOM
+msgid "Foot Of Water"
+msgstr "Fot vattenpelare"
+
+#. Name of a UOM
+msgid "Foot/Minute"
+msgstr "Fot/minut"
+
+#. Name of a UOM
+msgid "Foot/Second"
+msgstr "Fot/sekund"
+
+#. Name of a UOM
+msgid "Inch/Minute"
+msgstr "Tum/minut"
+
+#. Name of a UOM
+msgid "Inch/Second"
+msgstr "Tum/sekund"
+
+#. Name of a UOM
+msgid "Mile"
+msgstr "Engelsk mil"
+
+#. Name of a UOM
+msgid "Mile (Nautical)"
+msgstr "Nautisk mil"
+
+#. Name of a UOM
+msgid "Square Mile"
+msgstr "Kvadratmile (engelsk)"
+
+#. Name of a UOM
+msgid "Ounce-Force"
+msgstr "Unskraft"
+
+#. Name of a UOM
+msgid "Ounce/Cubic Foot"
+msgstr "Uns/kubikfot"
+
+#. Name of a UOM
+msgid "Kilocalorie"
+msgstr "Kilokalori"
+
+#. Name of a UOM
+msgid "Ton (Long)/Cubic Yard"
+msgstr "Ton (lång)/kubikyard"
+
+#. Name of a UOM
+msgid "Barrel (Oil)"
+msgstr "Fat (olja)"
+
+#. Name of a UOM
+msgid "Barrel(Beer)"
+msgstr "Fat (öl)"
+
+#. Name of a UOM
+msgid "Acre (US)"
+msgstr "Acre (US)"
+
+#. Name of a UOM
+msgid "Litre-Atmosphere"
+msgstr "Literatmosfär"
+
+#. Name of a UOM
+msgid "Milibar"
+msgstr "Millibar"
+
+#. Name of a UOM
+msgid "Hectogram/Litre"
+msgstr "Hektogram/liter"
+
+#. Name of a UOM
+msgid "Decigram/Litre"
+msgstr "Decigram/liter"
+
+#. Name of a UOM
+msgid "Dekagram/Litre"
+msgstr "Dekagram/liter"
+
+#. Name of a UOM
+msgid "Gram/Litre"
+msgstr "Gram/liter"
+
+#. Name of a UOM
+msgid "Kilogram/Litre"
+msgstr "Kilogram/liter"
+
+#. Name of a UOM
+msgid "Horsepower"
+msgstr "Hästkraft"
+
+#. Name of a UOM
+msgid "Watt"
+msgstr "Watt"
+
+#. Name of a UOM
+msgid "Barleycorn"
+msgstr "Kornlängd"
+
+#. Name of a UOM
+msgid "Btu (It)"
+msgstr "Btu (IT)"
+
+#. Name of a UOM
+msgid "Btu (Mean)"
+msgstr "Btu (medel)"
+
+#. Name of a UOM
+msgid "Btu (Th)"
+msgstr "Btu (termokemisk)"
+
+#. Name of a UOM
+msgid "Bushel (UK)"
+msgstr "Bushel (UK)"
+
+#. Name of a UOM
+msgid "Bushel (US Dry Level)"
+msgstr "Bushel (US, torr)"
+
+#. Name of a UOM
+msgid "Calibre"
+msgstr "Kaliber"
+
+#. Name of a UOM
+msgid "Calorie (Food)"
+msgstr "Kalori (livsmedel)"
+
+#. Name of a UOM
+msgid "Calorie (It)"
+msgstr "Kalori (IT)"
+
+#. Name of a UOM
+msgid "Calorie (Mean)"
+msgstr "Kalori (medel)"
+
+#. Name of a UOM
+msgid "Calorie (Th)"
+msgstr "Kalori (termokemisk)"
+
+#. Name of a UOM
+msgid "Carat"
+msgstr "Karat"
+
+#. Name of a UOM
+msgid "Centiarea"
+msgstr "Centiar"
+
+#. Name of a UOM
+msgid "Centigram/Litre"
+msgstr "Centigram/liter"
+
+#. Name of a UOM
+msgid "Centilitre"
+msgstr "Centiliter"
+
+#. Name of a UOM
+msgid "Chain"
+msgstr "Kedja (längdmått)"
+
+#. Name of a UOM
+msgid "Cup"
+msgstr "Kopp"
+
+#. Name of a UOM
+msgid "Dyne"
+msgstr "Dyn"
+
+#. Name of a UOM
+msgid "Ells (UK)"
+msgstr "Aln (UK)"
+
+#. Name of a UOM
+msgid "Ems(Pica)"
+msgstr "Em (pica)"
+
+#. Name of a UOM
+msgid "EMU Of Charge"
+msgstr "EME laddning"
+
+#. Name of a UOM
+msgid "EMU of current"
+msgstr "EME ström"
+
+#. Name of a UOM
+msgid "Fathom"
+msgstr "Famn"
+
+#. Name of a UOM
+msgid "Fluid Ounce (UK)"
+msgstr "Vätskeuns (UK)"
+
+#. Name of a UOM
+msgid "Fluid Ounce (US)"
+msgstr "Vätskeuns (US)"
+
+#. Name of a UOM
+msgid "Foot"
+msgstr "Fot"
+
+#. Name of a UOM
+msgid "Gallon Dry (US)"
+msgstr "Gallon torr (US)"
+
+#. Name of a UOM
+msgid "Gallon Liquid (US)"
+msgstr "Gallon våt (US)"
+
+#. Name of a UOM
+msgid "Grain"
+msgstr "Grain (gran)"
+
+#. Name of a UOM
+msgid "Grain/Cubic Foot"
+msgstr "Grain/kubikfot"
+
+#. Name of a UOM
+msgid "Grain/Gallon (UK)"
+msgstr "Grain/gallon (UK)"
+
+#. Name of a UOM
+msgid "Grain/Gallon (US)"
+msgstr "Grain/gallon (US)"
+
+#. Name of a UOM
+msgid "Gram-Force"
+msgstr "Gramkraft"
+
+#. Name of a UOM
+msgid "Hand"
+msgstr "Hand (längdmått)"
+
+#. Name of a UOM
+msgid "Hundredweight (UK)"
+msgstr "Centner (UK)"
+
+#. Name of a UOM
+msgid "Hundredweight (US)"
+msgstr "Centner (US)"
+
+#. Name of a UOM
+msgid "Iches Of Water"
+msgstr "Tum vattenpelare"
+
+#. Name of a UOM
+msgid "Inches Of Mercury"
+msgstr "Tum kvicksilver"
+
+#. Name of a UOM
+msgid "Inch Pound-Force"
+msgstr "Tum-pundkraft"
+
+#. Name of a UOM
+msgid "Joule/Meter"
+msgstr "Joule/meter"
+
+#. Name of a UOM
+msgid "Kilogram-Force"
+msgstr "Kilogramkraft (kp)"
+
+#. Name of a UOM
+msgid "Kilopound-Force"
+msgstr "Kilopundkraft"
+
+#. Name of a UOM
+msgid "Km"
+msgstr "Km"
+
+#. Name of a UOM
+msgid "Ounce"
+msgstr "Uns"
+
+#. Name of a UOM
+msgid "Ounce/Cubic Inch"
+msgstr "Uns/kubiktum"
+
+#. Name of a UOM
+msgid "Ounce/Gallon (UK)"
+msgstr "Uns/gallon (UK)"
+
+#. Name of a UOM
+msgid "Ounce/Gallon (US)"
+msgstr "Uns/gallon (US)"
+
+#. Name of a UOM
+msgid "Pint, Dry (US)"
+msgstr "Pint torr (US)"
+
+#. Name of a UOM
+msgid "Pint, Liquid (US)"
+msgstr "Pint våt (US)"
+
+#. Name of a UOM
+msgid "Pound"
+msgstr "Skålpund"
+
+#. Name of a UOM
+msgid "Pound-Force"
+msgstr "Pundkraft"
+
+#. Name of a UOM
+msgid "Pound/Cubic Foot"
+msgstr "Skålpund/kubikfot"
+
+#. Name of a UOM
+msgid "Pound/Cubic Inch"
+msgstr "Skålpund/kubiktum"
+
+#. Name of a UOM
+msgid "Pound/Cubic Yard"
+msgstr "Skålpund/kubikyard"
+
+#. Name of a UOM
+msgid "Pound/Gallon (UK)"
+msgstr "Skålpund/gallon (UK)"
+
+#. Name of a UOM
+msgid "Pound/Gallon (US)"
+msgstr "Skålpund/gallon (US)"
+
+#. Name of a UOM
+msgid "Psi/1000 Feet"
+msgstr "Psi/1000 fot"
+
+#. Name of a UOM
+msgid "Quart Dry (US)"
+msgstr "Quart torr (US)"
+
+#. Name of a UOM
+msgid "Quart Liquid (US)"
+msgstr "Quart våt (US)"
+
+#. Name of a UOM
+msgid "Quintal"
+msgstr "Kvintal"
+
+#. Name of a UOM
+msgid "Rod"
+msgstr "Rod (längdmått)"
+
+#. Name of a UOM
+msgid "Slug/Cubic Foot"
+msgstr "Slug/kubikfot"
+
+#. Name of a UOM
+msgid "Ton-Force (UK)"
+msgstr "Tonkraft (UK)"
+
+#. Name of a UOM
+msgid "Ton-Force (US)"
+msgstr "Tonkraft (US)"
+
+#. Name of a UOM
+msgid "Tonne-Force(Metric)"
+msgstr "Tonkraft (metrisk)"
+
+#. Name of a UOM
+msgid "Box"
+msgstr "Låda"
