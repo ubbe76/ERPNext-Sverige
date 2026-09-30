@@ -32166,7 +32166,7 @@ msgid "Upload XML Invoices"
 msgstr "Ladda upp XML-fakturor"
 
 msgid "Uploading..."
-msgstr "Ladda upp..."
+msgstr "Laddar upp..."
 
 msgid "Upon enabling this, the JV will be submitted for a different exchange rate."
 msgstr "När du aktiverar detta kommer Journalverifikat att godkännas för annan växelkurs."
