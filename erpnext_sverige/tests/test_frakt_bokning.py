@@ -326,6 +326,75 @@ class TestBoka(FraktTestCase):
 		b.assert_not_called()
 
 
+class TestGranskningsfixar(FraktTestCase):
+	def test_boka_kraver_godsvarde_fore_sendify(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify() as b:
+			bokning.hamta_priser(doc.name)
+			frappe.db.set_value("Shipment", doc.name, "value_of_goods", 0)
+			with self.assertRaises(frappe.ValidationError) as fel:
+				bokning.boka(doc.name, "T-DSV", "_Test DSV – Pall", 800)
+		self.assertIn("Godsvärdet", str(fel.exception))
+		b.assert_not_called()
+
+	def test_boka_kraver_kollin_fore_sendify(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify() as b:
+			bokning.hamta_priser(doc.name)
+			frappe.db.delete("Shipment Parcel", {"parent": doc.name})
+			self.assertRaises(
+				frappe.ValidationError, bokning.boka, doc.name, "T-DSV", "_Test DSV – Pall", 800
+			)
+		b.assert_not_called()
+
+	def test_kundpris_raknas_om_efter_prisandring(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify() as b:
+			bokning.hamta_priser(doc.name)
+			bokning.spara_val(doc.name, "_Test DSV – Pall", 600)
+			bokning.boka_vald_produkt(doc.name, bekraftat=1)
+		b.assert_called_once()
+		self.assertEqual(frappe.db.get_value("Shipment", doc.name, "kundpris"), 900)  # 800 * 1,1 + 20
+
+	def test_manuellt_andrat_kundpris_bevaras(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify():
+			bokning.hamta_priser(doc.name)
+			bokning.spara_val(doc.name, "_Test DSV – Pall", 800)
+			frappe.db.set_value("Shipment", doc.name, "kundpris", 750)
+			bokning.boka_vald_produkt(doc.name, bekraftat=1)
+		self.assertEqual(frappe.db.get_value("Shipment", doc.name, "kundpris"), 750)
+
+	def test_kollin_utan_vikt_ger_svenskt_fel(self):
+		inte_vikt = make_frakt_item(
+			"_Test Frakt Utan Vikt",
+			fraktsatt="Egna mått",
+			frakt_langd_cm=10,
+			frakt_bredd_cm=10,
+			frakt_hojd_cm=10,
+			weight_per_unit=0,
+		)
+		dn = make_foljesedel(self.kund, [(inte_vikt, 1)])
+		with self.assertRaises(frappe.ValidationError) as fel:
+			bokning.skapa_shipment(dn.name)
+		self.assertIn("saknar vikt", str(fel.exception))
+
+	def test_foresla_kollin_igen_med_viktlost_artikel_ger_svenskt_fel(self):
+		doc, _dn = self.shipment()
+		inte_vikt = make_frakt_item(
+			"_Test Frakt Utan Vikt",
+			fraktsatt="Egna mått",
+			frakt_langd_cm=10,
+			frakt_bredd_cm=10,
+			frakt_hojd_cm=10,
+			weight_per_unit=0,
+		)
+		with patch.object(bokning, "_lagerrader", return_value=[(inte_vikt, 1)]):
+			with self.assertRaises(frappe.ValidationError) as fel:
+				bokning.foresla_kollin_igen(doc.name)
+		self.assertIn("saknar vikt", str(fel.exception))
+
+
 class TestAvboka(FraktTestCase):
 	def bokad(self):
 		doc, dn = self.shipment()

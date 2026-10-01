@@ -2,7 +2,7 @@
 
 import frappe
 from frappe import _
-from frappe.utils import flt, rounded
+from frappe.utils import flt, getdate, rounded
 
 from erpnext_sverige.frakt import FraktFel, hamta_installningar, leverantor, visa_fraktfel
 from erpnext_sverige.frakt.kollin import foresla_kollin
@@ -123,7 +123,9 @@ def kontrollera(doctype: str, name: str) -> dict:
 		"kollin": kollin,
 		"referens_id": f"{doctype} {name}",
 	}
-	datum = doc.get("delivery_date") or nasta_arbetsdag()
+	datum = nasta_arbetsdag()
+	if doc.get("delivery_date"):
+		datum = max(getdate(doc.delivery_date), datum)
 	svar = priser_for_tillfallig_sandning(sandning, upphamtningstid(datum, inst.upphamtning_fran))
 	svar["varningar"] = varningar + svar["varningar"]
 	for p in svar["priser"]:

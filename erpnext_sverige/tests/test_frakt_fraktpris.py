@@ -99,6 +99,20 @@ class TestPrisforfragan(IntegrationTestCase):
 		radera.assert_called_once_with("TMP1")
 		self.assertEqual([p["transportor"] for p in svar["priser"]], ["_Test DSV", "_Test DHL"])
 
+	def test_upphamtning_ar_aldrig_fore_nasta_arbetsdag(self):
+		so = self.order()
+		frappe.db.set_value(
+			"Sales Order", so.name, "delivery_date", frappe.utils.add_days(frappe.utils.today(), -10)
+		)
+		with (
+			patch(f"{SENDIFY}.skapa_sandning", return_value="TMP1"),
+			patch(f"{SENDIFY}.hamta_priser", return_value=([dict(p) for p in PRISER], [])) as priser,
+			patch(f"{SENDIFY}.radera_sandning"),
+		):
+			fraktpris.kontrollera("Sales Order", so.name)
+		onskad = priser.call_args.args[1]
+		self.assertGreaterEqual(onskad.date(), parter.nasta_arbetsdag())
+
 	def test_tillfallig_sandning_raderas_aven_vid_fel(self):
 		so = self.order()
 		with (

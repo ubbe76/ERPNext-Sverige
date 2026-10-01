@@ -5,7 +5,7 @@ from datetime import timedelta
 import frappe
 from frappe.utils import get_datetime, now_datetime
 
-from erpnext_sverige.frakt import FraktFel, leverantor, visa_fraktfel
+from erpnext_sverige.frakt import leverantor, visa_fraktfel
 
 LEVERERAD = "DELIVERED"
 INTERVALL_TIMMAR = {"Varje timme": 1, "Var fjärde timme": 4, "Dagligen": 24}
@@ -68,7 +68,9 @@ def uppdatera_alla() -> None:
 		try:
 			uppdatera_shipment(doc)
 			frappe.db.commit()
-		except FraktFel:
+		except Exception:
 			frappe.db.rollback()
 			frappe.log_error(title=f"Sendify: spårning misslyckades för {namn}")
-	frappe.db.set_single_value("Fraktinstallningar", "senaste_sparningskorning", now_datetime())
+	frappe.db.set_single_value(
+		"Fraktinstallningar", "senaste_sparningskorning", now_datetime(), update_modified=False
+	)

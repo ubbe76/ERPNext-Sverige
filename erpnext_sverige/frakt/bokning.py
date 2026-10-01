@@ -44,6 +44,15 @@ def satt_kollin(doc, kollin) -> None:
 		)
 
 
+def _kontrollera_vikter(kollin, varningar) -> None:
+	"""ERPNext vägrar kolli utan vikt med ett generellt fel; visa i stället våra varningar."""
+	if any(flt(k["vikt_kg"]) <= 0 for k in kollin):
+		frappe.throw(
+			_("Kolliförslaget kan inte skapas:<br>")
+			+ "<br>".join(frappe.utils.escape_html(v) for v in varningar)
+		)
+
+
 def _visa_varningar(varningar):
 	if varningar:
 		frappe.msgprint("<br>".join(varningar), title=_("Kontrollera kollina"), indicator="orange")
@@ -79,6 +88,7 @@ def skapa_shipment(delivery_note: str) -> str:
 	doc.fraktprodukt = _forvald_fraktprodukt(dn)
 
 	kollin, varningar = foresla_kollin(_lagerrader([dn.name]))
+	_kontrollera_vikter(kollin, varningar)
 	satt_kollin(doc, kollin)
 	doc.insert()
 	_visa_varningar(varningar)
@@ -97,6 +107,7 @@ def _utkast(shipment: str):
 def foresla_kollin_igen(shipment: str) -> list[str]:
 	doc = _utkast(shipment)
 	kollin, varningar = foresla_kollin(_lagerrader(_foljesedlar(doc)))
+	_kontrollera_vikter(kollin, varningar)
 	satt_kollin(doc, kollin)
 	doc.save()
 	return varningar
@@ -141,7 +152,7 @@ def _synka_sandning(doc) -> str:
 	if doc.sendify_id:
 		lev.uppdatera_sandning(doc.sendify_id, sandning)
 	else:
-		doc.db_set("sendify_id", lev.skapa_sandning(sandning))
+		doc.db_set("sendify_id", lev.skapa_sandning(sandning), update_modified=False)
 		frappe.db.commit()  # sändningen finns nu hos Sendify; spara id:t även om prisanropet misslyckas
 	return doc.sendify_id
 
@@ -184,6 +195,12 @@ def boka(shipment: str, token: str, fraktprodukt: str, pris: float, valuta: str 
 	doc = _utkast(shipment)
 	if not doc.sendify_id:
 		frappe.throw(_("Hämta priser innan du bokar"))
+	# Kontrollera det ERPNext kräver vid godkännandet innan betald bokning görs hos Sendify
+	doc.check_permission("submit")
+	if flt(doc.value_of_goods) <= 0:
+		frappe.throw(_("Godsvärdet måste vara större än noll innan försändelsen kan bokas"))
+	if not doc.shipment_parcel:
+		frappe.throw(_("Försändelsen saknar kollin"))
 	resultat = leverantor().boka(token)
 	_spara_bokning(doc, fraktprodukt, flt(pris), valuta, resultat)
 
@@ -233,7 +250,11 @@ def _spara_bokning(doc, fraktprodukt, pris, valuta, resultat):
 
 def _spara_lokalt(doc, fraktprodukt, pris, valuta, resultat):
 	produkt = frappe.get_doc("Fraktprodukt", fraktprodukt)
-	if not doc.kundpris or doc.fraktprodukt != fraktprodukt:
+	# Behåll bara ett kundpris som användaren ändrat; ett automatiskt beräknat räknas om efter prisändring
+	andrat_av_anvandare = bool(
+		doc.kundpris and doc.fraktprodukt == fraktprodukt and flt(doc.kundpris) != kundpris(doc.fraktpris)
+	)
+	if not andrat_av_anvandare:
 		doc.kundpris = kundpris(pris)
 	doc.update(
 		{

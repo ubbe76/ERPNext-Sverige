@@ -68,3 +68,11 @@ class TestSparning(FraktTestCase):
 			sparning.uppdatera_alla()
 		self.assertIn("S1", [c.args[0] for c in hamta.call_args_list])
 		self.assertEqual(frappe.db.get_value("Shipment", namn, "tracking_status"), "In Progress")
+
+	def test_oväntat_fel_for_en_forsandelse_stoppar_inte_jobbet(self):
+		self.bokad()
+		frappe.db.set_single_value("Fraktinstallningar", "senaste_sparningskorning", None)
+		frappe.clear_document_cache("Fraktinstallningar", "Fraktinstallningar")
+		with patch(f"{SENDIFY}.hamta_sparning", side_effect=ValueError("trasigt")):
+			sparning.uppdatera_alla()
+		self.assertTrue(frappe.db.get_single_value("Fraktinstallningar", "senaste_sparningskorning"))
