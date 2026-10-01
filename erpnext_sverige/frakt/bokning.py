@@ -4,9 +4,9 @@ import frappe
 from erpnext.stock.doctype.delivery_note.delivery_note import make_shipment
 from frappe import _
 from frappe.contacts.doctype.address.address import get_address_display
-from frappe.utils import flt, now_datetime
+from frappe.utils import cint, flt, now_datetime
 
-from erpnext_sverige.frakt import hamta_installningar, leverantor, visa_fraktfel
+from erpnext_sverige.frakt import FraktFel, hamta_installningar, leverantor, visa_fraktfel
 from erpnext_sverige.frakt.fraktpris import kundpris, registrera_produkter
 from erpnext_sverige.frakt.kollin import foresla_kollin
 from erpnext_sverige.frakt.parter import avsandare, nasta_arbetsdag, part, upphamtningstid
@@ -173,3 +173,109 @@ def spara_val(shipment: str, fraktprodukt: str, pris: float, valuta: str = "SEK"
 		}
 	)
 	doc.save()
+
+
+DOKUMENT = {"waybill": "Fraktsedel", "label": "Etikett"}
+
+
+@frappe.whitelist()
+@visa_fraktfel
+def boka(shipment: str, token: str, fraktprodukt: str, pris: float, valuta: str = "SEK") -> None:
+	doc = _utkast(shipment)
+	if not doc.sendify_id:
+		frappe.throw(_("Hämta priser innan du bokar"))
+	resultat = leverantor().boka(token)
+	_spara_bokning(doc, fraktprodukt, flt(pris), valuta, resultat)
+
+
+def _spara_bokning(doc, fraktprodukt, pris, valuta, resultat):
+	produkt = frappe.get_doc("Fraktprodukt", fraktprodukt)
+	if not doc.kundpris or doc.fraktprodukt != fraktprodukt:
+		doc.kundpris = kundpris(pris)
+	doc.update(
+		{
+			"fraktprodukt": fraktprodukt,
+			"fraktpris": pris,
+			"fraktpris_valuta": valuta,
+			"shipment_amount": pris,
+			"carrier": produkt.transportor,
+			"carrier_service": produkt.produkt,
+			"service_provider": produkt.leverantor,
+			"shipment_id": doc.sendify_id,
+			"awb_number": resultat["sparningsnummer"],
+			"dokumenttyper": ",".join(resultat.get("dokumenttyper") or ["label"]),
+		}
+	)
+	doc.submit()
+	doc.db_set("status", "Booked")
+	for dn in _foljesedlar(doc):
+		frappe.db.set_value(
+			"Delivery Note",
+			dn,
+			{
+				"transporter_name": produkt.transportor,
+				"lr_no": resultat["sparningsnummer"],
+				"lr_date": doc.pickup_date,
+			},
+		)
+	frappe.db.commit()  # bokningen är gjord hos leverantören – spara innan dokument och spårning hämtas
+
+	try:
+		_hamta_dokument(doc)
+	except FraktFel as fel:
+		frappe.msgprint(
+			_(
+				"Bokningen är klar, men fraktsedeln kunde inte hämtas: {0}. Använd knappen Hämta fraktsedel."
+			).format(fel.meddelande),
+			indicator="orange",
+		)
+	try:
+		from erpnext_sverige.frakt.sparning import uppdatera_shipment
+
+		uppdatera_shipment(doc)
+	except (FraktFel, ImportError):
+		pass  # spårningen hämtas av schemaläggaren
+
+
+def _hamta_dokument(doc):
+	typer = [t for t in DOKUMENT if t in (doc.dokumenttyper or "label").split(",")]
+	for typ in typer:
+		pdf = leverantor().hamta_dokument(doc.sendify_id, typ)
+		frappe.get_doc(
+			{
+				"doctype": "File",
+				"file_name": f"{DOKUMENT[typ]}-{doc.name}.pdf",
+				"attached_to_doctype": "Shipment",
+				"attached_to_name": doc.name,
+				"is_private": 1,
+				"content": pdf,
+			}
+		).insert(ignore_permissions=True)
+	doc.db_set("etikett_hamtad", 1)
+
+
+@frappe.whitelist()
+@visa_fraktfel
+def hamta_dokument(shipment: str) -> None:
+	doc = frappe.get_doc("Shipment", shipment)
+	doc.check_permission("write")
+	if doc.status not in ("Booked", "Completed"):
+		frappe.throw(_("Försändelsen är inte bokad"))
+	_hamta_dokument(doc)
+
+
+@frappe.whitelist()
+def boka_vald_produkt(shipment: str, bekraftat: int = 0) -> dict:
+	doc = _utkast(shipment)
+	if not doc.fraktprodukt:
+		frappe.throw(_("Välj en fraktprodukt först"))
+	svar = hamta_priser(shipment)
+	pris = next((p for p in svar["priser"] if p["fraktprodukt"] == doc.fraktprodukt), None)
+	if not pris:
+		return {"status": "saknas", **svar}
+	if flt(doc.fraktpris) and not cint(bekraftat):
+		andring = abs(pris["pris"] - flt(doc.fraktpris)) / flt(doc.fraktpris) * 100
+		if andring > flt(hamta_installningar().prisandring_grans_procent):
+			return {"status": "prisandring", "gammalt": flt(doc.fraktpris), "nytt": pris["pris"]}
+	boka(shipment, pris["token"], pris["fraktprodukt"], pris["pris"], pris["valuta"])
+	return {"status": "bokad"}

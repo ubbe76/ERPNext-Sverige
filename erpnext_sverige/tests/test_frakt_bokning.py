@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from unittest.mock import patch
 
 import frappe
@@ -13,6 +14,22 @@ from erpnext_sverige.tests.frakt_utils import (
 )
 
 SENDIFY = "erpnext_sverige.frakt.sendify"
+
+
+def _tom_pdf() -> bytes:
+	# Frappe läser PDF-filer med pypdf vid sparande, så en bara rubrik räcker inte
+	from io import BytesIO
+
+	from pypdf import PdfWriter
+
+	skrivare = PdfWriter()
+	skrivare.add_blank_page(width=72, height=72)
+	ut = BytesIO()
+	skrivare.write(ut)
+	return ut.getvalue()
+
+
+TOM_PDF = _tom_pdf()
 
 
 class FraktTestCase(IntegrationTestCase):
@@ -178,3 +195,114 @@ class TestPriser(FraktTestCase):
 			(doc.fraktprodukt, doc.fraktpris, doc.kundpris, doc.docstatus), ("_Test DSV – Pall", 800, 900, 0)
 		)
 		self.assertTrue(doc.pris_hamtat)
+
+
+@contextmanager
+def mockad_sendify(priser=None, boka=None, dokument=TOM_PDF, sparning=None):
+	with (
+		patch(f"{SENDIFY}.skapa_sandning", return_value="S1"),
+		patch(f"{SENDIFY}.uppdatera_sandning"),
+		patch(f"{SENDIFY}.hamta_priser", return_value=([dict(p) for p in (priser or PRISER)], [])),
+		patch(
+			f"{SENDIFY}.boka",
+			**(
+				{"side_effect": boka}
+				if isinstance(boka, Exception)
+				else {
+					"return_value": boka or {"sparningsnummer": "TRK1", "dokumenttyper": ["label", "waybill"]}
+				}
+			),
+		) as b,
+		patch(
+			f"{SENDIFY}.hamta_dokument",
+			**({"side_effect": dokument} if isinstance(dokument, Exception) else {"return_value": dokument}),
+		),
+		patch(f"{SENDIFY}.hamta_sparning", return_value=sparning or []),
+	):
+		yield b
+
+
+class TestBoka(FraktTestCase):
+	def boka_dsv(self, doc):
+		bokning.hamta_priser(doc.name)
+		bokning.boka(doc.name, "T-DSV", "_Test DSV – Pall", 800, "SEK")
+		doc.reload()
+
+	def test_boka_uppdaterar_shipment_och_foljesedel(self):
+		doc, dn = self.shipment()
+		with mockad_sendify() as b:
+			self.boka_dsv(doc)
+		b.assert_called_once_with("T-DSV")
+		self.assertEqual((doc.docstatus, doc.status), (1, "Booked"))
+		self.assertEqual((doc.carrier, doc.carrier_service, doc.awb_number), ("_Test DSV", "Pall", "TRK1"))
+		self.assertEqual((doc.shipment_amount, doc.kundpris, doc.service_provider), (800, 900, "Sendify"))
+		self.assertEqual(
+			frappe.db.get_value("Delivery Note", dn.name, ["transporter_name", "lr_no"]),
+			("_Test DSV", "TRK1"),
+		)
+		filer = frappe.get_all(
+			"File",
+			filters={"attached_to_doctype": "Shipment", "attached_to_name": doc.name},
+			pluck="file_name",
+		)
+		self.assertEqual(sorted(filer), sorted([f"Etikett-{doc.name}.pdf", f"Fraktsedel-{doc.name}.pdf"]))
+		self.assertTrue(doc.etikett_hamtad)
+
+	def test_bokad_shipment_kan_inte_bokas_igen(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify() as b:
+			self.boka_dsv(doc)
+			self.assertRaises(
+				frappe.ValidationError, bokning.boka, doc.name, "T-DSV", "_Test DSV – Pall", 800
+			)
+		self.assertEqual(b.call_count, 1)
+
+	def test_misslyckad_bokning_lamnar_utkast(self):
+		doc, dn = self.shipment()
+		with mockad_sendify(boka=FraktFel("The booking token has expired")):
+			bokning.hamta_priser(doc.name)
+			with self.assertRaises(frappe.ValidationError) as fel:
+				bokning.boka(doc.name, "T-DSV", "_Test DSV – Pall", 800)
+		self.assertIn("expired", str(fel.exception))
+		self.assertEqual(frappe.db.get_value("Shipment", doc.name, "docstatus"), 0)
+		self.assertFalse(frappe.db.get_value("Delivery Note", dn.name, "lr_no"))
+
+	def test_fel_vid_dokumenthamtning_behaller_bokningen(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify(dokument=FraktFel("Dokumentet kunde inte hämtas")):
+			self.boka_dsv(doc)
+		self.assertEqual((doc.status, doc.etikett_hamtad), ("Booked", 0))
+		with mockad_sendify():
+			bokning.hamta_dokument(doc.name)
+		self.assertEqual(frappe.db.get_value("Shipment", doc.name, "etikett_hamtad"), 1)
+
+	def test_boka_vald_produkt_utan_prisandring(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify() as b:
+			bokning.hamta_priser(doc.name)
+			bokning.spara_val(doc.name, "_Test DSV – Pall", 790)  # 800 är inom 5 %
+			self.assertEqual(bokning.boka_vald_produkt(doc.name), {"status": "bokad"})
+		b.assert_called_once_with("T-DSV")
+
+	def test_boka_vald_produkt_med_prisandring_kraver_bekraftelse(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify() as b:
+			bokning.hamta_priser(doc.name)
+			bokning.spara_val(doc.name, "_Test DSV – Pall", 600)
+			self.assertEqual(
+				bokning.boka_vald_produkt(doc.name), {"status": "prisandring", "gammalt": 600, "nytt": 800}
+			)
+			b.assert_not_called()
+			self.assertEqual(bokning.boka_vald_produkt(doc.name, bekraftat=1), {"status": "bokad"})
+
+	def test_boka_vald_produkt_som_saknas(self):
+		doc, _dn = self.shipment()
+		frappe.get_doc(
+			{"doctype": "Fraktprodukt", "transportor": "_Test PostNord", "produkt": "Pall"}
+		).insert(ignore_if_duplicate=True)
+		frappe.db.set_value("Shipment", doc.name, "fraktprodukt", "_Test PostNord – Pall")
+		with mockad_sendify() as b:
+			svar = bokning.boka_vald_produkt(doc.name)
+		self.assertEqual(svar["status"], "saknas")
+		self.assertEqual(len(svar["priser"]), 2)
+		b.assert_not_called()
