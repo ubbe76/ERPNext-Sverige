@@ -10,7 +10,7 @@ frappe.ui.form.on("Fraktinstallningar", {
 					frappe.msgprint({
 						title: __("Anslutningen fungerar"),
 						indicator: "green",
-						message: __("Sendify-team: {0}", [message]),
+						message: __("Sendify-team: {0}", [frappe.utils.escape_html(message)]),
 					})
 				)
 		);

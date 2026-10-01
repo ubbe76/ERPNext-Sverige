@@ -18,7 +18,7 @@
 						limit: 1,
 					})
 					.then(([s]) => {
-						if (!s || !s.tracking_url) return;
+						if (!s || !/^https?:\/\//i.test(s.tracking_url || "")) return;
 						frm.dashboard.add_comment(
 							__("Spårning {0}: {1}", [
 								`<a href="${encodeURI(

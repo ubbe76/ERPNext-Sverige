@@ -25,11 +25,19 @@ frappe.ui.form.on("Shipment", {
 				grupp
 			);
 
-			frm.add_custom_button(__("Hämta priser"), () => hamta_priser(frm), grupp);
+			frm.add_custom_button(
+				__("Hämta priser"),
+				() => spara_forst(frm).then(() => hamta_priser(frm)),
+				grupp
+			);
 
 			if (frm.doc.fraktprodukt) {
 				const label = frm.doc.fraktpris ? __("Boka vald produkt") : __("Boka med förval");
-				frm.add_custom_button(label, () => boka_vald(frm, 0), grupp);
+				frm.add_custom_button(
+					label,
+					() => spara_forst(frm).then(() => boka_vald(frm, 0)),
+					grupp
+				);
 			}
 		}
 
@@ -69,9 +77,15 @@ frappe.ui.form.on("Shipment", {
 
 		if (frm.doc.senaste_sparningsstatus === "EXCEPTION") {
 			frm.dashboard.set_headline_alert(
-				__("Avvikelse hos transportören: {0}", [frm.doc.senaste_sparning]),
+				__("Avvikelse hos transportören: {0}", [
+					frappe.utils.escape_html(frm.doc.senaste_sparning || ""),
+				]),
 				"red"
 			);
+		}
+
+		function spara_forst(frm) {
+			return frm.is_dirty() ? frm.save() : Promise.resolve();
 		}
 
 		function hamta_priser(frm) {
@@ -137,8 +151,8 @@ frappe.ui.form.on("Shipment", {
 					if (svar.status === "prisandring") {
 						return frappe.confirm(
 							__("Priset har ändrats från {0} till {1}. Boka ändå?", [
-								format_currency(svar.gammalt),
-								format_currency(svar.nytt),
+								format_currency(svar.gammalt, frm.doc.fraktpris_valuta),
+								format_currency(svar.nytt, frm.doc.fraktpris_valuta),
 							]),
 							() => boka_vald(frm, 1)
 						);
