@@ -157,6 +157,61 @@ class TestSendify(IntegrationTestCase):
 		self.assertTrue(logg.called)
 		self.assertNotIn(NYCKEL, str(logg.call_args))
 
+	def test_fel_loggas_med_defer_insert(self):
+		with (
+			patch(
+				"erpnext_sverige.frakt.sendify.requests.request", return_value=svar(400, {"message": "Bad"})
+			),
+			patch("erpnext_sverige.frakt.sendify.frappe.log_error") as logg,
+		):
+			self.assertRaises(FraktFel, sendify.skapa_sandning, SANDNING)
+		self.assertTrue(logg.call_args.kwargs.get("defer_insert"))
+
+	def test_felformer_hanteras(self):
+		fall = [
+			({"errors": ["Fel ett", "Fel två"]}, ["Fel ett", "Fel två"]),
+			({"errors": [{"field": "to.contact.email", "message": "Invalid email."}]}, None),
+			({"errors": "Bara text"}, ["Bara text"]),
+			(["listsvar"], []),
+			("textsvar", []),
+		]
+		for data, forvantat in fall:
+			with self.subTest(data=data):
+				with patch("erpnext_sverige.frakt.sendify.requests.request", return_value=svar(422, data)):
+					with self.assertRaises(FraktFel) as fel:
+						sendify.skapa_sandning(SANDNING)
+				if forvantat is not None:
+					self.assertEqual(fel.exception.falt_fel, forvantat)
+				else:
+					self.assertEqual(fel.exception.falt_fel, ["Mottagare: e-post: Invalid email."])
+
+	def test_4xx_utan_json(self):
+		r = svar(400)
+		r.json.side_effect = ValueError("no json")
+		with patch("erpnext_sverige.frakt.sendify.requests.request", return_value=r):
+			self.assertRaisesRegex(FraktFel, "HTTP 400", sendify.skapa_sandning, SANDNING)
+
+	def test_tomt_eller_ogiltigt_2xx_svar_ger_fraktfel(self):
+		tomt = svar(200, None, content=b"")
+		ogiltigt = svar(200)
+		ogiltigt.json.side_effect = ValueError("no json")
+		lista = svar(200, ["x"])
+		anrop = [
+			lambda: sendify.skapa_sandning(SANDNING),
+			lambda: sendify.hamta_priser("S1", datetime(2026, 10, 5, 9)),
+			lambda: sendify.boka("T1"),
+			lambda: sendify.hamta_dokument("S1", "label"),
+			lambda: sendify.kontrollera_nyckel(),
+		]
+		for r in (tomt, ogiltigt, lista):
+			for a in anrop:
+				with patch("erpnext_sverige.frakt.sendify.requests.request", return_value=r):
+					self.assertRaisesRegex(FraktFel, "oväntat svar", a)
+
+	def test_boka_timeout_har_eget_meddelande(self):
+		with patch("erpnext_sverige.frakt.sendify.requests.request", side_effect=sendify.requests.Timeout()):
+			self.assertRaisesRegex(FraktFel, "Bokningen kan ha genomförts", sendify.boka, "T1")
+
 	def test_boka_och_dokument(self):
 		with patch(
 			"erpnext_sverige.frakt.sendify.requests.request",

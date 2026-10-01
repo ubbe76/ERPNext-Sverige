@@ -38,12 +38,14 @@ FALT = {
 	"email": "e-post",
 }
 EJ_SVARAR = "Sendify svarar inte, försök igen"
+EJ_SVARAR_BOKNING = "Sendify svarade inte på bokningen. Bokningen kan ha genomförts – kontrollera i Sendify innan du försöker igen."
+OVANTAT_SVAR = "Sendify gav ett oväntat svar"
 
 
 # --- HTTP ---------------------------------------------------------------------------------------------
 
 
-def _anrop(metod, sokvag, data=None, installningar=None):
+def _anrop(metod, sokvag, data=None, installningar=None, ej_svar=EJ_SVARAR):
 	inst = installningar or hamta_installningar()
 	try:
 		svar = requests.request(
@@ -54,19 +56,29 @@ def _anrop(metod, sokvag, data=None, installningar=None):
 			timeout=TIMEOUT,
 		)
 	except requests.RequestException:
-		raise FraktFel(_(EJ_SVARAR)) from None
+		raise FraktFel(_(ej_svar)) from None
 	request_id = svar.headers.get("X-Sendify-Request-ID")
 	if svar.status_code >= 400:
 		frappe.log_error(
 			title=f"Sendify {metod} {sokvag}",
 			message=f"HTTP {svar.status_code}\nX-Sendify-Request-ID: {request_id}\n{svar.text[:2000]}",
+			defer_insert=True,  # en vanlig insert rullas tillbaka när frappe.throw avbryter anropet
 		)
 		if svar.status_code >= 500:
 			raise FraktFel(_(EJ_SVARAR), request_id=request_id)
 		raise _fel_fran_svar(svar, request_id)
 	if svar.status_code == 204 or not svar.content:
 		return None
-	return svar.json()
+	try:
+		return svar.json()
+	except ValueError:
+		raise FraktFel(_(OVANTAT_SVAR), request_id=request_id) from None
+
+
+def _dict_svar(data, request_id=None) -> dict:
+	if not isinstance(data, dict):
+		raise FraktFel(_(OVANTAT_SVAR), request_id=request_id)
+	return data
 
 
 def _fel_fran_svar(svar, request_id):
@@ -74,11 +86,27 @@ def _fel_fran_svar(svar, request_id):
 		data = svar.json() or {}
 	except ValueError:
 		data = {}
+	if not isinstance(data, dict):
+		data = {}
 	falt_fel = []
-	for falt, meddelanden in (data.get("errors") or {}).items():
-		for meddelande in meddelanden if isinstance(meddelanden, list) else [meddelanden]:
-			falt_fel.append(f"{faltnamn(falt)}: {meddelande}")
+	fel = data.get("errors") or {}
+	if isinstance(fel, dict):
+		for falt, meddelanden in fel.items():
+			for meddelande in meddelanden if isinstance(meddelanden, list) else [meddelanden]:
+				falt_fel.append(f"{faltnamn(str(falt))}: {meddelande}")
+	else:
+		for post in fel if isinstance(fel, list) else [fel]:
+			if isinstance(post, dict):
+				text = post.get("message") or post.get("error")
+				if not text:
+					continue
+				falt = post.get("field")
+				falt_fel.append(f"{faltnamn(str(falt))}: {text}" if falt else str(text))
+			else:
+				falt_fel.append(str(post))
 	meddelande = data.get("message") or data.get("error")
+	if not isinstance(meddelande, str):
+		meddelande = None
 	if not meddelande:
 		meddelande = (
 			_("Sendify kunde inte behandla sändningen")
@@ -183,7 +211,10 @@ def _pris(r):
 
 
 def skapa_sandning(sandning) -> str:
-	return _anrop("POST", "/shipments", till_sendify(sandning))["id"]
+	data = _dict_svar(_anrop("POST", "/shipments", till_sendify(sandning)))
+	if not data.get("id"):
+		raise FraktFel(_(OVANTAT_SVAR))
+	return data["id"]
 
 
 def uppdatera_sandning(sendify_id, sandning) -> None:
@@ -195,8 +226,12 @@ def radera_sandning(sendify_id) -> None:
 
 
 def hamta_priser(sendify_id, upphamtning: datetime):
-	data = _anrop(
-		"POST", "/shipments/rates", {"shipment_id": sendify_id, "requested_pickup_time": _iso(upphamtning)}
+	data = _dict_svar(
+		_anrop(
+			"POST",
+			"/shipments/rates",
+			{"shipment_id": sendify_id, "requested_pickup_time": _iso(upphamtning)},
+		)
 	)
 	varningar = [
 		f"{w['carrier_name']}: {'; '.join(w.get('warnings') or [])}" for w in data.get("warnings") or []
@@ -205,7 +240,7 @@ def hamta_priser(sendify_id, upphamtning: datetime):
 
 
 def boka(token) -> dict:
-	data = _anrop("POST", "/shipments/book", {"booking_token": token})
+	data = _dict_svar(_anrop("POST", "/shipments/book", {"booking_token": token}, ej_svar=EJ_SVARAR_BOKNING))
 	return {
 		"sparningsnummer": data.get("main_tracking_id"),
 		"dokumenttyper": data.get("available_document_types") or [],
@@ -213,11 +248,20 @@ def boka(token) -> dict:
 
 
 def hamta_dokument(sendify_id, typ) -> bytes:
-	data = _anrop(
-		"POST",
-		"/shipments/print",
-		{"shipment_ids": [sendify_id], "document_type": typ, "label_layout": "a4", "output_format": "url"},
+	data = _dict_svar(
+		_anrop(
+			"POST",
+			"/shipments/print",
+			{
+				"shipment_ids": [sendify_id],
+				"document_type": typ,
+				"label_layout": "a4",
+				"output_format": "url",
+			},
+		)
 	)
+	if not data.get("output_url"):
+		raise FraktFel(_(OVANTAT_SVAR))
 	try:
 		pdf = requests.get(data["output_url"], timeout=TIMEOUT)
 	except requests.RequestException:
@@ -245,4 +289,4 @@ def hamta_sparning(sendify_id) -> list[dict]:
 
 
 def kontrollera_nyckel(installningar=None) -> str:
-	return _anrop("GET", "/status", installningar=installningar).get("team")
+	return _dict_svar(_anrop("GET", "/status", installningar=installningar)).get("team")
