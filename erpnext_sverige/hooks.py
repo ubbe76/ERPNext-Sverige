@@ -46,6 +46,10 @@ required_apps = ["erpnext"]
 doctype_js = {
 	"Customer": "public/js/vies.js",
 	"Supplier": "public/js/vies.js",
+	"Shipment": ["public/js/frakt_prisdialog.js", "public/js/frakt_shipment.js"],
+	"Delivery Note": ["public/js/frakt_forsaljning.js"],
+	"Quotation": ["public/js/frakt_prisdialog.js", "public/js/frakt_forsaljning.js"],
+	"Sales Order": ["public/js/frakt_prisdialog.js", "public/js/frakt_forsaljning.js"],
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
