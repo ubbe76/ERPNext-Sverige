@@ -46,6 +46,10 @@ required_apps = ["erpnext"]
 doctype_js = {
 	"Customer": "public/js/vies.js",
 	"Supplier": "public/js/vies.js",
+	"Shipment": ["public/js/frakt_prisdialog.js", "public/js/frakt_shipment.js"],
+	"Delivery Note": ["public/js/frakt_forsaljning.js"],
+	"Quotation": ["public/js/frakt_prisdialog.js", "public/js/frakt_forsaljning.js"],
+	"Sales Order": ["public/js/frakt_prisdialog.js", "public/js/frakt_forsaljning.js"],
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -150,8 +154,14 @@ after_migrate = "erpnext_sverige.setup.custom_fields.create_custom_fields"
 # ---------------
 # Hook on document methods and events
 
+extend_bootinfo = "erpnext_sverige.frakt.boot.extend_bootinfo"
+
 doc_events = {
+	"Item": {
+		"validate": "erpnext_sverige.frakt.kollin.validera_artikel",
+	},
 	"Sales Invoice": {
+		"before_insert": "erpnext_sverige.frakt.fraktpris.lagg_frakt_pa_faktura",
 		"validate": [
 			"erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
 			"erpnext_sverige.sweden_compliance.invoice.set_ocr",
@@ -172,10 +182,18 @@ doc_events = {
 	"Purchase Invoice": {
 		"validate": "erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
 	},
+	"Shipment": {
+		"before_cancel": "erpnext_sverige.frakt.bokning.avboka_vid_avbrott",
+		"on_trash": "erpnext_sverige.frakt.bokning.radera_vid_borttagning",
+	},
 }
 
 # Scheduled Tasks
 # ---------------
+
+scheduler_events = {
+	"hourly": ["erpnext_sverige.frakt.sparning.uppdatera_alla"],
+}
 
 # scheduler_events = {
 # 	"all": [

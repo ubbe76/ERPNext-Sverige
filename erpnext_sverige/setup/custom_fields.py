@@ -3,6 +3,8 @@ from frappe import _
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields as _create_custom_fields
 from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 
+from erpnext_sverige.frakt.custom_fields import get_custom_fields as get_frakt_custom_fields
+
 INVOICE_PRINT_FORMAT = "Faktura Sverige"
 # Svenska utskriftsmallar (sweden_compliance/print_format) per doctype
 PRINT_FORMATS = {
@@ -16,7 +18,7 @@ GOODS = "Vara"
 SERVICE = "Tjänst"
 
 
-def get_custom_fields():
+def _get_base_custom_fields():
 	return {
 		"Item": [
 			{
@@ -92,6 +94,13 @@ def get_custom_fields():
 			},
 		],
 	}
+
+
+def get_custom_fields():
+	fields = _get_base_custom_fields()
+	for doctype, frakt_fields in get_frakt_custom_fields().items():
+		fields.setdefault(doctype, []).extend(frakt_fields)
+	return fields
 
 
 def create_custom_fields():
