@@ -39,3 +39,17 @@ class TestFraktDoctypes(IntegrationTestCase):
 			misslyckas()
 		self.assertIn("Kolli 1: vikt", str(fel.exception))
 		self.assertIn("abc", str(fel.exception))
+
+	def test_request_id_escapas(self):
+		html = FraktFel("Fel", request_id="<script>x</script>").som_html()
+		self.assertNotIn("<script>", html)
+		self.assertIn("&lt;script&gt;", html)
+
+	def test_bootinfo_visar_om_frakt_ar_aktiverad(self):
+		from erpnext_sverige.frakt.boot import extend_bootinfo
+
+		for varde in (0, 1):
+			frappe.db.set_single_value("Fraktinstallningar", "aktiverad", varde)
+			boot = frappe._dict()
+			extend_bootinfo(boot)
+			self.assertEqual(boot.frakt_aktiverad, bool(varde))

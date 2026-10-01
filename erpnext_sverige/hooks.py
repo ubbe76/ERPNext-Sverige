@@ -154,6 +154,8 @@ after_migrate = "erpnext_sverige.setup.custom_fields.create_custom_fields"
 # ---------------
 # Hook on document methods and events
 
+extend_bootinfo = "erpnext_sverige.frakt.boot.extend_bootinfo"
+
 doc_events = {
 	"Item": {
 		"validate": "erpnext_sverige.frakt.kollin.validera_artikel",

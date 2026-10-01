@@ -5,8 +5,8 @@
 
 	frappe.ui.form.on("Delivery Note", {
 		refresh(frm) {
-			if (frm.doc.docstatus !== 1) return;
-			if (frm.doc.lr_no) {
+			if (!frappe.boot.frakt_aktiverad || frm.doc.docstatus !== 1) return;
+			if (frm.doc.lr_no && frappe.model.can_read("Shipment")) {
 				// Spårningslänk från den bokade försändelsen
 				frappe.db
 					.get_list("Shipment", {
@@ -33,6 +33,7 @@
 						);
 					});
 			}
+			if (!frappe.model.can_create("Shipment")) return;
 			frm.add_custom_button(
 				__("Boka transport"),
 				() =>
@@ -50,7 +51,7 @@
 
 	const erpnext_sverige_fraktpris = {
 		refresh(frm) {
-			if (frm.is_new() || frm.doc.docstatus === 2) return;
+			if (!frappe.boot.frakt_aktiverad || frm.is_new() || frm.doc.docstatus === 2) return;
 			frm.add_custom_button(__("Kontrollera fraktpris"), () => {
 				frappe
 					.call({

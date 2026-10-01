@@ -3,7 +3,7 @@ const FRAKT_BOKNING = "erpnext_sverige.frakt.bokning";
 
 frappe.ui.form.on("Shipment", {
 	refresh(frm) {
-		if (frm.is_new()) return;
+		if (!frappe.boot.frakt_aktiverad || frm.is_new()) return;
 		const grupp = __("Sendify");
 		const frakt = window.erpnext_sverige_frakt;
 
@@ -66,7 +66,7 @@ frappe.ui.form.on("Shipment", {
 						.then(() => frm.reload_doc()),
 				grupp
 			);
-			if (frm.doc.tracking_url) {
+			if (/^https?:\/\//i.test(frm.doc.tracking_url || "")) {
 				frm.add_custom_button(
 					__("Öppna spårning"),
 					() => window.open(frm.doc.tracking_url),

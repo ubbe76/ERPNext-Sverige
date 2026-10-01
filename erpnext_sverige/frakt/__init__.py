@@ -22,7 +22,7 @@ class FraktFel(Exception):
 				"<ul>" + "".join(f"<li>{frappe.utils.escape_html(f)}</li>" for f in self.falt_fel) + "</ul>"
 			)
 		if self.request_id:
-			rader.append(_("Referens hos Sendify: {0}").format(self.request_id))
+			rader.append(_("Referens hos Sendify: {0}").format(frappe.utils.escape_html(self.request_id)))
 		return "<br>".join(rader)
 
 
