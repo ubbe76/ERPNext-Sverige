@@ -151,6 +151,9 @@ after_migrate = "erpnext_sverige.setup.custom_fields.create_custom_fields"
 # Hook on document methods and events
 
 doc_events = {
+	"Item": {
+		"validate": "erpnext_sverige.frakt.kollin.validera_artikel",
+	},
 	"Sales Invoice": {
 		"validate": [
 			"erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
