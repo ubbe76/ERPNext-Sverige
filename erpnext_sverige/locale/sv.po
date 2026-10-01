@@ -12017,6 +12017,9 @@ msgstr "Forumaktivitet"
 msgid "Forum Posts"
 msgstr "Foruminlägg"
 
+msgid "Forpackningstyp"
+msgstr "Förpackningstyp"
+
 msgid "Forum URL"
 msgstr "Forumadress"
 
@@ -12028,6 +12031,9 @@ msgstr "Vidarebefordra till e-post"
 
 msgid "Fraction Units"
 msgstr "Bråkdelsenheter"
+
+msgid "Fraktinstallningar"
+msgstr "Fraktinställningar"
 
 msgid "Frappe CRM Allowed User"
 msgstr "Tillåten användare för Säljstöd"
@@ -28440,6 +28446,9 @@ msgstr "Sydafrika momskonto"
 
 msgid "SparkPost"
 msgstr "SparkPost"
+
+msgid "Sparningshandelse"
+msgstr "Spårningshändelse"
 
 msgid "Splash Image"
 msgstr "Splashbild"
