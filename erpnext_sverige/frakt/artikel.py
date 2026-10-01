@@ -21,13 +21,17 @@ def sakerstall_fraktartikel() -> None:
 				title="Fraktartikel", message="Ingen artikelgrupp finns, artikeln Frakt skapades inte"
 			)
 			return
+		enhet = _standardenhet()
+		if not enhet:
+			frappe.log_error(title="Fraktartikel", message="Ingen enhet finns, artikeln Frakt skapades inte")
+			return
 		frappe.get_doc(
 			{
 				"doctype": "Item",
 				"item_code": FRAKTARTIKEL,
 				"item_name": "Frakt",
 				"item_group": item_group,
-				"stock_uom": "Nos",
+				"stock_uom": enhet,
 				"is_stock_item": 0,
 				"is_sales_item": 1,
 				"is_purchase_item": 0,
@@ -57,3 +61,11 @@ def sakerstall_fraktartikel() -> None:
 	if not frappe.db.get_single_value("Fraktinstallningar", "fraktartikel"):
 		frappe.db.set_single_value("Fraktinstallningar", "fraktartikel", FRAKTARTIKEL)
 		frappe.clear_document_cache("Fraktinstallningar", "Fraktinstallningar")
+
+
+def _standardenhet() -> str | None:
+	"""Lagerinställningarnas standardenhet; enheterna kan ha svenska namn ("Styck" i stället för "Nos")."""
+	for enhet in (frappe.db.get_single_value("Stock Settings", "stock_uom"), "Nos"):
+		if enhet and frappe.db.exists("UOM", enhet):
+			return enhet
+	return frappe.db.get_value("UOM", {"enabled": 1, "must_be_whole_number": 1})
