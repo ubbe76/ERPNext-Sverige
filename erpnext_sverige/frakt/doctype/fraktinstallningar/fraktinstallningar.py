@@ -2,6 +2,8 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
+from erpnext_sverige.frakt import hamta_installningar, leverantor, visa_fraktfel
+
 
 class Fraktinstallningar(Document):
 	def validate(self):
@@ -18,3 +20,42 @@ class Fraktinstallningar(Document):
 			frappe.throw(_("Fyll i {0} innan transportbokning aktiveras").format(", ".join(saknas)))
 		if frappe.db.get_value("Account", self.fraktkonto, "company") != self.bolag:
 			frappe.throw(_("Fraktkontot tillhör inte bolaget {0}").format(self.bolag))
+
+
+@frappe.whitelist()
+@visa_fraktfel
+def testa_anslutning() -> str:
+	frappe.only_for(("System Manager", "Stock Manager"))
+	return leverantor().kontrollera_nyckel(hamta_installningar())
+
+
+@frappe.whitelist()
+@visa_fraktfel
+def hamta_transportorsprodukter() -> int:
+	"""Prisförfrågan på en exempelsändning (en EUR-pall från avsändaren till sig själv) för att fylla registret."""
+	from erpnext_sverige.frakt.fraktpris import priser_for_tillfallig_sandning
+	from erpnext_sverige.frakt.parter import avsandare, nasta_arbetsdag, upphamtningstid
+
+	frappe.only_for(("System Manager", "Stock Manager"))
+	inst = hamta_installningar()
+	part = avsandare(inst)
+	sandning = {
+		"avsandare": part,
+		"mottagare": part,
+		"kollin": [
+			{
+				"kollityp": "Pall",
+				"langd_cm": 120,
+				"bredd_cm": 80,
+				"hojd_cm": 100,
+				"vikt_kg": 200,
+				"antal": 1,
+				"stapelbar": 0,
+				"flakmeter": 0,
+				"beskrivning": _("Exempelsändning"),
+			},
+		],
+		"referens_id": "ERPNext exempelsändning",
+	}
+	svar = priser_for_tillfallig_sandning(sandning, upphamtningstid(nasta_arbetsdag(), inst.upphamtning_fran))
+	return len(svar["priser"])

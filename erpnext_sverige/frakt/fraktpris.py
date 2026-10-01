@@ -4,7 +4,9 @@ import frappe
 from frappe import _
 from frappe.utils import flt, rounded
 
-from erpnext_sverige.frakt import hamta_installningar
+from erpnext_sverige.frakt import FraktFel, hamta_installningar, leverantor, visa_fraktfel
+from erpnext_sverige.frakt.kollin import foresla_kollin
+from erpnext_sverige.frakt.parter import avsandare, nasta_arbetsdag, part, upphamtningstid
 
 
 def kundpris(pris: float) -> float:
@@ -77,3 +79,83 @@ def _redan_fakturerad(shipment) -> bool:
 			{"parenttype": "Sales Invoice", "description": ["like", f"%({shipment})"], "docstatus": ["<", 2]},
 		)
 	)
+
+
+FORSALJNING = ("Quotation", "Sales Order")
+
+
+def priser_for_tillfallig_sandning(sandning, upphamtning) -> dict:
+	"""Skapar en sändning hos leverantören, hämtar priser och raderar sändningen igen."""
+	lev = leverantor()
+	sendify_id = lev.skapa_sandning(sandning)
+	try:
+		priser, varningar = lev.hamta_priser(sendify_id, upphamtning)
+	finally:
+		try:
+			lev.radera_sandning(sendify_id)
+		except FraktFel:
+			frappe.log_error(title="Sendify: kunde inte radera tillfällig sändning", message=sendify_id)
+	return {"priser": registrera_produkter(priser), "varningar": varningar}
+
+
+@frappe.whitelist()
+@visa_fraktfel
+def kontrollera(doctype: str, name: str) -> dict:
+	if doctype not in FORSALJNING:
+		frappe.throw(_("Fraktpris kan bara kontrolleras på offert och försäljningsorder"))
+	doc = frappe.get_doc(doctype, name)
+	doc.check_permission("read")
+	inst = hamta_installningar()
+	kollin, varningar = foresla_kollin([(r.item_code, r.stock_qty) for r in doc.items])
+	if not kollin:
+		frappe.throw(_("Inga kollin kunde föreslås: {0}").format(", ".join(varningar)))
+	kund = (
+		doc.customer
+		if doctype == "Sales Order"
+		else (doc.party_name if doc.quotation_to == "Customer" else None)
+	)
+	privat = bool(kund) and frappe.db.get_value("Customer", kund, "customer_type") == "Individual"
+	sandning = {
+		"avsandare": avsandare(inst),
+		"mottagare": part(
+			doc.customer_name, doc.shipping_address_name or doc.customer_address, doc.contact_person, privat
+		),
+		"kollin": kollin,
+		"referens_id": f"{doctype} {name}",
+	}
+	datum = doc.get("delivery_date") or nasta_arbetsdag()
+	svar = priser_for_tillfallig_sandning(sandning, upphamtningstid(datum, inst.upphamtning_fran))
+	svar["varningar"] = varningar + svar["varningar"]
+	for p in svar["priser"]:
+		p["forvald"] = p["fraktprodukt"] == doc.get("fraktprodukt")
+	return svar
+
+
+@frappe.whitelist()
+def lagg_till_frakt(doctype: str, name: str, fraktprodukt: str, kundpris: float) -> None:
+	if doctype not in FORSALJNING:
+		frappe.throw(_("Frakt kan bara läggas till på offert och försäljningsorder"))
+	doc = frappe.get_doc(doctype, name)
+	doc.check_permission("write")
+	if doc.docstatus != 0:
+		frappe.throw(_("Frakt kan bara läggas till på ett utkast. Använd Spara val på godkända dokument."))
+	inst = hamta_installningar()
+	produkt = frappe.get_doc("Fraktprodukt", fraktprodukt)
+	beskrivning = _("Frakt {0} {1}").format(produkt.transportor, produkt.produkt)
+	befintlig = next((t for t in doc.taxes if t.account_head == inst.fraktkonto), None)
+	if befintlig:
+		befintlig.update({"charge_type": "Actual", "tax_amount": flt(kundpris), "description": beskrivning})
+	else:
+		cost_center = frappe.get_cached_value("Company", doc.company, "cost_center")
+		doc.append("taxes", fraktrad(inst.fraktkonto, beskrivning, kundpris, cost_center))
+	doc.fraktprodukt = fraktprodukt
+	doc.save()
+
+
+@frappe.whitelist()
+def spara_val_order(doctype: str, name: str, fraktprodukt: str) -> None:
+	if doctype not in FORSALJNING:
+		frappe.throw(_("Fel dokumenttyp"))
+	doc = frappe.get_doc(doctype, name)
+	doc.check_permission("write")
+	doc.db_set("fraktprodukt", fraktprodukt)

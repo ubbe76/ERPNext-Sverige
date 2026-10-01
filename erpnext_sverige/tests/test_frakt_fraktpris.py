@@ -1,10 +1,19 @@
 from datetime import date, datetime
+from unittest.mock import patch
 
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from erpnext_sverige.frakt import fraktpris, parter
-from erpnext_sverige.tests.frakt_utils import aktivera_frakt, make_kund_med_adress
+from erpnext_sverige.frakt import FraktFel, fraktpris, parter
+from erpnext_sverige.frakt.doctype.fraktinstallningar import fraktinstallningar
+from erpnext_sverige.tests.frakt_utils import (
+	aktivera_frakt,
+	make_eur_pall,
+	make_frakt_item,
+	make_kund_med_adress,
+)
+from erpnext_sverige.tests.test_frakt_bokning import PRISER, SENDIFY
+from erpnext_sverige.tests.utils import COMPANY
 
 
 class TestFraktpris(IntegrationTestCase):
@@ -49,3 +58,81 @@ class TestFraktpris(IntegrationTestCase):
 
 	def test_upphamtningstid(self):
 		self.assertEqual(parter.upphamtningstid("2026-10-05", "09:30:00"), datetime(2026, 10, 5, 9, 30))
+
+
+class TestPrisforfragan(IntegrationTestCase):
+	def setUp(self):
+		aktivera_frakt()
+		self.kund = make_kund_med_adress()
+		self.artikel = make_frakt_item(
+			"_Test Frakt Pallvara",
+			fraktsatt="Förpackning",
+			forpackningstyp=make_eur_pall(),
+			antal_per_forpackning=40,
+			weight_per_unit=2,
+		)
+
+	def order(self):
+		leverans = frappe.utils.add_days(frappe.utils.today(), 7)
+		return frappe.get_doc(
+			{
+				"doctype": "Sales Order",
+				"company": COMPANY,
+				"customer": self.kund,
+				"delivery_date": leverans,
+				"shipping_address_name": frappe.db.get_value(
+					"Address", {"address_title": f"{self.kund} leverans"}
+				),
+				"items": [{"item_code": self.artikel, "qty": 60, "rate": 100, "delivery_date": leverans}],
+			}
+		).insert()
+
+	def test_kontrollera_skapar_och_raderar_tillfallig_sandning(self):
+		so = self.order()
+		with (
+			patch(f"{SENDIFY}.skapa_sandning", return_value="TMP1") as skapa,
+			patch(f"{SENDIFY}.hamta_priser", return_value=([dict(p) for p in PRISER], [])),
+			patch(f"{SENDIFY}.radera_sandning") as radera,
+		):
+			svar = fraktpris.kontrollera("Sales Order", so.name)
+		self.assertEqual(skapa.call_args.args[0]["kollin"][0]["antal"], 2)
+		radera.assert_called_once_with("TMP1")
+		self.assertEqual([p["transportor"] for p in svar["priser"]], ["_Test DSV", "_Test DHL"])
+
+	def test_tillfallig_sandning_raderas_aven_vid_fel(self):
+		so = self.order()
+		with (
+			patch(f"{SENDIFY}.skapa_sandning", return_value="TMP1"),
+			patch(f"{SENDIFY}.hamta_priser", side_effect=FraktFel("Route not supported")),
+			patch(f"{SENDIFY}.radera_sandning") as radera,
+		):
+			self.assertRaises(frappe.ValidationError, fraktpris.kontrollera, "Sales Order", so.name)
+		radera.assert_called_once_with("TMP1")
+
+	def test_lagg_till_frakt_pa_utkast_ersatter_befintlig_rad(self):
+		so = self.order()
+		frappe.get_doc({"doctype": "Fraktprodukt", "transportor": "_Test DSV", "produkt": "Pall"}).insert(
+			ignore_if_duplicate=True
+		)
+		fraktpris.lagg_till_frakt("Sales Order", so.name, "_Test DSV – Pall", 900)
+		fraktpris.lagg_till_frakt("Sales Order", so.name, "_Test DSV – Pall", 950)
+		so.reload()
+		konto = frappe.db.get_single_value("Fraktinstallningar", "fraktkonto")
+		self.assertEqual([t.tax_amount for t in so.taxes if t.account_head == konto], [950])
+		self.assertEqual(so.fraktprodukt, "_Test DSV – Pall")
+
+	def test_lagg_till_frakt_pa_godkand_order_vagras(self):
+		so = self.order()
+		so.submit()
+		self.assertRaises(
+			frappe.ValidationError, fraktpris.lagg_till_frakt, "Sales Order", so.name, "_Test DSV – Pall", 900
+		)
+
+	def test_hamta_transportorsprodukter(self):
+		with (
+			patch(f"{SENDIFY}.skapa_sandning", return_value="TMP2"),
+			patch(f"{SENDIFY}.hamta_priser", return_value=([dict(p) for p in PRISER], [])),
+			patch(f"{SENDIFY}.radera_sandning"),
+		):
+			self.assertEqual(fraktinstallningar.hamta_transportorsprodukter(), 2)
+		self.assertTrue(frappe.db.exists("Fraktprodukt", "_Test DHL – Pall"))
