@@ -6,6 +6,8 @@ bolag vars kontoplan bygger på BAS.
     bench --site <site> execute erpnext_sverige.setup.company.setup_swedish_company --kwargs "{'company': '<bolag>'}"
 """
 
+import os
+
 import frappe
 from frappe import _
 
@@ -58,6 +60,11 @@ ITEM_TAX_TEMPLATES = [
 	("Momsfri", {"2611": 0, "2621": 0, "2631": 0, "2641": 0}),
 ]
 
+# Brevhuvud för de svenska utskriftsmallarna. ERPNext:s egna skriver ut doctypens engelska namn
+# ("Sales Invoice") och upprepar nummer och adress som mallarna redan visar.
+LETTER_HEAD = "Brevhuvud Sverige"
+ERPNEXT_LETTER_HEADS = ("Company Letterhead", "Company Letterhead - Grey")
+
 # Mallar från ERPNext:s svenska standarduppsättning, som bokför på summakonton (2610/2620/2630/2640)
 LEGACY_TEMPLATES = {
 	"Sales Taxes and Charges Template": [
@@ -93,8 +100,36 @@ def setup_swedish_company(company: str):
 	create_item_tax_templates(company, abbr)
 	create_tax_rules(company, abbr)
 	set_default_party_tax_category()
+	create_letter_head()
 	frappe.db.commit()
 	print(f"Svensk grunduppsättning klar för {company}")
+
+
+def create_letter_head():
+	"""Skapa "Brevhuvud Sverige" och gör det till standard i stället för ERPNext:s.
+
+	Ett befintligt brevhuvud skrivs inte över, och ett eget standardbrevhuvud behålls.
+	"""
+	if not frappe.db.exists("Letter Head", LETTER_HEAD):
+		path = os.path.join(
+			frappe.get_app_path("erpnext_sverige"),
+			"sweden_compliance",
+			"letter_head",
+			"brevhuvud_sverige.html",
+		)
+		frappe.get_doc(
+			{
+				"doctype": "Letter Head",
+				"letter_head_name": LETTER_HEAD,
+				"source": "HTML",
+				"content": frappe.read_file(path),
+			}
+		).insert(ignore_permissions=True)
+	current = frappe.db.get_value("Letter Head", {"is_default": 1, "disabled": 0})
+	if not current or current in ERPNEXT_LETTER_HEADS:
+		letter_head = frappe.get_doc("Letter Head", LETTER_HEAD)
+		letter_head.is_default = 1
+		letter_head.save(ignore_permissions=True)
 
 
 SWEDISH_NUMBER_FORMAT = "# ###,##"
