@@ -21,13 +21,27 @@ class TestFraktartikel(IntegrationTestCase):
 		item = frappe.get_doc("Item", FRAKTARTIKEL)
 		self.assertEqual(
 			(item.item_name, item.stock_uom, item.is_stock_item, item.is_sales_item, item.is_purchase_item),
-			("Frakt", "Nos", 0, 1, 0),
+			("Frakt", frappe.db.get_single_value("Stock Settings", "stock_uom") or "Nos", 0, 1, 0),
 		)
 		self.assertEqual(item.se_goods_or_service, "Vara")
 		self.assertEqual(
 			{d.company: d.income_account for d in item.item_defaults}.get(COMPANY), account("3520")
 		)
 		self.assertEqual(frappe.db.get_single_value("Fraktinstallningar", "fraktartikel"), FRAKTARTIKEL)
+
+	def test_artikeln_far_lagerinstallningarnas_standardenhet(self):
+		# Siter med svenska enhetsnamn saknar "Nos" (t.ex. "Styck"); standardenheten ska användas
+		if frappe.db.exists("Item", FRAKTARTIKEL):
+			frappe.delete_doc("Item", FRAKTARTIKEL, force=True)
+		tidigare = frappe.db.get_single_value("Stock Settings", "stock_uom")
+		self.addCleanup(frappe.db.commit)
+		self.addCleanup(frappe.delete_doc, "Item", FRAKTARTIKEL, force=True)
+		self.addCleanup(frappe.db.set_value, "UOM", "Nos", "enabled", 1)
+		self.addCleanup(frappe.db.set_single_value, "Stock Settings", "stock_uom", tidigare)
+		frappe.db.set_single_value("Stock Settings", "stock_uom", "Box")
+		frappe.db.set_value("UOM", "Nos", "enabled", 0)
+		execute()
+		self.assertEqual(frappe.db.get_value("Item", FRAKTARTIKEL, "stock_uom"), "Box")
 
 	def test_patchen_ar_idempotent_och_behaller_vald_artikel(self):
 		execute()
