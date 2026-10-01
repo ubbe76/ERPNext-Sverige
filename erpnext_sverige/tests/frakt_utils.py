@@ -119,3 +119,24 @@ def aktivera_frakt(**andringar):
 	inst.save()
 	frappe.clear_document_cache("Fraktinstallningar", "Fraktinstallningar")
 	return inst
+
+
+def make_foljesedel(kund, rader, po_no=None):
+	"""rader: [(item_code, qty)] eller [(item_code, qty, uom)]. Returnerar en godkänd följesedel."""
+	dn = frappe.get_doc(
+		{
+			"doctype": "Delivery Note",
+			"company": COMPANY,
+			"customer": kund,
+			"po_no": po_no,
+			"shipping_address_name": frappe.db.get_value("Address", {"address_title": f"{kund} leverans"}),
+			"contact_person": frappe.db.get_value("Contact", {"first_name": f"{kund} kontakt"}),
+			"items": [
+				{"item_code": r[0], "qty": r[1], "rate": 100, **({"uom": r[2]} if len(r) > 2 else {})}
+				for r in rader
+			],
+		}
+	)
+	dn.insert()
+	dn.submit()
+	return dn
