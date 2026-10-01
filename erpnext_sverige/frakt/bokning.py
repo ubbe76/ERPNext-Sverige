@@ -17,11 +17,12 @@ def _foljesedlar(doc) -> list[str]:
 
 
 def _lagerrader(foljesedlar) -> list[tuple[str, float]]:
+	filters = {"parent": ["in", foljesedlar], "parenttype": "Delivery Note"}
+	fraktartikel = frappe.db.get_single_value("Fraktinstallningar", "fraktartikel")
+	if fraktartikel:
+		filters["item_code"] = ["!=", fraktartikel]
 	return frappe.get_all(
-		"Delivery Note Item",
-		filters={"parent": ["in", foljesedlar], "parenttype": "Delivery Note"},
-		fields=["item_code", "stock_qty"],
-		as_list=True,
+		"Delivery Note Item", filters=filters, fields=["item_code", "stock_qty"], as_list=True
 	)
 
 

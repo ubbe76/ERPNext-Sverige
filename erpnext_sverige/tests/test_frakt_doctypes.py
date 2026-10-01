@@ -53,3 +53,31 @@ class TestFraktDoctypes(IntegrationTestCase):
 			boot = frappe._dict()
 			extend_bootinfo(boot)
 			self.assertEqual(boot.frakt_aktiverad, bool(varde))
+
+
+class TestFraktinstallningarArtikel(IntegrationTestCase):
+	def setUp(self):
+		from erpnext_sverige.tests.frakt_utils import aktivera_frakt
+
+		self.inst = aktivera_frakt()
+
+	def tearDown(self):
+		frappe.db.rollback()
+
+	def test_fraktartikel_kravs_nar_aktiverad(self):
+		self.inst.fraktartikel = None
+		self.assertRaises(frappe.ValidationError, self.inst.save)
+
+	def test_lagerford_fraktartikel_vagras(self):
+		from erpnext_sverige.tests.frakt_utils import make_frakt_item
+
+		artikel = make_frakt_item("_Test Lagerford frakt", is_stock_item=1, se_goods_or_service="Vara")
+		self.inst.fraktartikel = artikel
+		self.assertRaises(frappe.ValidationError, self.inst.save)
+
+	def test_fraktartikel_maste_vara_vara(self):
+		from erpnext_sverige.tests.frakt_utils import make_frakt_item
+
+		artikel = make_frakt_item("_Test Tjanst frakt", se_goods_or_service="Tjänst")
+		self.inst.fraktartikel = artikel
+		self.assertRaises(frappe.ValidationError, self.inst.save)

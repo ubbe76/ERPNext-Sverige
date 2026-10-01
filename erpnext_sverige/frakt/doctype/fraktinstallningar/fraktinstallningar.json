@@ -8,7 +8,7 @@
  "field_order": [
   "aktiverad", "leverantor", "miljo", "api_nyckel",
   "avsandare_section", "bolag", "avsandaradress", "avsandarkontakt", "column_break_1", "upphamtning_fran", "upphamtning_till",
-  "pris_section", "paslag_procent", "paslag_belopp", "column_break_2", "fraktkonto", "prisandring_grans_procent",
+  "pris_section", "paslag_procent", "paslag_belopp", "column_break_2", "fraktartikel", "prisandring_grans_procent",
   "sparning_section", "sparning_intervall", "senaste_sparningskorning"
  ],
  "fields": [
@@ -27,7 +27,7 @@
   {"fieldname": "paslag_procent", "fieldtype": "Percent", "label": "Påslag (%)"},
   {"fieldname": "paslag_belopp", "fieldtype": "Currency", "label": "Påslag (kr)", "options": "SEK"},
   {"fieldname": "column_break_2", "fieldtype": "Column Break"},
-  {"fieldname": "fraktkonto", "fieldtype": "Link", "label": "Fraktkonto", "options": "Account", "description": "Konto för fraktraden på order och faktura, normalt 3520"},
+  {"fieldname": "fraktartikel", "fieldtype": "Link", "label": "Fraktartikel", "options": "Item", "description": "Icke-lagerförd artikel som frakten faktureras som"},
   {"fieldname": "prisandring_grans_procent", "fieldtype": "Percent", "label": "Bekräfta prisändring över (%)", "default": "5"},
   {"fieldname": "sparning_section", "fieldtype": "Section Break", "label": "Spårning"},
   {"fieldname": "sparning_intervall", "fieldtype": "Select", "label": "Hämta spårning", "options": "Varje timme\nVar fjärde timme\nDagligen", "default": "Varje timme"},

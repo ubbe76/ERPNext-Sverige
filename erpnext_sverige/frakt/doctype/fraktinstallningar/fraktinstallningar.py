@@ -11,15 +11,29 @@ class Fraktinstallningar(Document):
 			return
 		saknas = [
 			self.meta.get_label(falt)
-			for falt in ("bolag", "avsandaradress", "fraktkonto")
+			for falt in ("bolag", "avsandaradress", "fraktartikel")
 			if not self.get(falt)
 		]
 		if not self.api_nyckel:
 			saknas.append(self.meta.get_label("api_nyckel"))
 		if saknas:
 			frappe.throw(_("Fyll i {0} innan transportbokning aktiveras").format(", ".join(saknas)))
-		if frappe.db.get_value("Account", self.fraktkonto, "company") != self.bolag:
-			frappe.throw(_("Fraktkontot tillhör inte bolaget {0}").format(self.bolag))
+		self.validera_fraktartikel()
+
+	def validera_fraktartikel(self):
+		from erpnext_sverige.setup.custom_fields import GOODS
+
+		lagerford, typ = frappe.db.get_value(
+			"Item", self.fraktartikel, ["is_stock_item", "se_goods_or_service"]
+		)
+		if lagerford:
+			frappe.throw(_("Fraktartikeln {0} får inte vara en lagerförd artikel").format(self.fraktartikel))
+		if typ != GOODS:
+			frappe.throw(
+				_("Fraktartikeln {0} måste ha Vara eller tjänst (moms) satt till Vara").format(
+					self.fraktartikel
+				)
+			)
 
 
 @frappe.whitelist()

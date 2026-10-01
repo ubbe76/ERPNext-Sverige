@@ -2,6 +2,7 @@
 
 import frappe
 
+from erpnext_sverige.frakt.artikel import FRAKTARTIKEL, sakerstall_fraktartikel
 from erpnext_sverige.setup.company import TAX_CATEGORY_SE
 from erpnext_sverige.tests.utils import COMPANY, account, ensure_test_company, make_party
 
@@ -47,7 +48,7 @@ def make_frakt_item(item_code, weight_uom="Kg", uoms=None, **fields):
 	return doc.name
 
 
-def make_adress(titel, lank_doctype, lank_namn, foretag=False):
+def make_adress(titel, lank_doctype, lank_namn, foretag=False, land="Sweden"):
 	namn = frappe.db.get_value("Address", {"address_title": titel})
 	if namn:
 		return namn
@@ -60,7 +61,7 @@ def make_adress(titel, lank_doctype, lank_namn, foretag=False):
 				"address_line1": "Testgatan 1",
 				"city": "Göteborg",
 				"pincode": "41107",
-				"country": "Sweden",
+				"country": land,
 				"is_your_company_address": int(foretag),
 				"links": [{"link_doctype": lank_doctype, "link_name": lank_namn}],
 			}
@@ -97,6 +98,7 @@ def make_kund_med_adress(namn="_Test Fraktkund"):
 
 def aktivera_frakt(**andringar):
 	ensure_test_company()
+	sakerstall_fraktartikel()
 	inst = frappe.get_doc("Fraktinstallningar")
 	inst.update(
 		{
@@ -111,7 +113,7 @@ def aktivera_frakt(**andringar):
 			"upphamtning_till": "16:00:00",
 			"paslag_procent": 10,
 			"paslag_belopp": 20,
-			"fraktkonto": account("3520"),
+			"fraktartikel": FRAKTARTIKEL,
 			"prisandring_grans_procent": 5,
 			**andringar,
 		}
