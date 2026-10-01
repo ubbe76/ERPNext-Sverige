@@ -86,6 +86,8 @@ bokföring. Funktionen går att köra flera gånger utan att något dubbleras.
 - Momsmallar som bokför på rätt BAS-konton (2611/2621/2631/2641)
 - Momskategorier med skatteregler för Sverige, EU (omvänd skattskyldighet) och länder utanför EU
 - Artikelmomsmallar för 12 %, 6 % och momsfritt
+- Brevhuvudet **Brevhuvud Sverige** (logotyp och bolagsnamn) som standard i stället för ERPNext:s, som
+  skriver ut dokumenttypen på engelska. Ett eget standardbrevhuvud behålls.
 
 ```bash
 bench --site <site> execute erpnext_sverige.setup.company.setup_swedish_company --kwargs "{'company': '<bolag>'}"

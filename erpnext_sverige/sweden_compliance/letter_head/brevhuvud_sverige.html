@@ -1,0 +1,12 @@
+{#- Logotyp och bolagsnamn. Adress, org.nr och betaluppgifter står i de svenska mallarnas sidfot, och
+    mallarna visar själva dokumentets titel och nummer. -#}
+{%- set company = doc.get("company") if doc else None -%}
+{%- if company -%}
+{%- set logo = frappe.db.get_value("Company", company, "company_logo") -%}
+<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px">
+	{%- if logo %}
+	<img src="{{ frappe.utils.get_url(logo) }}" alt="" style="max-height: 60px; max-width: 200px" />
+	{%- endif %}
+	<div style="font-size: 16px; font-weight: bold">{{ company }}</div>
+</div>
+{%- endif -%}
