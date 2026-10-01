@@ -1,3 +1,5 @@
+> Ändrat 2026-10-01: frakten faktureras som artikelraden Fraktartikel (Fraktinställningar.fraktartikel), inte som skatterad på fraktkonto.
+
 # Transportbokning via Sendify – design (etapp 1)
 
 ## Bakgrund

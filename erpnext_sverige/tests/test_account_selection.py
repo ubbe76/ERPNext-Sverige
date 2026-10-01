@@ -1,7 +1,12 @@
 import frappe
 from frappe.tests import IntegrationTestCase, UnitTestCase
 
-from erpnext_sverige.accounting.account_selection import PURCHASE, SALES, resolve_account
+from erpnext_sverige.accounting.account_selection import (
+	PURCHASE,
+	SALES,
+	resolve_account,
+	resolve_freight_account,
+)
 from erpnext_sverige.setup.company import TAX_CATEGORY_EU, TAX_CATEGORY_NON_EU, TAX_CATEGORY_SE
 from erpnext_sverige.setup.custom_fields import GOODS, SERVICE
 from erpnext_sverige.tests.utils import COMPANY, COMPANY_ABBR
@@ -21,6 +26,12 @@ class TestResolveAccount(UnitTestCase):
 		self.assertEqual(resolve_account(SALES, TAX_CATEGORY_EU, 25, SERVICE), "3308")
 		self.assertEqual(resolve_account(SALES, TAX_CATEGORY_NON_EU, 25, GOODS), "3105")
 		self.assertEqual(resolve_account(SALES, TAX_CATEGORY_NON_EU, 25, SERVICE), "3305")
+
+	def test_freight_account_by_tax_category(self):
+		self.assertEqual(resolve_freight_account(TAX_CATEGORY_SE), "3520")
+		self.assertEqual(resolve_freight_account(TAX_CATEGORY_EU), "3108")
+		self.assertEqual(resolve_freight_account(TAX_CATEGORY_NON_EU), "3105")
+		self.assertIsNone(resolve_freight_account(None))
 
 	def test_purchase_sweden_untouched(self):
 		self.assertIsNone(resolve_account(PURCHASE, TAX_CATEGORY_SE, 25, GOODS))

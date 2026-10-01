@@ -123,7 +123,7 @@ class TestPrisforfragan(IntegrationTestCase):
 			self.assertRaises(frappe.ValidationError, fraktpris.kontrollera, "Sales Order", so.name)
 		radera.assert_called_once_with("TMP1")
 
-	def test_lagg_till_frakt_pa_utkast_ersatter_befintlig_rad(self):
+	def test_lagg_till_frakt_pa_utkast_lagger_till_och_uppdaterar_artikelrad(self):
 		so = self.order()
 		frappe.get_doc({"doctype": "Fraktprodukt", "transportor": "_Test DSV", "produkt": "Pall"}).insert(
 			ignore_if_duplicate=True
@@ -131,9 +131,25 @@ class TestPrisforfragan(IntegrationTestCase):
 		fraktpris.lagg_till_frakt("Sales Order", so.name, "_Test DSV – Pall", 900)
 		fraktpris.lagg_till_frakt("Sales Order", so.name, "_Test DSV – Pall", 950)
 		so.reload()
-		konto = frappe.db.get_single_value("Fraktinstallningar", "fraktkonto")
-		self.assertEqual([t.tax_amount for t in so.taxes if t.account_head == konto], [950])
+		artikel = frappe.db.get_single_value("Fraktinstallningar", "fraktartikel")
+		rader = [r for r in so.items if r.item_code == artikel]
+		self.assertEqual([(r.qty, r.rate) for r in rader], [(1, 950)])
+		self.assertEqual(rader[0].description, "Frakt _Test DSV Pall")
+		self.assertEqual(rader[0].delivery_date, so.items[0].delivery_date)
+		self.assertEqual([t for t in so.taxes if t.charge_type == "Actual"], [])
 		self.assertEqual(so.fraktprodukt, "_Test DSV – Pall")
+
+	def test_kontrollera_foreslar_inte_kollin_for_fraktartikeln(self):
+		so = self.order()
+		fraktpris.lagg_till_frakt("Sales Order", so.name, "_Test DSV – Pall", 900)
+		with (
+			patch(f"{SENDIFY}.skapa_sandning", return_value="TMP1") as skapa,
+			patch(f"{SENDIFY}.hamta_priser", return_value=([dict(p) for p in PRISER], [])),
+			patch(f"{SENDIFY}.radera_sandning"),
+		):
+			fraktpris.kontrollera("Sales Order", so.name)
+		self.assertEqual(skapa.call_args.args[0]["kollin"][0]["antal"], 2)
+		self.assertEqual(len(skapa.call_args.args[0]["kollin"]), 1)
 
 	def test_lagg_till_frakt_pa_godkand_order_vagras(self):
 		so = self.order()

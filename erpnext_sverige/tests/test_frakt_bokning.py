@@ -66,6 +66,16 @@ class TestSkapaShipment(FraktTestCase):
 		self.assertEqual((p.kollityp, p.count, p.length, p.width, p.height), ("Pall", 3, 120, 80, 150))
 		self.assertGreater(doc.value_of_goods, 0)
 
+	def test_kollforslaget_hoppar_over_fraktartikeln(self):
+		from erpnext_sverige.frakt.artikel import FRAKTARTIKEL
+
+		utan, _dn = self.shipment()
+		med, _dn = self.shipment(rader=[(self.artikel, 100), (FRAKTARTIKEL, 1)])
+		self.assertEqual(
+			[(p.kollityp, p.count) for p in med.shipment_parcel],
+			[(p.kollityp, p.count) for p in utan.shipment_parcel],
+		)
+
 	def test_kollin_raknas_pa_lagerantal(self):
 		doc, _dn = self.shipment(rader=[(self.artikel, 8, "Box")])  # 80 st = 2 pallar
 		self.assertEqual(doc.shipment_parcel[0].count, 2)

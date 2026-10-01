@@ -30,7 +30,8 @@ PURCHASE_FOREIGN = {
 	(TAX_CATEGORY_NON_EU, SERVICE): "4531",
 }
 
-MANAGED_SALES = {"3000", *SALES_SE_BY_RATE.values(), *SALES_FOREIGN.values()}
+FREIGHT_SE = "3520"
+MANAGED_SALES = {"3000", FREIGHT_SE, *SALES_SE_BY_RATE.values(), *SALES_FOREIGN.values()}
 MANAGED_PURCHASE = {"4000", *PURCHASE_EU_GOODS_BY_RATE.values(), *PURCHASE_FOREIGN.values()}
 
 # Artikelmomsmallarnas utgående momskonton -> momssats
@@ -54,6 +55,13 @@ def resolve_account(side: str, tax_category: str | None, vat_rate: int, kind: st
 	return None
 
 
+def resolve_freight_account(tax_category: str | None) -> str | None:
+	"""Intäktskonto för fraktartikeln: 3520 för svenska kunder, annars samma som varor."""
+	if tax_category == TAX_CATEGORY_SE:
+		return FREIGHT_SE
+	return SALES_FOREIGN.get((tax_category, GOODS))
+
+
 def set_accounts_by_tax_category(doc, method=None):
 	"""doc_events-hook för Sales Invoice och Purchase Invoice (validate)."""
 	if not doc.tax_category or not doc.company:
@@ -69,6 +77,8 @@ def set_accounts_by_tax_category(doc, method=None):
 		"Company", doc.company, "enable_perpetual_inventory"
 	)
 
+	fraktartikel = side == SALES and frappe.db.get_single_value("Fraktinstallningar", "fraktartikel")
+
 	for row in doc.get("items"):
 		if not row.item_code:
 			continue
@@ -82,12 +92,15 @@ def set_accounts_by_tax_category(doc, method=None):
 		if perpetual_inventory and is_stock_item:
 			continue
 
-		number = resolve_account(
-			side,
-			doc.tax_category,
-			get_item_vat_rate(row.item_code, doc.company),
-			get_item_kind(row.item_code),
-		)
+		if fraktartikel and row.item_code == fraktartikel:
+			number = resolve_freight_account(doc.tax_category)
+		else:
+			number = resolve_account(
+				side,
+				doc.tax_category,
+				get_item_vat_rate(row.item_code, doc.company),
+				get_item_kind(row.item_code),
+			)
 		account = number and _account_by_number(doc.company, number)
 		if account:
 			row.set(fieldname, account)

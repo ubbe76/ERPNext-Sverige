@@ -104,8 +104,11 @@ def get_custom_fields():
 
 
 def create_custom_fields():
+	from erpnext_sverige.frakt.artikel import sakerstall_fraktartikel
+
 	_create_custom_fields(get_custom_fields(), update=True)
 	set_default_print_formats()
+	sakerstall_fraktartikel()
 
 
 def set_default_print_formats():

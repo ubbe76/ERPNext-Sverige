@@ -33,25 +33,17 @@ def registrera_produkter(priser: list[dict]) -> list[dict]:
 	return sorted(priser, key=lambda p: p["pris"])
 
 
-def fraktrad(konto, beskrivning, belopp, cost_center) -> dict:
-	return {
-		"charge_type": "Actual",
-		"account_head": konto,
-		"description": beskrivning,
-		"tax_amount": flt(belopp),
-		"cost_center": cost_center,
-	}
-
-
 def lagg_frakt_pa_faktura(doc, method=None):
-	"""Sales Invoice.before_insert: fraktrad per bokad Shipment på fakturans följesedlar, en gång per Shipment."""
+	"""Sales Invoice.before_insert: fraktartikel per bokad Shipment på fakturans följesedlar, en gång per Shipment."""
 	inst = frappe.get_cached_doc("Fraktinstallningar")
-	if not (inst.aktiverad and inst.fraktkonto and doc.company == inst.bolag):
+	if not (inst.aktiverad and inst.fraktartikel and doc.company == inst.bolag):
 		return
-	if any(t.account_head == inst.fraktkonto for t in doc.taxes):
+	if any(r.item_code == inst.fraktartikel for r in doc.items):
 		return
 	foljesedlar = list({r.delivery_note for r in doc.items if r.delivery_note})
 	if not foljesedlar:
+		return
+	if _frakt_redan_pa_foljesedlar(foljesedlar, inst.fraktartikel):
 		return
 	shipments = frappe.get_all(
 		"Shipment Delivery Note",
@@ -59,7 +51,6 @@ def lagg_frakt_pa_faktura(doc, method=None):
 		pluck="parent",
 		distinct=True,
 	)
-	cost_center = doc.cost_center or frappe.get_cached_value("Company", doc.company, "cost_center")
 	for s in frappe.get_all(
 		"Shipment",
 		filters={"name": ["in", shipments], "docstatus": 1, "status": ["in", ["Booked", "Completed"]]},
@@ -68,17 +59,54 @@ def lagg_frakt_pa_faktura(doc, method=None):
 	):
 		if not flt(s.kundpris) or _redan_fakturerad(s.name):
 			continue
-		beskrivning = _("Frakt {0} {1} ({2})").format(s.carrier, s.carrier_service, s.name)
-		doc.append("taxes", fraktrad(inst.fraktkonto, beskrivning, s.kundpris, cost_center))
+		doc.append(
+			"items",
+			{
+				"item_code": inst.fraktartikel,
+				"qty": 1,
+				"rate": flt(s.kundpris),
+				"description": _("Frakt {0} {1}").format(s.carrier, s.carrier_service),
+				"frakt_shipment": s.name,
+			},
+		)
+		_fyll_i_artikelrad(doc, doc.items[-1])
+
+
+def _frakt_redan_pa_foljesedlar(foljesedlar, fraktartikel) -> bool:
+	"""Frakt som redan följer med följesedlarna (från ordern) faktureras därifrån, inte av hooken."""
+	if frappe.db.exists(
+		"Delivery Note Item",
+		{"parent": ["in", foljesedlar], "item_code": fraktartikel, "docstatus": ["<", 2]},
+	):
+		return True
+	if frappe.db.exists(
+		"Sales Invoice Item",
+		{"delivery_note": ["in", foljesedlar], "item_code": fraktartikel, "docstatus": ["<", 2]},
+	):
+		return True
+	ordrar = frappe.get_all(
+		"Delivery Note Item",
+		filters={"parent": ["in", foljesedlar], "against_sales_order": ["is", "set"]},
+		pluck="against_sales_order",
+		distinct=True,
+	)
+	return bool(
+		ordrar
+		and frappe.db.exists(
+			"Sales Order Item", {"parent": ["in", ordrar], "item_code": fraktartikel, "docstatus": ["<", 2]}
+		)
+	)
+
+
+def _fyll_i_artikelrad(doc, rad) -> None:
+	"""before_insert körs efter mappningen, så uom, konto m.m. på den tillagda raden fylls i här."""
+	beskrivning, kurs = rad.description, rad.rate
+	doc.set_missing_item_details(for_validate=True)
+	rad.description, rad.rate = beskrivning, kurs
 
 
 def _redan_fakturerad(shipment) -> bool:
-	return bool(
-		frappe.db.exists(
-			"Sales Taxes and Charges",
-			{"parenttype": "Sales Invoice", "description": ["like", f"%({shipment})"], "docstatus": ["<", 2]},
-		)
-	)
+	return bool(frappe.db.exists("Sales Invoice Item", {"frakt_shipment": shipment, "docstatus": ["<", 2]}))
 
 
 FORSALJNING = ("Quotation", "Sales Order")
@@ -106,7 +134,9 @@ def kontrollera(doctype: str, name: str) -> dict:
 	doc = frappe.get_doc(doctype, name)
 	doc.check_permission("read")
 	inst = hamta_installningar()
-	kollin, varningar = foresla_kollin([(r.item_code, r.stock_qty) for r in doc.items])
+	kollin, varningar = foresla_kollin(
+		[(r.item_code, r.stock_qty) for r in doc.items if r.item_code != inst.fraktartikel]
+	)
 	if not kollin:
 		frappe.throw(_("Inga kollin kunde föreslås: {0}").format(", ".join(varningar)))
 	kund = (
@@ -144,12 +174,16 @@ def lagg_till_frakt(doctype: str, name: str, fraktprodukt: str, kundpris: float)
 	inst = hamta_installningar()
 	produkt = frappe.get_doc("Fraktprodukt", fraktprodukt)
 	beskrivning = _("Frakt {0} {1}").format(produkt.transportor, produkt.produkt)
-	befintlig = next((t for t in doc.taxes if t.account_head == inst.fraktkonto), None)
-	if befintlig:
-		befintlig.update({"charge_type": "Actual", "tax_amount": flt(kundpris), "description": beskrivning})
+	rad = next((r for r in doc.items if r.item_code == inst.fraktartikel), None)
+	if rad:
+		rad.update({"rate": flt(kundpris), "description": beskrivning})
 	else:
-		cost_center = frappe.get_cached_value("Company", doc.company, "cost_center")
-		doc.append("taxes", fraktrad(inst.fraktkonto, beskrivning, kundpris, cost_center))
+		rad = doc.append(
+			"items",
+			{"item_code": inst.fraktartikel, "qty": 1, "rate": flt(kundpris), "description": beskrivning},
+		)
+		if doctype == "Sales Order":
+			rad.delivery_date = doc.delivery_date or doc.items[0].delivery_date
 	doc.fraktprodukt = fraktprodukt
 	doc.save()
 

@@ -92,6 +92,17 @@ def get_custom_fields():
 				"description": "I lagerenhet",
 			},
 		],
+		"Sales Invoice Item": [
+			{
+				"fieldname": "frakt_shipment",
+				"label": "Försändelse (frakt)",
+				"fieldtype": "Link",
+				"options": "Shipment",
+				"read_only": 1,
+				"no_copy": 1,
+				"insert_after": "item_name",
+			},
+		],
 		"Customer": [
 			{
 				"fieldname": "forvald_fraktprodukt",
