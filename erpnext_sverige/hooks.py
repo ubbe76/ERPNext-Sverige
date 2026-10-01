@@ -155,6 +155,7 @@ doc_events = {
 		"validate": "erpnext_sverige.frakt.kollin.validera_artikel",
 	},
 	"Sales Invoice": {
+		"before_insert": "erpnext_sverige.frakt.fraktpris.lagg_frakt_pa_faktura",
 		"validate": [
 			"erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
 			"erpnext_sverige.sweden_compliance.invoice.set_ocr",
