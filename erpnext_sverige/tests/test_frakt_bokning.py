@@ -1,7 +1,9 @@
+from unittest.mock import patch
+
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from erpnext_sverige.frakt import bokning
+from erpnext_sverige.frakt import FraktFel, bokning
 from erpnext_sverige.tests.frakt_utils import (
 	aktivera_frakt,
 	make_eur_pall,
@@ -9,6 +11,8 @@ from erpnext_sverige.tests.frakt_utils import (
 	make_frakt_item,
 	make_kund_med_adress,
 )
+
+SENDIFY = "erpnext_sverige.frakt.sendify"
 
 
 class FraktTestCase(IntegrationTestCase):
@@ -24,6 +28,7 @@ class FraktTestCase(IntegrationTestCase):
 			weight_per_unit=2,
 			uoms=[("Box", 10)],
 		)
+		frappe.db.set_value("Customer", self.kund, "forvald_fraktprodukt", None)
 
 	def shipment(self, rader=None, **dn_falt):
 		dn = make_foljesedel(self.kund, rader or [(self.artikel, 100)], **dn_falt)
@@ -77,3 +82,99 @@ class TestSkapaShipment(FraktTestCase):
 		bokning.foresla_kollin_igen(doc.name)
 		doc.reload()
 		self.assertEqual(doc.shipment_parcel[0].count, 3)
+
+
+PRISER = [
+	{
+		"token": "T-DHL",
+		"transportorskod": "dhl",
+		"transportor": "_Test DHL",
+		"produkt": "Pall",
+		"pris": 900.0,
+		"valuta": "SEK",
+		"dagar_min": 2,
+		"dagar_max": 3,
+		"upphamtning": {},
+		"leverans": {},
+		"giltig_till": "2099-01-01T00:00:00Z",
+	},
+	{
+		"token": "T-DSV",
+		"transportorskod": "dsv",
+		"transportor": "_Test DSV",
+		"produkt": "Pall",
+		"pris": 800.0,
+		"valuta": "SEK",
+		"dagar_min": 1,
+		"dagar_max": 2,
+		"upphamtning": {},
+		"leverans": {},
+		"giltig_till": "2099-01-01T00:00:00Z",
+	},
+]
+
+
+def _fraktprodukt(transportor):
+	frappe.get_doc({"doctype": "Fraktprodukt", "transportor": transportor, "produkt": "Pall"}).insert(
+		ignore_if_duplicate=True
+	)
+
+
+class TestPriser(FraktTestCase):
+	def _priser(self):
+		return patch(
+			f"{SENDIFY}.hamta_priser", return_value=([dict(p) for p in PRISER], ["UPS: Name too long"])
+		)
+
+	def test_hamta_priser_skapar_sandning_och_sorterar(self):
+		doc, _dn = self.shipment()
+		with patch(f"{SENDIFY}.skapa_sandning", return_value="S1") as skapa, self._priser():
+			svar = bokning.hamta_priser(doc.name)
+		self.assertEqual(skapa.call_args.args[0]["referens_id"], doc.name)
+		self.assertEqual(frappe.db.get_value("Shipment", doc.name, "sendify_id"), "S1")
+		self.assertEqual([p["token"] for p in svar["priser"]], ["T-DSV", "T-DHL"])
+		self.assertEqual(svar["priser"][0]["kundpris"], 900)  # 800 * 1,1 + 20
+		self.assertEqual(svar["varningar"], ["UPS: Name too long"])
+
+	def test_andra_prisforfragan_uppdaterar_sandningen(self):
+		doc, _dn = self.shipment()
+		frappe.db.set_value("Shipment", doc.name, "sendify_id", "S1")
+		with (
+			patch(f"{SENDIFY}.skapa_sandning") as skapa,
+			patch(f"{SENDIFY}.uppdatera_sandning") as uppdatera,
+			patch(f"{SENDIFY}.hamta_priser", return_value=([dict(p) for p in PRISER], [])),
+		):
+			bokning.hamta_priser(doc.name)
+		skapa.assert_not_called()
+		self.assertEqual(uppdatera.call_args.args[0], "S1")
+
+	def test_forvald_produkt_markeras(self):
+		doc, _dn = self.shipment()
+		_fraktprodukt("_Test DHL")
+		frappe.db.set_value("Shipment", doc.name, "fraktprodukt", "_Test DHL – Pall")
+		with (
+			patch(f"{SENDIFY}.skapa_sandning", return_value="S1"),
+			patch(f"{SENDIFY}.hamta_priser", return_value=([dict(p) for p in PRISER], [])),
+		):
+			svar = bokning.hamta_priser(doc.name)
+		self.assertEqual([p["forvald"] for p in svar["priser"]], [False, True])
+
+	def test_hamta_priser_visar_sendifys_faltfel(self):
+		doc, _dn = self.shipment()
+		fel = FraktFel(
+			"Sendify kunde inte behandla sändningen", falt_fel=["Mottagare: e-post: The field is required."]
+		)
+		with patch(f"{SENDIFY}.skapa_sandning", side_effect=fel):
+			with self.assertRaises(frappe.ValidationError) as undantag:
+				bokning.hamta_priser(doc.name)
+		self.assertIn("Mottagare: e-post", str(undantag.exception))
+
+	def test_spara_val(self):
+		doc, _dn = self.shipment()
+		_fraktprodukt("_Test DSV")
+		bokning.spara_val(doc.name, "_Test DSV – Pall", 800, "SEK")
+		doc.reload()
+		self.assertEqual(
+			(doc.fraktprodukt, doc.fraktpris, doc.kundpris, doc.docstatus), ("_Test DSV – Pall", 800, 900, 0)
+		)
+		self.assertTrue(doc.pris_hamtat)

@@ -4,10 +4,12 @@ import frappe
 from erpnext.stock.doctype.delivery_note.delivery_note import make_shipment
 from frappe import _
 from frappe.contacts.doctype.address.address import get_address_display
+from frappe.utils import flt, now_datetime
 
-from erpnext_sverige.frakt import hamta_installningar
+from erpnext_sverige.frakt import hamta_installningar, leverantor, visa_fraktfel
+from erpnext_sverige.frakt.fraktpris import kundpris, registrera_produkter
 from erpnext_sverige.frakt.kollin import foresla_kollin
-from erpnext_sverige.frakt.parter import avsandare, nasta_arbetsdag, part
+from erpnext_sverige.frakt.parter import avsandare, nasta_arbetsdag, part, upphamtningstid
 
 
 def _foljesedlar(doc) -> list[str]:
@@ -130,3 +132,44 @@ def sandning_fran_shipment(doc) -> dict:
 		"avsandarens_referens": doc.avsandarens_referens,
 		"mottagarens_referens": doc.mottagarens_referens,
 	}
+
+
+def _synka_sandning(doc) -> str:
+	"""Skapar eller uppdaterar sändningen hos leverantören och returnerar dess id."""
+	lev = leverantor()
+	sandning = sandning_fran_shipment(doc)
+	if doc.sendify_id:
+		lev.uppdatera_sandning(doc.sendify_id, sandning)
+	else:
+		doc.db_set("sendify_id", lev.skapa_sandning(sandning))
+		frappe.db.commit()  # sändningen finns nu hos Sendify; spara id:t även om prisanropet misslyckas
+	return doc.sendify_id
+
+
+@frappe.whitelist()
+@visa_fraktfel
+def hamta_priser(shipment: str) -> dict:
+	doc = _utkast(shipment)
+	sendify_id = _synka_sandning(doc)
+	priser, varningar = leverantor().hamta_priser(
+		sendify_id, upphamtningstid(doc.pickup_date, doc.pickup_from)
+	)
+	priser = registrera_produkter(priser)
+	for p in priser:
+		p["forvald"] = p["fraktprodukt"] == doc.fraktprodukt
+	return {"priser": priser, "varningar": varningar}
+
+
+@frappe.whitelist()
+def spara_val(shipment: str, fraktprodukt: str, pris: float, valuta: str = "SEK") -> None:
+	doc = _utkast(shipment)
+	doc.update(
+		{
+			"fraktprodukt": fraktprodukt,
+			"fraktpris": flt(pris),
+			"fraktpris_valuta": valuta,
+			"kundpris": kundpris(pris),
+			"pris_hamtat": now_datetime(),
+		}
+	)
+	doc.save()
