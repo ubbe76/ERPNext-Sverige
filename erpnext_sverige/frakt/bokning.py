@@ -189,6 +189,49 @@ def boka(shipment: str, token: str, fraktprodukt: str, pris: float, valuta: str 
 
 
 def _spara_bokning(doc, fraktprodukt, pris, valuta, resultat):
+	try:
+		_spara_lokalt(doc, fraktprodukt, pris, valuta, resultat)
+	except Exception:
+		# Bokningen finns redan hos Sendify – spårningsnumret får inte gå förlorat
+		frappe.db.rollback()
+		nummer = resultat["sparningsnummer"]
+		frappe.log_error(
+			title=f"Sendify: bokning {doc.name} kunde inte sparas",
+			message=f"Sendify-id: {doc.sendify_id}\nSpårningsnummer: {nummer}\n\n{frappe.get_traceback()}",
+		)
+		frappe.db.commit()
+		frappe.throw(
+			_(
+				"Försändelsen bokades hos Sendify med spårningsnummer {0}, men kunde inte sparas i ERPNext. "
+				"Kontakta support eller avboka den hos Sendify."
+			).format(nummer)
+		)
+
+	try:
+		_hamta_dokument(doc)
+	except Exception as fel:
+		frappe.db.rollback()
+		frappe.log_error(title=f"Sendify: fraktsedel för {doc.name} kunde inte hämtas")
+		frappe.db.commit()
+		frappe.msgprint(
+			_(
+				"Bokningen är klar, men fraktsedeln kunde inte hämtas: {0}. Använd knappen Hämta fraktsedel."
+			).format(getattr(fel, "meddelande", None) or fel),
+			indicator="orange",
+		)
+	try:
+		from erpnext_sverige.frakt.sparning import uppdatera_shipment
+
+		uppdatera_shipment(doc)
+	except ImportError:
+		pass  # spårningen hämtas av schemaläggaren
+	except Exception:
+		frappe.db.rollback()
+		frappe.log_error(title=f"Sendify: spårning för {doc.name} kunde inte hämtas")
+		frappe.db.commit()
+
+
+def _spara_lokalt(doc, fraktprodukt, pris, valuta, resultat):
 	produkt = frappe.get_doc("Fraktprodukt", fraktprodukt)
 	if not doc.kundpris or doc.fraktprodukt != fraktprodukt:
 		doc.kundpris = kundpris(pris)
@@ -219,22 +262,6 @@ def _spara_bokning(doc, fraktprodukt, pris, valuta, resultat):
 			},
 		)
 	frappe.db.commit()  # bokningen är gjord hos leverantören – spara innan dokument och spårning hämtas
-
-	try:
-		_hamta_dokument(doc)
-	except FraktFel as fel:
-		frappe.msgprint(
-			_(
-				"Bokningen är klar, men fraktsedeln kunde inte hämtas: {0}. Använd knappen Hämta fraktsedel."
-			).format(fel.meddelande),
-			indicator="orange",
-		)
-	try:
-		from erpnext_sverige.frakt.sparning import uppdatera_shipment
-
-		uppdatera_shipment(doc)
-	except (FraktFel, ImportError):
-		pass  # spårningen hämtas av schemaläggaren
 
 
 def _hamta_dokument(doc):

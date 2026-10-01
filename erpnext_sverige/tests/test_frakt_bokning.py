@@ -276,6 +276,24 @@ class TestBoka(FraktTestCase):
 			bokning.hamta_dokument(doc.name)
 		self.assertEqual(frappe.db.get_value("Shipment", doc.name, "etikett_hamtad"), 1)
 
+	def test_ogiltigt_dokument_ger_inget_undantag(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify(dokument=b"<html>error</html>"):
+			self.boka_dsv(doc)
+		self.assertEqual((doc.status, doc.etikett_hamtad), ("Booked", 0))
+
+	def test_fel_efter_bokning_hos_sendify_bevarar_sparningsnummer(self):
+		doc, _dn = self.shipment()
+		with mockad_sendify():
+			bokning.hamta_priser(doc.name)
+			with patch("frappe.model.document.Document.submit", side_effect=RuntimeError("db")):
+				with self.assertRaises(frappe.ValidationError) as fel:
+					bokning.boka(doc.name, "T-DSV", "_Test DSV – Pall", 800)
+		self.assertIn("TRK1", str(fel.exception))
+		self.assertTrue(
+			frappe.db.exists("Error Log", {"method": f"Sendify: bokning {doc.name} kunde inte sparas"})
+		)
+
 	def test_boka_vald_produkt_utan_prisandring(self):
 		doc, _dn = self.shipment()
 		with mockad_sendify() as b:
