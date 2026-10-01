@@ -46,8 +46,8 @@ class TestSieExport(IntegrationTestCase):
 		service = make_item("TEST-SE-TJANST", kind=SERVICE)
 		customer = make_party("Customer", "Test SE Kund AB", TAX_CATEGORY_SE)
 		supplier = make_party("Supplier", "Test SE Leverantör AB", TAX_CATEGORY_SE)
-		make_invoice("Sales Invoice", customer, [(service, 1000)])
-		make_invoice("Purchase Invoice", supplier, [(service, 400)])
+		self.sales_invoice = make_invoice("Sales Invoice", customer, [(service, 1000)]).name
+		self.purchase_invoice = make_invoice("Purchase Invoice", supplier, [(service, 400)]).name
 		cancelled = make_invoice("Sales Invoice", customer, [(service, 100)])
 		cancelled.cancel()
 
@@ -82,6 +82,8 @@ class TestSieExport(IntegrationTestCase):
 
 		texts = " ".join(vouchers)
 		self.assertIn("Makulering av", texts)
+		self.assertIn(self.sales_invoice, texts)
+		self.assertIn(self.purchase_invoice, texts)
 
 		# Numren löper 1, 2, 3 … inom varje serie
 		numbers = [int(head.split()[2]) for head in vouchers if head.split()[1] == "B"]
@@ -89,7 +91,12 @@ class TestSieExport(IntegrationTestCase):
 
 	def test_sales_invoice_rows(self):
 		vouchers = self.parse_vouchers(self.sie_lines())
-		sale = next(rows for head, rows in vouchers.items() if " B " in head and "Makulering" not in head)
+		# Andra tester (t.ex. frakt) lämnar fakturor kvar i samma bolag och period, så leta upp den egna fakturan
+		sale = next(
+			rows
+			for head, rows in vouchers.items()
+			if " B " in head and self.sales_invoice in head and "Makulering" not in head
+		)
 		accounts = dict(sale)
 		self.assertEqual(accounts["1510"], 1250)
 		self.assertEqual(accounts["3001"], -1000)
