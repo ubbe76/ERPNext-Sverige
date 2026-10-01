@@ -185,6 +185,10 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
+scheduler_events = {
+	"hourly": ["erpnext_sverige.frakt.sparning.uppdatera_alla"],
+}
+
 # scheduler_events = {
 # 	"all": [
 # 		"erpnext_sverige.tasks.all"
