@@ -135,6 +135,43 @@ räkenskapsår. Knappen **Ladda ner SIE-fil** ger en SIE 4-fil (PC8) till reviso
 
 Bokslutsverifikationer (Period Closing Voucher) exporteras inte, eftersom det mottagande programmet gör eget bokslut.
 
+### Frakt via Sendify
+
+Transportbokning via [Sendify](https://www.sendify.se), som förmedlar bland annat DHL, UPS, DSV, PostNord och
+Schenker. Modulen **Frakt** bygger på ERPNext:s Shipment (försändelse).
+
+**Inställningar** (Fraktinställningar): miljö (Sandlåda eller Produktion), API-nyckel (skapas i Sendify under
+*Settings → API*, sparas krypterad), avsändande bolag, adress och kontakt, upphämtningstider, påslag på
+fraktpriset (procent och/eller kronor) och fraktartikeln. **Testa anslutning** kontrollerar nyckeln och
+**Hämta transportörsprodukter** fyller registret Fraktprodukt. Frakten används först när **Aktiverad** är ikryssad.
+
+**Kollin**: på artikeln anges fraktsätt, antingen egna mått (längd, bredd, höjd, eventuellt pallplatser som räknas
+om till flakmeter) eller en förpackningstyp (t.ex. EUR-pall) med antal per förpackning. Utifrån det föreslås kollin.
+
+**Boka**:
+
+1. På en godkänd följesedel skapar **Skapa → Boka transport** en försändelse med föreslagna kollin, som går att
+   ändra (**Föreslå kollin igen** gör ett nytt förslag).
+2. **Hämta priser** visar alla transportörers priser och kundpris. Välj och **Boka**, eller **Spara val** och boka
+   senare. En kund kan ha en förvald fraktprodukt som bokas direkt med **Boka med förval**.
+3. Vid bokning beställs alltid upphämtning. Transportör och fraktsedelsnummer skrivs på följesedeln, och
+   fraktsedel och etikett sparas som PDF-bilagor på försändelsen (**Hämta fraktsedel** hämtar dem igen).
+4. Har priset ändrats mer än **Bekräfta prisändring över (%)** (standard 5 %) sedan valet sparades måste
+   ändringen bekräftas. Ett utgånget pris måste hämtas igen.
+
+Avbryts försändelsen i ERPNext avbokas den hos Sendify.
+
+**Spårning** hämtas varje timme för bokade försändelser och visas på försändelsen (**Uppdatera spårning**,
+**Öppna spårning**). Vid leverans blir försändelsen *Completed*, och avvikelser hos transportören visas.
+
+**Frakt på fakturan**: när en kundfaktura skapas från en följesedel med bokad försändelse läggs frakten till som
+en rad med fraktartikeln (kundpris = Sendifys pris plus påslag). Raden går att ändra. På offert och
+försäljningsorder hämtar **Kontrollera fraktpris** priser utan att boka, och **Lägg till frakt** lägger frakten på
+ordern, som då inte faktureras igen från försändelsen.
+
+I sandlådan fungerar fullständig bokning bara med DHL, UPS och DSV, och spårningen ger bara händelsen `ORDERED`.
+Ombud, tull, egen inlämning och flera Sendify-konton stöds inte än.
+
 ### Kontrollskript för nya strängar
 
 När Frappe eller ERPNext uppdateras kan nya strängar med särskrivningar tillkomma. Skriptet
@@ -151,8 +188,7 @@ Utan `title_case_only` listas fler kandidater, men då följer också fler falsk
 Se [TODO.md](TODO.md). Det viktigaste:
 
 - **PAXml-export** av tid och frånvaro till svenska lönesystem (t.ex. Visma Lön, Hogia, Fortnox Lön)
-- **Transportbokning i Sverige**: boka frakt, skriv ut fraktsedlar och spåra sändningar hos t.ex. PostNord,
-  DHL, Schenker och Bring
+- **Frakt, etapp 2 och 3**: leverans till ombud för privatpersoner och tullinformation vid export utanför EU
 - **E-faktura för Sverige**: skicka och ta emot fakturor enligt Peppol BIS Billing 3.0, vilket är krav vid
   fakturering till offentlig sektor
 
