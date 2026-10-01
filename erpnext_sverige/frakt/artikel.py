@@ -16,6 +16,11 @@ def sakerstall_fraktartikel() -> None:
 	if not frappe.db.exists("Item", FRAKTARTIKEL):
 		item_group = "Services" if frappe.db.exists("Item Group", "Services") else None
 		item_group = item_group or frappe.db.get_value("Item Group", {"is_group": 0})
+		if not item_group:
+			frappe.log_error(
+				title="Fraktartikel", message="Ingen artikelgrupp finns, artikeln Frakt skapades inte"
+			)
+			return
 		frappe.get_doc(
 			{
 				"doctype": "Item",
@@ -41,6 +46,13 @@ def sakerstall_fraktartikel() -> None:
 			andrad = True
 	if andrad:
 		item.save(ignore_permissions=True)
+
+	if item.is_stock_item or item.se_goods_or_service != GOODS:
+		frappe.log_error(
+			title="Fraktartikel",
+			message="Artikeln Frakt är lagerförd eller inte Vara och används inte som fraktartikel",
+		)
+		return
 
 	if not frappe.db.get_single_value("Fraktinstallningar", "fraktartikel"):
 		frappe.db.set_single_value("Fraktinstallningar", "fraktartikel", FRAKTARTIKEL)

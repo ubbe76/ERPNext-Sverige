@@ -1,3 +1,5 @@
+> Ändrat 2026-10-01: frakten faktureras som artikelraden Fraktartikel (Fraktinställningar.fraktartikel), inte som skatterad på fraktkonto.
+
 # Transportbokning via Sendify (etapp 1) – implementationsplan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.

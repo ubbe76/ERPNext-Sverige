@@ -1,7 +1,7 @@
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from erpnext_sverige.frakt.artikel import FRAKTARTIKEL
+from erpnext_sverige.frakt.artikel import FRAKTARTIKEL, sakerstall_fraktartikel
 from erpnext_sverige.patches.skapa_fraktartikel import execute
 from erpnext_sverige.tests.utils import COMPANY, account, ensure_test_company
 
@@ -37,3 +37,10 @@ class TestFraktartikel(IntegrationTestCase):
 		frappe.db.set_single_value("Fraktinstallningar", "fraktartikel", "_Annan")
 		execute()
 		self.assertEqual(frappe.db.get_single_value("Fraktinstallningar", "fraktartikel"), "_Annan")
+
+	def test_ogiltig_befintlig_fraktartikel_pekas_inte_ut(self):
+		execute()
+		frappe.db.set_value("Item", FRAKTARTIKEL, "se_goods_or_service", "Tjänst")
+		frappe.db.set_single_value("Fraktinstallningar", "fraktartikel", None)
+		sakerstall_fraktartikel()
+		self.assertFalse(frappe.db.get_single_value("Fraktinstallningar", "fraktartikel"))

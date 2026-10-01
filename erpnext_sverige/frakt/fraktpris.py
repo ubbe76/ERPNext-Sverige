@@ -43,6 +43,8 @@ def lagg_frakt_pa_faktura(doc, method=None):
 	foljesedlar = list({r.delivery_note for r in doc.items if r.delivery_note})
 	if not foljesedlar:
 		return
+	if _frakt_redan_pa_foljesedlar(foljesedlar, inst.fraktartikel):
+		return
 	shipments = frappe.get_all(
 		"Shipment Delivery Note",
 		filters={"delivery_note": ["in", foljesedlar], "parenttype": "Shipment"},
@@ -68,6 +70,32 @@ def lagg_frakt_pa_faktura(doc, method=None):
 			},
 		)
 		_fyll_i_artikelrad(doc, doc.items[-1])
+
+
+def _frakt_redan_pa_foljesedlar(foljesedlar, fraktartikel) -> bool:
+	"""Frakt som redan följer med följesedlarna (från ordern) faktureras därifrån, inte av hooken."""
+	if frappe.db.exists(
+		"Delivery Note Item",
+		{"parent": ["in", foljesedlar], "item_code": fraktartikel, "docstatus": ["<", 2]},
+	):
+		return True
+	if frappe.db.exists(
+		"Sales Invoice Item",
+		{"delivery_note": ["in", foljesedlar], "item_code": fraktartikel, "docstatus": ["<", 2]},
+	):
+		return True
+	ordrar = frappe.get_all(
+		"Delivery Note Item",
+		filters={"parent": ["in", foljesedlar], "against_sales_order": ["is", "set"]},
+		pluck="against_sales_order",
+		distinct=True,
+	)
+	return bool(
+		ordrar
+		and frappe.db.exists(
+			"Sales Order Item", {"parent": ["in", ordrar], "item_code": fraktartikel, "docstatus": ["<", 2]}
+		)
+	)
 
 
 def _fyll_i_artikelrad(doc, rad) -> None:

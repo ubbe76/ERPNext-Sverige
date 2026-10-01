@@ -6,7 +6,7 @@ from erpnext_sverige.frakt import bokning
 from erpnext_sverige.setup.company import TAX_CATEGORY_EU
 from erpnext_sverige.tests.frakt_utils import make_adress, make_foljesedel, make_kontakt
 from erpnext_sverige.tests.test_frakt_bokning import FraktTestCase, mockad_sendify
-from erpnext_sverige.tests.utils import account, make_party
+from erpnext_sverige.tests.utils import COMPANY, account, make_party
 
 
 class TestFraktPaFaktura(FraktTestCase):
@@ -93,3 +93,63 @@ class TestFraktPaFaktura(FraktTestCase):
 		faktura = make_sales_invoice(dn.name)
 		faktura.insert()
 		self.assertEqual(self.fraktrader(faktura), [])
+
+	def order_med_frakt(self):
+		from erpnext.selling.doctype.sales_order.sales_order import make_delivery_note
+
+		from erpnext_sverige.frakt import fraktpris
+
+		leverans = frappe.utils.add_days(frappe.utils.today(), 7)
+		so = frappe.get_doc(
+			{
+				"doctype": "Sales Order",
+				"company": COMPANY,
+				"customer": self.kund,
+				"delivery_date": leverans,
+				"shipping_address_name": frappe.db.get_value(
+					"Address", {"address_title": f"{self.kund} leverans"}
+				),
+				"items": [{"item_code": self.artikel, "qty": 100, "rate": 100, "delivery_date": leverans}],
+			}
+		).insert()
+		frappe.get_doc({"doctype": "Fraktprodukt", "transportor": "_Test DSV", "produkt": "Pall"}).insert(
+			ignore_if_duplicate=True
+		)
+		fraktpris.lagg_till_frakt("Sales Order", so.name, "_Test DSV – Pall", 900)
+		so.reload()
+		so.submit()
+		dn = make_delivery_note(so.name)
+		dn.insert()
+		dn.submit()
+		doc = frappe.get_doc("Shipment", bokning.skapa_shipment(dn.name))
+		with mockad_sendify():
+			bokning.hamta_priser(doc.name)
+			bokning.boka(doc.name, "T-DSV", "_Test DSV – Pall", 800)
+		return dn
+
+	def test_order_med_frakt_ger_en_fraktrad_pa_fakturan(self):
+		dn = self.order_med_frakt()
+		faktura = make_sales_invoice(dn.name)
+		faktura.insert()
+		self.assertEqual(len(self.fraktrader(faktura)), 1)
+
+	def test_order_med_frakt_ger_ingen_extra_frakt_pa_delfaktura_2(self):
+		dn = self.order_med_frakt()
+		forsta = make_sales_invoice(dn.name)
+		forsta.items[0].qty = 50
+		forsta.insert()
+		forsta.submit()  # ERPNext räknar bara godkända fakturor som fakturerat
+		andra = make_sales_invoice(dn.name)
+		andra.insert()
+		self.assertEqual(len(self.fraktrader(forsta)) + len(self.fraktrader(andra)), 1)
+
+	def test_borttagen_orderfrakt_pa_faktura_1_ger_ingen_ny_frakt_pa_faktura_2(self):
+		dn = self.order_med_frakt()
+		forsta = make_sales_invoice(dn.name)
+		forsta.items = [r for r in forsta.items if r.item_code != "Frakt"]
+		forsta.items[0].qty = 50
+		forsta.insert()
+		andra = make_sales_invoice(dn.name)
+		andra.items = [r for r in andra.items if r.item_code != "Frakt"]
+		andra.insert()
+		self.assertEqual(len(self.fraktrader(forsta)) + len(self.fraktrader(andra)), 0)
