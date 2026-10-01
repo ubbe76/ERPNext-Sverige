@@ -175,6 +175,10 @@ doc_events = {
 	"Purchase Invoice": {
 		"validate": "erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
 	},
+	"Shipment": {
+		"before_cancel": "erpnext_sverige.frakt.bokning.avboka_vid_avbrott",
+		"on_trash": "erpnext_sverige.frakt.bokning.radera_vid_borttagning",
+	},
 }
 
 # Scheduled Tasks

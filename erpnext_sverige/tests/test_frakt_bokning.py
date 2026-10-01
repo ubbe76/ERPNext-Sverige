@@ -324,3 +324,33 @@ class TestBoka(FraktTestCase):
 		self.assertEqual(svar["status"], "saknas")
 		self.assertEqual(len(svar["priser"]), 2)
 		b.assert_not_called()
+
+
+class TestAvboka(FraktTestCase):
+	def bokad(self):
+		doc, dn = self.shipment()
+		with mockad_sendify():
+			bokning.hamta_priser(doc.name)
+			bokning.boka(doc.name, "T-DSV", "_Test DSV – Pall", 800)
+		return frappe.get_doc("Shipment", doc.name), dn
+
+	def test_avbryt_avbokar_hos_sendify_och_tommer_foljesedeln(self):
+		doc, dn = self.bokad()
+		with patch(f"{SENDIFY}.avboka") as avboka:
+			doc.cancel()
+		avboka.assert_called_once_with("S1")
+		self.assertEqual(frappe.db.get_value("Shipment", doc.name, "status"), "Cancelled")
+		self.assertFalse(frappe.db.get_value("Delivery Note", dn.name, "lr_no"))
+
+	def test_vagrad_avbokning_stoppar_avbrytandet(self):
+		doc, _dn = self.bokad()
+		with patch(f"{SENDIFY}.avboka", side_effect=FraktFel("Shipment already picked up")):
+			self.assertRaises(frappe.ValidationError, doc.cancel)
+		self.assertEqual(frappe.db.get_value("Shipment", doc.name, "docstatus"), 1)
+
+	def test_radera_utkast_raderar_hos_sendify(self):
+		doc, _dn = self.shipment()
+		frappe.db.set_value("Shipment", doc.name, "sendify_id", "S9")
+		with patch(f"{SENDIFY}.radera_sandning") as radera:
+			frappe.delete_doc("Shipment", doc.name)
+		radera.assert_called_once_with("S9")

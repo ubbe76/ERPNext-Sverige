@@ -306,3 +306,31 @@ def boka_vald_produkt(shipment: str, bekraftat: int = 0) -> dict:
 			return {"status": "prisandring", "gammalt": flt(doc.fraktpris), "nytt": pris["pris"]}
 	boka(shipment, pris["token"], pris["fraktprodukt"], pris["pris"], pris["valuta"])
 	return {"status": "bokad"}
+
+
+def _aktiverad() -> bool:
+	return bool(frappe.db.get_single_value("Fraktinstallningar", "aktiverad"))
+
+
+def avboka_vid_avbrott(doc, method=None):
+	"""Shipment.before_cancel: avboka hos leverantören innan försändelsen avbryts i ERPNext."""
+	if not (doc.sendify_id and doc.status == "Booked"):
+		return
+	if not _aktiverad():
+		frappe.throw(_("Aktivera transportbokning i Fraktinställningar för att kunna avboka hos Sendify"))
+	try:
+		leverantor().avboka(doc.sendify_id)
+	except FraktFel as fel:
+		frappe.throw(fel.som_html(), title=_("Sendify kunde inte avboka"))
+	for dn in _foljesedlar(doc):
+		frappe.db.set_value("Delivery Note", dn, {"transporter_name": None, "lr_no": None, "lr_date": None})
+
+
+def radera_vid_borttagning(doc, method=None):
+	"""Shipment.on_trash: radera ett obokat utkast hos leverantören."""
+	if not (doc.sendify_id and doc.docstatus == 0 and _aktiverad()):
+		return
+	try:
+		leverantor().radera_sandning(doc.sendify_id)
+	except FraktFel:
+		frappe.log_error(title="Sendify: kunde inte radera sändning", message=doc.sendify_id)
