@@ -21406,7 +21406,7 @@ msgid "Please enter Serial Nos"
 msgstr "Ange serienummer"
 
 msgid "Please enter Shipment Parcel information"
-msgstr "Ange information om leveranspaket"
+msgstr "Ange uppgifter om försändelsens kollin"
 
 msgid "Please enter Warehouse and Date"
 msgstr "Ange lager och datum"
@@ -27740,25 +27740,25 @@ msgid "Shift Time (In Hours)"
 msgstr "Skifttid (i timmar)"
 
 msgid "Shipment Amount"
-msgstr "Leveransbelopp"
+msgstr "Fraktbelopp"
 
 msgid "Shipment Delivery Note"
-msgstr "Försäljningsföljesedel för leverans"
+msgstr "Följesedel för försändelse"
 
 msgid "Shipment Information"
-msgstr "Leveransinformation"
+msgstr "Uppgifter om försändelsen"
 
 msgid "Shipment Parcel"
-msgstr "Leveranspaket"
+msgstr "Kolli"
 
 msgid "Shipment Parcel Template"
-msgstr "Leveranspaketmall"
+msgstr "Kollimall"
 
 msgid "Shipment Type"
-msgstr "Leveranstyp"
+msgstr "Försändelsetyp"
 
 msgid "Shipment details"
-msgstr "Leveransdetaljer"
+msgstr "Försändelseuppgifter"
 
 msgid "Shipping Account"
 msgstr "Leveranskonto"
@@ -34823,3 +34823,12 @@ msgstr "Tonkraft (metrisk)"
 #. Name of a UOM
 msgid "Box"
 msgstr "Låda"
+
+msgid "Shipment"
+msgstr "Försändelse"
+
+msgid "Shipment ID"
+msgstr "Försändelse-ID"
+
+msgid "Shipments"
+msgstr "Försändelser"
