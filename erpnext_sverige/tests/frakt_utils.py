@@ -1,10 +1,39 @@
 """Testhjälpare för frakt."""
 
+from unittest.mock import patch
+
 import frappe
 
 from erpnext_sverige.frakt.artikel import FRAKTARTIKEL, sakerstall_fraktartikel
 from erpnext_sverige.setup.company import TAX_CATEGORY_SE
 from erpnext_sverige.tests.utils import COMPANY, account, ensure_test_company, make_party
+
+SAVEPOINT = "frakt_test_commit"
+
+
+def commit_som_savepoint(testfall):
+	"""Låt `frappe.db.commit` sätta en savepoint i stället för att committa, under ett test.
+
+	Bokningskoden committar medvetet (bokningen finns redan hos Sendify) och rullar tillbaka vid fel.
+	I tester skulle det spara allt som testklassen skapat på test-siten, eftersom Frappe bara rullar
+	tillbaka när klassen är klar. Här rullar `rollback()` tillbaka till senaste "commit", precis som
+	i drift, och IntegrationTestCase rullar tillbaka allt när klassen är klar.
+	"""
+	db = frappe.db
+	rollback = db.rollback
+
+	def commit(*, chain=False):
+		db.value_cache.clear()
+		db.savepoint(SAVEPOINT)
+
+	def rollback_till_savepoint(*, save_point=None, chain=False):
+		rollback(save_point=save_point or SAVEPOINT)
+
+	db.savepoint(SAVEPOINT)
+	for namn, ersattning in (("commit", commit), ("rollback", rollback_till_savepoint)):
+		p = patch.object(db, namn, ersattning)
+		p.start()
+		testfall.addCleanup(p.stop)
 
 
 def make_eur_pall(name="_Test EUR-pall", egenvikt=25):
