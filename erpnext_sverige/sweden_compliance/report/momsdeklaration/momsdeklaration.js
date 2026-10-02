@@ -25,6 +25,25 @@ frappe.query_reports["Momsdeklaration"] = {
 	],
 
 	onload(report) {
+		// Förval: senaste avslutade redovisningsperioden enligt bolagets inställning
+		const satt_period = () => {
+			const company = report.get_filter_value("company");
+			if (!company) return;
+			frappe.call({
+				method: "erpnext_sverige.sweden_compliance.vat_return.standardperiod",
+				args: { company },
+				callback: (r) => {
+					if (!r.message) return;
+					report.set_filter_value({
+						from_date: r.message.from_date,
+						to_date: r.message.to_date,
+					});
+				},
+			});
+		};
+		satt_period();
+		report.get_filter("company").df.onchange = satt_period;
+
 		const args = () => ({
 			company: report.get_filter_value("company"),
 			from_date: report.get_filter_value("from_date"),
