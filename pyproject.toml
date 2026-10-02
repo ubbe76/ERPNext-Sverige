@@ -1,7 +1,7 @@
 [project]
 name = "erpnext_sverige"
 authors = [
-    { name = "Urban Källefors", email = "18618863+ubbe76@users.noreply.github.com"}
+    { name = "Urban Källefors", email = "erpnext@kallefors.se"}
 ]
 description = "Swedish localization and manufacturing adaptations for ERPNext"
 requires-python = ">=3.14"
