@@ -111,7 +111,8 @@ class TestCreditNotes(IntegrationTestCase):
 		html = frappe.get_print("Sales Invoice", credit.name, print_format=INVOICE_PRINT_FORMAT, doc=credit)
 		self.assertIn("Kreditfaktura", html)
 		self.assertIn("Kredit avser faktura", html)
-		self.assertIn(invoice.name, html)
+		# Hänvisningen visar originalets fakturanummer (sätts vid bokföring), inte ERPNext:s namn
+		self.assertIn(frappe.db.get_value("Sales Invoice", invoice.name, "se_fakturanummer"), html)
 		self.assertNotIn("Förfallodatum", html)
 		self.assertNotIn("OCR-nummer", html)
 		summary = get_invoice_context(credit)["vat_summary"]

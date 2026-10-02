@@ -49,6 +49,11 @@ Standardmall för kundfakturor med det som mervärdesskattelagen kräver:
   "Company Account"; bankgiro och plusgiro är nya fält)
 - OCR-nummer med längd- och kontrollsiffra (Bankgirots standard) om **OCR-nummer på fakturor** är ikryssat på bolaget (inte på kreditfakturor och kassafakturor)
 - kreditfakturor skrivs ut som "Kreditfaktura" med hänvisning till originalfakturan, utan förfallodatum
+- **fakturanummer utan luckor**: fältet *Fakturanummer* sätts när fakturan bokförs, i en serie per bolag och år
+  (2026-0001, 2026-0002 …) som även omfattar kreditfakturor. ERPNext ger fakturan sitt namn (ACC-SINV-…)
+  redan som utkast, så raderade utkast lämnar luckor i det namnet. Fakturanumret är det som skrivs ut och som
+  kreditfakturor hänvisar till; ERPNext:s namn är kvar som internt id. Fakturor bokförda före funktionen visar
+  ERPNext:s namn
 
 Mallen följer kundens språk: svenska, eller engelska för kunder med engelska som språk.
 
