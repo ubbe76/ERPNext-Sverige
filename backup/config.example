@@ -1,0 +1,16 @@
+# Kopiera till ~/.config/erpnext-backup/config och anpassa.
+
+# Benchens katalog och siterna som ska säkerhetskopieras (mellanslag mellan flera)
+BENCH_DIR="$HOME/ERPNext/my-frappe-bench"
+SITES="svensk-erp.local"
+
+# rclone-mål (mellanslag mellan flera). Varje mål får en egen, fullständig kopia.
+# Namnen före kolon är de du valde i `rclone config`.
+REMOTES="onedrive:ERPNext-backup gdrive:ERPNext-backup b2:ditt-bucket-namn/ERPNext-backup"
+
+# Lösenfras för krypteringen. Spara en kopia i en lösenordshanterare: utan den går backupen inte att läsa.
+PASSPHRASE_FILE="$HOME/.config/erpnext-backup/passphrase"
+
+# Hur länge dagliga kopior och månadskopior sparas. Årsarkiv raderas aldrig.
+DAILY_DAYS=30
+MONTHLY_YEARS=8
