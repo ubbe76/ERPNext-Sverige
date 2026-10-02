@@ -6,6 +6,8 @@
 </p>
 
 # ERPNext Sverige
+## Använd inte i produktion. Mycket kvar att göra.
+
 
 Svensk lokalisering av [ERPNext](https://github.com/frappe/erpnext) version 16.
 
