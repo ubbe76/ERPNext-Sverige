@@ -165,8 +165,12 @@ doc_events = {
 		"validate": [
 			"erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
 			"erpnext_sverige.sweden_compliance.invoice.set_ocr",
+			"erpnext_sverige.sweden_compliance.invoice_number.rensa_utkast",
 		],
-		"before_submit": "erpnext_sverige.sweden_compliance.tax_category.validate_invoice_vat_number",
+		"before_submit": [
+			"erpnext_sverige.sweden_compliance.tax_category.validate_invoice_vat_number",
+			"erpnext_sverige.sweden_compliance.invoice_number.set_fakturanummer",
+		],
 	},
 	"Address": {
 		"validate": "erpnext_sverige.sweden_compliance.tax_category.set_address_tax_category",

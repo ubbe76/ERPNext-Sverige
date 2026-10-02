@@ -49,6 +49,11 @@ Standardmall för kundfakturor med det som mervärdesskattelagen kräver:
   "Company Account"; bankgiro och plusgiro är nya fält)
 - OCR-nummer med längd- och kontrollsiffra (Bankgirots standard) om **OCR-nummer på fakturor** är ikryssat på bolaget (inte på kreditfakturor och kassafakturor)
 - kreditfakturor skrivs ut som "Kreditfaktura" med hänvisning till originalfakturan, utan förfallodatum
+- **fakturanummer utan luckor**: fältet *Fakturanummer* sätts när fakturan bokförs, i en serie per bolag och år
+  (2026-0001, 2026-0002 …) som även omfattar kreditfakturor. ERPNext ger fakturan sitt namn (ACC-SINV-…)
+  redan som utkast, så raderade utkast lämnar luckor i det namnet. Fakturanumret är det som skrivs ut och som
+  kreditfakturor hänvisar till; ERPNext:s namn är kvar som internt id. Fakturor bokförda före funktionen visar
+  ERPNext:s namn
 
 Mallen följer kundens språk: svenska, eller engelska för kunder med engelska som språk.
 
@@ -120,6 +125,12 @@ och momsomföringar räknas inte med. Beloppen anges i hela kronor, och öretal 
   momskontona (2610–2649) mot 2650. Öresavrundningen bokförs på 3740. Granska och bokför den själv.
 
 Rutorna 06, 07, 08, 37 och 38 stöds inte än och är alltid 0.
+
+**Lås perioden** låser bokföringen till och med periodens slutdatum när deklarationen är inlämnad och
+momsomföringen bokförd (bolagets *Accounts Frozen Till Date*). Därefter går det inte att bokföra, ändra eller
+makulera något med datum i perioden, inte heller som Administrator. Knappen vägrar om det finns utkast i
+perioden, låser aldrig framtida datum och flyttar aldrig ett låsdatum bakåt. Bara Accounts Manager och System
+Manager kan låsa. Ett felaktigt låsdatum ändras på bolaget av System Manager.
 
 ### Grundbok
 
