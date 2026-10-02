@@ -1,7 +1,7 @@
 # TODO
 
-Produktionssiten `svensk-erp.local`, ett bolag (SEK, kontoplan BAS 2024 med nummer). Tester körs på
-`test-erp.local` och i CI (GitHub Actions).
+Utgår från en site med ett bolag (SEK, kontoplan BAS 2024 med nummer). Tester körs på en separat testsite och
+i CI (GitHub Actions).
 
 ## 1. Bokföringsgrund (innan första verifikationen)
 
@@ -36,7 +36,7 @@ Kvar / begränsningar:
 
 ## 2. Provkör ett helt flöde
 
-Provkört 2026-09-28 på testsiten `test-erp.local`, som är en kopia av `svensk-erp.local`. Den riktiga bokföringen är orörd.
+Provkört 2026-09-28 på en testsite som är en kopia av produktionssiten. Den riktiga bokföringen är orörd.
 
 - [x] Kundfaktura (25 % + 12 %) → betalning: 1510 → 1930, moms på 2611 och 2621, 1510 nollställd
 - [x] EU-kundfaktura → betalning: ingen moms, 1510 nollställd
@@ -111,7 +111,7 @@ Fynd:
   "Försäljning Moms 25% - G" → "Försäljningsmoms 25 % - G"
 - [ ] Efter uppdatering av frappe/erpnext: kör kontrollskriptet och rätta nya strängar
   ```bash
-  bench --site svensk-erp.local execute erpnext_sverige.scripts.sarskrivningar.report --kwargs "{'title_case_only': True}"
+  bench --site <site> execute erpnext_sverige.scripts.sarskrivningar.report --kwargs "{'title_case_only': True}"
   ```
 
 ## 5. Inför publicering (publikt repo eller Frappe Marketplace)

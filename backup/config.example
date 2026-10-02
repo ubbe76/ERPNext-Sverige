@@ -1,8 +1,8 @@
 # Kopiera till ~/.config/erpnext-backup/config och anpassa.
 
 # Benchens katalog och siterna som ska säkerhetskopieras (mellanslag mellan flera)
-BENCH_DIR="$HOME/ERPNext/my-frappe-bench"
-SITES="svensk-erp.local"
+BENCH_DIR="$HOME/frappe-bench"
+SITES="min-site.local"
 
 # rclone-mål (mellanslag mellan flera). Varje mål får en egen, fullständig kopia.
 # Namnen före kolon är de du valde i `rclone config`.

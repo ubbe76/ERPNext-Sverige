@@ -17,22 +17,22 @@ standard vid install/migrate.
 
 ## Global Constraints
 
-- Allt körs från bench-roten `~/ERPNext/my-frappe-bench`; git-kommandon i `apps/erpnext_sverige`.
+- Allt körs från bench-roten `~/frappe-bench`; git-kommandon i `apps/erpnext_sverige`.
 - Koden indenteras med **tabbar** (som resten av appen); radlängd 110; kommentarer och docstrings på svenska.
 - Etiketter skrivs på engelska i `_()` och översätts i `erpnext_sverige/locale/sv.po`. Frappe trimmar blanksteg
   före uppslag – msgid får inte ha inledande/avslutande blanksteg.
 - `sv.po` är inte strikt sorterad: sätt in nya poster intill sin närmaste alfabetiska granne (samma ställe som
   en befintlig post med samma prefix), aldrig överst.
 - Efter ändring i `sv.po`: `bench compile-po-to-mo --app erpnext_sverige --locale sv --force` och
-  `bench --site svensk-erp.local clear-cache`.
+  `bench --site <site> clear-cache`.
 - Standardmallens HTML-fil måste ligga i `sweden_compliance/print_format/<scrub(namn)>/<scrub(namn)>.html`, där
   `scrub` = gemener och blanksteg → `_` (Frappe `www/printview.py:get_print_format`). Därför får katalogerna å/ä/ö:
   `orderbekräftelse_sverige`, `följesedel_sverige`, `inköpsorder_sverige`.
 - Mallnamn (exakt): `Faktura Sverige`, `Offert Sverige`, `Orderbekräftelse Sverige`, `Följesedel Sverige`,
   `Inköpsorder Sverige`.
 - Inget belopp i ord på någon mall. Betalningsuppgifter bara på fakturan.
-- Nya `.json`-mallar laddas in med `bench --site svensk-erp.local migrate` (synkar standardmallar från appen).
-- Tester: `bench --site svensk-erp.local run-tests --app erpnext_sverige --module <modul>`.
+- Nya `.json`-mallar laddas in med `bench --site <site> migrate` (synkar standardmallar från appen).
+- Tester: `bench --site <site> run-tests --app erpnext_sverige --module <modul>`.
 - Commits avslutas med:
   ```
   Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
@@ -163,7 +163,7 @@ class TestPrintContext(PrintTestCase):
 
 - [ ] **Step 2: Kör testerna – de ska fallera**
 
-Run: `bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
+Run: `bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
 Expected: FAIL/ERROR med `ModuleNotFoundError: No module named 'erpnext_sverige.sweden_compliance.print_context'`
 
 - [ ] **Step 3: Skapa `print_context.py`**
@@ -242,9 +242,9 @@ jinja = {
 
 Run:
 ```bash
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_invoice
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_credit_notes
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_invoice
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_credit_notes
 ```
 Expected: alla PASS. (`test_print_formats` importerar `PRINT_FORMATS` först i `render`, som inte anropas än.)
 
@@ -311,7 +311,7 @@ def run():
 
 Run:
 ```bash
-bench --site svensk-erp.local execute erpnext_sverige._tmp_invoice_text.run > /tmp/claude-1000/faktura_fore.txt
+bench --site <site> execute erpnext_sverige._tmp_invoice_text.run > /tmp/faktura_fore.txt
 ```
 Expected: filen innehåller bl.a. "Faktura", "Förfallodatum", "Er referens", "PO-4711", "Att betala".
 
@@ -334,7 +334,7 @@ och lägg till sist i testet:
 		self.assertNotIn(">Nos<", html)
 ```
 
-Run: `bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_invoice`
+Run: `bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_invoice`
 Expected: FAIL på `assertIn("Ert ordernr", html)`.
 
 - [ ] **Step 3: Skapa `templates/includes/se_print.html`**
@@ -545,8 +545,8 @@ Kompilera och töm cachen (se Global Constraints).
 
 Run:
 ```bash
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_invoice
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_credit_notes
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_invoice
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_credit_notes
 ```
 Expected: alla PASS.
 
@@ -554,8 +554,8 @@ Expected: alla PASS.
 
 Run:
 ```bash
-bench --site svensk-erp.local execute erpnext_sverige._tmp_invoice_text.run > /tmp/claude-1000/faktura_efter.txt
-diff /tmp/claude-1000/faktura_fore.txt /tmp/claude-1000/faktura_efter.txt
+bench --site <site> execute erpnext_sverige._tmp_invoice_text.run > /tmp/faktura_efter.txt
+diff /tmp/faktura_fore.txt /tmp/faktura_efter.txt
 ```
 Expected: enda skillnaden är att raden "Er referens" före "PO-4711" nu heter "Ert ordernr". (Testfakturan har
 ingen kontaktperson, så ingen ny "Er referens"-rad.) Allt annat identiskt. Ta sedan bort den tillfälliga modulen:
@@ -640,7 +640,7 @@ class TestQuotationPrint(PrintTestCase):
 
 - [ ] **Step 3: Kör – ska fallera**
 
-Run: `bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
+Run: `bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
 Expected: `TestQuotationPrint` ERROR, "Print Format Offert Sverige not found" eller liknande.
 
 - [ ] **Step 4: Skapa `offert_sverige.json`**
@@ -724,8 +724,8 @@ cachen.
 
 Run:
 ```bash
-bench --site svensk-erp.local migrate
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
+bench --site <site> migrate
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
 ```
 Expected: alla PASS. Om `test_quotation_to_lead` fallerar på att Lead kräver fler fält: lägg till de fält
 felmeddelandet anger i `frappe.get_doc({...})`, inget annat.
@@ -785,7 +785,7 @@ class TestSalesOrderPrint(PrintTestCase):
 
 - [ ] **Step 3: Kör – ska fallera**
 
-Run: `bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
+Run: `bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
 Expected: `TestSalesOrderPrint` ERROR (mallen finns inte).
 
 - [ ] **Step 4: Skapa `orderbekräftelse_sverige.json`**
@@ -873,8 +873,8 @@ msgstr "Leveransadress"
 
 Run:
 ```bash
-bench --site svensk-erp.local migrate
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
+bench --site <site> migrate
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
 ```
 Expected: alla PASS.
 
@@ -960,7 +960,7 @@ skälet: byt `"Moms"` mot `"Moms 25"`.
 
 - [ ] **Step 3: Kör – ska fallera**
 
-Run: `bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
+Run: `bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
 Expected: `TestDeliveryNotePrint` ERROR (mallen finns inte).
 
 - [ ] **Step 4: Skapa `följesedel_sverige.json`**
@@ -1048,8 +1048,8 @@ Kompilera och töm cachen.
 
 Run:
 ```bash
-bench --site svensk-erp.local migrate
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
+bench --site <site> migrate
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
 ```
 Expected: alla PASS. Om `make_delivery_note` inte tar med tjänsteartiklar (tom följesedel): byt
 `self.service` mot `self.goods` i Task 5-testerna.
@@ -1109,7 +1109,7 @@ class TestPurchaseOrderPrint(PrintTestCase):
 
 - [ ] **Step 3: Kör – ska fallera**
 
-Run: `bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
+Run: `bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
 Expected: `TestPurchaseOrderPrint` ERROR (mallen finns inte).
 
 - [ ] **Step 4: Skapa `inköpsorder_sverige.json`**
@@ -1193,8 +1193,8 @@ Kompilera och töm cachen.
 
 Run:
 ```bash
-bench --site svensk-erp.local migrate
-bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
+bench --site <site> migrate
+bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats
 ```
 Expected: alla PASS.
 
@@ -1255,7 +1255,7 @@ Lägg importerna överst i filen tillsammans med de andra.
 
 - [ ] **Step 2: Kör – ska fallera**
 
-Run: `bench --site svensk-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
+Run: `bench --site <site> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats`
 Expected: ImportError `cannot import name 'set_default_print_formats'`.
 
 - [ ] **Step 3: Ersätt `set_default_invoice_print_format` med `set_default_print_formats`**
@@ -1285,15 +1285,15 @@ Kontrollera att inget annat anropar den gamla funktionen:
 
 - [ ] **Step 4: Kör hela appens tester**
 
-Run: `bench --site svensk-erp.local run-tests --app erpnext_sverige`
+Run: `bench --site <site> run-tests --app erpnext_sverige`
 Expected: alla PASS.
 
 - [ ] **Step 5: Migrera och kontrollera sajten**
 
 Run:
 ```bash
-bench --site svensk-erp.local migrate
-bench --site svensk-erp.local mariadb -e "select doc_type, value from \`tabProperty Setter\` where property='default_print_format' and doc_type in ('Quotation','Sales Order','Delivery Note','Sales Invoice','Purchase Order');"
+bench --site <site> migrate
+bench --site <site> mariadb -e "select doc_type, value from \`tabProperty Setter\` where property='default_print_format' and doc_type in ('Quotation','Sales Order','Delivery Note','Sales Invoice','Purchase Order');"
 ```
 Expected: Quotation → Offert Sverige, Sales Order → Orderbekräftelse Sverige, Delivery Note → Följesedel Sverige,
 Sales Invoice → Faktura Sverige, Purchase Order → Inköpsorder Sverige.
@@ -1316,7 +1316,7 @@ def run():
 	print(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", text)))
 ```
 
-Run: `bench --site svensk-erp.local execute erpnext_sverige._tmp_render.run`, sedan
+Run: `bench --site <site> execute erpnext_sverige._tmp_render.run`, sedan
 `rm apps/erpnext_sverige/erpnext_sverige/_tmp_render.py`.
 Expected: texten innehåller "Orderbekräftelse", "Kund", "Orderdatum", "Leveransdatum", "St", "Totalt inkl. moms"
 och inga av "Customer Name", "Bill to", "Nej", "Nos", "In Words".

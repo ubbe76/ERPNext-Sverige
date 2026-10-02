@@ -57,7 +57,7 @@ mottagaren betalar, fler leverantörer än Sendify, flera bolag med olika Sendif
 
 - **Sendify-konto för sandlåda** måste skapas innan utveckling mot API:t kan testas på riktigt:
   registrera på https://se.sendify-staging.com/sign-up och skapa API-nyckel under *Settings → API*
-  (alternativt mejla api@sendify.com). Nyckeln läggs i `site_config.json` för test-erp.local som
+  (alternativt mejla api@sendify.com). Nyckeln läggs i `site_config.json` för <testsite> som
   `sendify_sandbox_api_key` (för röktestet) och i Fraktinställningar på den site som ska användas.
 - **Produktionsnyckel** skapas i det riktiga Sendify-kontot under *Settings → API* när integrationen tas i drift.
 - I sandlådan fungerar fullständig bokning bara med DHL, UPS och DSV, och spårningen ger bara händelsen
@@ -323,7 +323,7 @@ erpnext_sverige/public/js/frakt_forsaljning.js  Quotation/Sales Order/Delivery N
 
 ## Test
 
-Körs på test-erp.local: `bench --site test-erp.local run-tests --app erpnext_sverige`.
+Körs på <testsite>: `bench --site <testsite> run-tests --app erpnext_sverige`.
 
 - `tests/test_frakt_kollin.py` – egna mått; ihopfyllda förpackningar (2,5 + 0,5 = 3); viktfördelning;
   inget fraktsätt med och utan förpackningar; enhetsomräkning (g → kg, alternativ enhet → lagerenhet);
