@@ -106,7 +106,18 @@ def get_invoice_context(doc) -> dict:
 	"""Jinja-metod: allt fakturamallen behöver utöver fakturans egna fält."""
 	from erpnext_sverige.sweden_compliance.print_context import get_print_context  # undviker cirkulär import
 
-	return {**get_print_context(doc), "ocr": doc.get("se_ocr")}
+	credit_for = doc.get("return_against")
+	return {
+		**get_print_context(doc),
+		"ocr": doc.get("se_ocr"),
+		# Fakturanumret sätts vid bokföring; utkast och äldre fakturor visar ERPNext:s namn
+		"invoice_no": doc.get("se_fakturanummer") or doc.name,
+		"credit_for_invoice_no": (
+			frappe.db.get_value("Sales Invoice", credit_for, "se_fakturanummer") or credit_for
+		)
+		if credit_for
+		else None,
+	}
 
 
 def get_exemption_notes(doc) -> list[str]:

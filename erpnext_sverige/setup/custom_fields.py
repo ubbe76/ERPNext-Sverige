@@ -65,12 +65,24 @@ def _get_base_custom_fields():
 		],
 		"Sales Invoice": [
 			{
+				"fieldname": "se_fakturanummer",
+				"label": _("Fakturanummer"),
+				"fieldtype": "Data",
+				"read_only": 1,
+				"no_copy": 1,
+				"in_list_view": 1,
+				"in_standard_filter": 1,
+				"search_index": 1,
+				"insert_after": "due_date",
+				"description": _("Sätts när fakturan bokförs, i en serie utan luckor per bolag och år"),
+			},
+			{
 				"fieldname": "se_ocr",
 				"label": _("OCR-nummer"),
 				"fieldtype": "Data",
 				"read_only": 1,
 				"no_copy": 1,
-				"insert_after": "due_date",
+				"insert_after": "se_fakturanummer",
 			},
 		],
 		"Purchase Invoice": [
