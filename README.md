@@ -6,8 +6,7 @@
 </p>
 
 # ERPNext Sverige
-## Använd inte i produktion. Mycket kvar att göra.
-
+>## Använd inte i produktion. Mycket kvar att göra och mycket som inte är testat!
 
 Svensk lokalisering av [ERPNext](https://github.com/frappe/erpnext) version 16.
 
