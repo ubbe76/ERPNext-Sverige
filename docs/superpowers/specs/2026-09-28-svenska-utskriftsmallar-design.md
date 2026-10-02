@@ -119,5 +119,5 @@ efter ombyggnaden; den enda tillåtna skillnaden är referensraderna ovan.
 
 ## Verifiering
 
-Rendera `SAL-ORD-2026-00001` på svensk-erp.local med "Orderbekräftelse Sverige" och jämför med skärmbilden
+Rendera `SAL-ORD-2026-00001` på <site> med "Orderbekräftelse Sverige" och jämför med skärmbilden
 från 2026-09-28.

@@ -20,8 +20,8 @@ vanilla Frappe desk-JS.
 
 - Allt arbete på grenen `feat/frakt-sendify` i `apps/erpnext_sverige`. Commit-meddelanden på engelska, avslutas med
   `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
-- Tester körs **bara** på test-erp.local: `bench --site test-erp.local run-tests --app erpnext_sverige --module <modul>`
-  (från `~/ERPNext/my-frappe-bench`). Efter nya doctypes/custom fields: `bench --site test-erp.local migrate`.
+- Tester körs **bara** på <testsite>: `bench --site <testsite> run-tests --app erpnext_sverige --module <modul>`
+  (från `~/frappe-bench`). Efter nya doctypes/custom fields: `bench --site <testsite> migrate`.
 - Kodstil som resten av appen: tabbindrag, radlängd 110, ruff. Kör `pre-commit run --files <filer>` före commit.
 - **Användarsträngar skrivs direkt på svenska** i `_()` / `__()` och i doctype-JSON (så gör appen redan, t.ex.
   `_("Det finns inga momssaldon att föra om för perioden")`). Det ersätter specens rad om engelska strängar.
@@ -456,9 +456,9 @@ class TestFraktDoctypes(IntegrationTestCase):
 
 Run:
 ```bash
-cd ~/ERPNext/my-frappe-bench
-bench --site test-erp.local migrate
-bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_doctypes
+cd ~/frappe-bench
+bench --site <testsite> migrate
+bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_doctypes
 ```
 Expected: 4 tests OK.
 
@@ -664,7 +664,7 @@ Lägg till importen `from erpnext_sverige.tests.frakt_utils import make_eur_pall
 
 - [ ] **Step 4: Kör testet och se det misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_kollin`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_kollin`
 Expected: FAIL – `frakt_flakmeter` är 0 / ingen ValidationError (validera_artikel finns inte).
 
 - [ ] **Step 5: Skriv `erpnext_sverige/frakt/kollin.py` med validering**
@@ -703,10 +703,10 @@ I `doc_events`, lägg till:
 
 Run:
 ```bash
-bench --site test-erp.local migrate
-bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_kollin
+bench --site <testsite> migrate
+bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_kollin
 ```
-Expected: 2 tests OK. Kontrollera även att `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats` fortfarande går igenom (custom_fields-ändringen).
+Expected: 2 tests OK. Kontrollera även att `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_print_formats` fortfarande går igenom (custom_fields-ändringen).
 
 - [ ] **Step 8: Commit**
 
@@ -801,7 +801,7 @@ class TestKolliforslag(IntegrationTestCase):
 
 - [ ] **Step 2: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_kollin`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_kollin`
 Expected: FAIL med `ImportError: cannot import name 'foresla_kollin'`.
 
 - [ ] **Step 3: Implementera i `kollin.py`** (lägg till under `validera_artikel`)
@@ -908,7 +908,7 @@ Flytta `import math` och importen av `get_uom_conv_factor` upp bland modulens ö
 
 - [ ] **Step 4: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_kollin`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_kollin`
 Expected: 10 tests OK.
 
 - [ ] **Step 5: Commit**
@@ -1068,7 +1068,7 @@ class TestSendify(IntegrationTestCase):
 
 - [ ] **Step 2: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sendify`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sendify`
 Expected: FAIL med `ImportError: cannot import name 'sendify'`.
 
 - [ ] **Step 3: Skriv `erpnext_sverige/frakt/sendify.py`**
@@ -1320,7 +1320,7 @@ Avbokningens body (`{"shipment_id": ...}`) verifieras i sandlådetestet (Task 13
 
 - [ ] **Step 4: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sendify`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sendify`
 Expected: 7 tests OK.
 
 - [ ] **Step 5: Commit**
@@ -1477,7 +1477,7 @@ class TestFraktpris(IntegrationTestCase):
 
 - [ ] **Step 3: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_fraktpris`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_fraktpris`
 Expected: FAIL med `ImportError`.
 
 - [ ] **Step 4: Skriv `erpnext_sverige/frakt/parter.py`**
@@ -1566,7 +1566,7 @@ def registrera_produkter(priser: list[dict]) -> list[dict]:
 
 - [ ] **Step 6: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_fraktpris`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_fraktpris`
 Expected: 5 tests OK.
 
 - [ ] **Step 7: Commit**
@@ -1696,7 +1696,7 @@ class TestSkapaShipment(FraktTestCase):
 
 - [ ] **Step 3: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
 Expected: FAIL med `ImportError: cannot import name 'bokning'`.
 
 - [ ] **Step 4: Skriv `erpnext_sverige/frakt/bokning.py`**
@@ -1832,7 +1832,7 @@ def sandning_fran_shipment(doc) -> dict:
 
 - [ ] **Step 5: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
 Expected: 5 tests OK. Om `make_shipment` kräver fält som saknas (felmeddelande vid `doc.insert()`), sätt dem
 i `skapa_shipment` från följesedeln och notera vilket fält det var i commit-meddelandet.
 
@@ -1926,7 +1926,7 @@ class TestPriser(FraktTestCase):
 
 - [ ] **Step 2: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
 Expected: FAIL med `AttributeError: module 'erpnext_sverige.frakt.bokning' has no attribute 'hamta_priser'`.
 
 - [ ] **Step 3: Implementera i `bokning.py`**
@@ -1985,7 +1985,7 @@ def spara_val(shipment: str, fraktprodukt: str, pris: float, valuta: str = "SEK"
 
 - [ ] **Step 4: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
 Expected: 10 tests OK.
 
 - [ ] **Step 5: Commit**
@@ -2111,7 +2111,7 @@ class TestBoka(FraktTestCase):
 
 - [ ] **Step 2: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
 Expected: FAIL med `AttributeError: ... has no attribute 'boka'`.
 
 - [ ] **Step 3: Implementera i `bokning.py`**
@@ -2226,7 +2226,7 @@ def boka_vald_produkt(shipment: str, bekraftat: int = 0) -> dict:
 
 - [ ] **Step 4: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
 Expected: 17 tests OK.
 
 - [ ] **Step 5: Commit**
@@ -2285,7 +2285,7 @@ class TestAvboka(FraktTestCase):
 
 - [ ] **Step 2: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
 Expected: FAIL – `avboka` anropas inte.
 
 - [ ] **Step 3: Implementera i `bokning.py`**
@@ -2330,7 +2330,7 @@ I `hooks.py` `doc_events`, lägg till:
 
 - [ ] **Step 4: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning`
 Expected: 20 tests OK.
 
 - [ ] **Step 5: Commit**
@@ -2422,7 +2422,7 @@ class TestFraktPaFaktura(FraktTestCase):
 
 - [ ] **Step 2: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_faktura`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_faktura`
 Expected: FAIL – ingen fraktrad.
 
 - [ ] **Step 3: Implementera i `fraktpris.py`**
@@ -2483,7 +2483,7 @@ befintliga posten `doc_events["Sales Invoice"]`.
 
 - [ ] **Step 4: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_faktura`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_faktura`
 Expected: 5 tests OK. Kör även `--module erpnext_sverige.tests.test_invoice` och `test_print_formats` för att se att
 befintliga fakturatester inte påverkas.
 
@@ -2569,7 +2569,7 @@ class TestSparning(FraktTestCase):
 
 - [ ] **Step 2: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sparning`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sparning`
 Expected: FAIL med `ImportError: cannot import name 'sparning'`.
 
 - [ ] **Step 3: Skriv `erpnext_sverige/frakt/sparning.py`**
@@ -2656,8 +2656,8 @@ scheduler_events = {
 
 Run:
 ```bash
-bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sparning
-bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning
+bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sparning
+bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_bokning
 ```
 Expected: 3 + 20 tests OK.
 
@@ -2768,7 +2768,7 @@ class TestPrisforfragan(IntegrationTestCase):
 
 - [ ] **Step 2: Kör och se dem misslyckas**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_fraktpris`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_fraktpris`
 Expected: FAIL med `AttributeError: ... has no attribute 'kontrollera'`.
 
 - [ ] **Step 3: Implementera i `fraktpris.py`**
@@ -2896,7 +2896,7 @@ def hamta_transportorsprodukter() -> int:
 
 - [ ] **Step 5: Kör testerna**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_fraktpris`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_fraktpris`
 Expected: 10 tests OK.
 
 - [ ] **Step 6: Commit**
@@ -3227,12 +3227,12 @@ doctype_js = {
 
 Run:
 ```bash
-cd ~/ERPNext/my-frappe-bench/apps/erpnext_sverige
+cd ~/frappe-bench/apps/erpnext_sverige
 pre-commit run --files erpnext_sverige/public/js/frakt_*.js erpnext_sverige/frakt/doctype/fraktinstallningar/fraktinstallningar.js erpnext_sverige/hooks.py
-cd ~/ERPNext/my-frappe-bench
+cd ~/frappe-bench
 bench build --app erpnext_sverige
-bench --site test-erp.local clear-cache
-bench --site test-erp.local serve --port 8001   # Redis måste vara igång (bench start eller redis-server)
+bench --site <testsite> clear-cache
+bench --site <testsite> serve --port 8001   # Redis måste vara igång (bench start eller redis-server)
 ```
 
 Kontrollera manuellt på http://localhost:8001 (Administrator/admin), med mockfri Sendify först efter Task 14:
@@ -3256,7 +3256,7 @@ git commit -m "feat(frakt): add booking buttons and rate dialog"
 ### Task 14: Röktest mot Sendifys sandlåda och slutkontroll
 
 **Förutsättning:** Ett Sendify-sandlådekonto (https://se.sendify-staging.com/sign-up, *Settings → API*). Lägg nyckeln
-i `sites/test-erp.local/site_config.json` som `"sendify_sandbox_api_key": "<nyckel>"`. Utan nyckel hoppas testet
+i `sites/<testsite>/site_config.json` som `"sendify_sandbox_api_key": "<nyckel>"`. Utan nyckel hoppas testet
 över – be användaren skapa kontot innan detta steg.
 
 **Files:**
@@ -3312,7 +3312,7 @@ class TestSendifySandlada(IntegrationTestCase):
 
 - [ ] **Step 2: Kör röktestet**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sandlada`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige --module erpnext_sverige.tests.test_frakt_sandlada`
 Expected: 1 test OK (eller *skipped* om nyckeln saknas – rapportera det, markera inte steget som klart).
 Om `avboka` eller `hamta_dokument` avvisas: läs sidan "Cancel a booked shipment" resp. "Print shipping documents" i
 https://api.sendify.com/docs, rätta request-body i `sendify.py` och uppdatera motsvarande test i
@@ -3320,7 +3320,7 @@ https://api.sendify.com/docs, rätta request-body i `sendify.py` och uppdatera m
 
 - [ ] **Step 3: Kör hela testsviten**
 
-Run: `bench --site test-erp.local run-tests --app erpnext_sverige`
+Run: `bench --site <testsite> run-tests --app erpnext_sverige`
 Expected: alla tester OK (sandlådetestet OK eller skipped).
 
 - [ ] **Step 4: Commit**
