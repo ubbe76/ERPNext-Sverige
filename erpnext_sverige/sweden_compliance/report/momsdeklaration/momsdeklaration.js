@@ -44,5 +44,22 @@ frappe.query_reports["Momsdeklaration"] = {
 				callback: (r) => r.message && frappe.set_route("Form", "Journal Entry", r.message),
 			});
 		});
+
+		report.page.add_inner_button(__("Lås perioden"), () => {
+			const { company, to_date } = args();
+			frappe.confirm(
+				__(
+					"Bokföringen för {0} låses till och med {1}. Därefter går det inte att bokföra, ändra eller makulera något med datum till och med {1}. Lås när momsdeklarationen är inlämnad och momsomföringen bokförd. Fortsätta?",
+					[company, frappe.datetime.str_to_user(to_date)]
+				),
+				() =>
+					frappe.call({
+						method: "erpnext_sverige.sweden_compliance.period_lock.las_period",
+						args: { company, to_date },
+						freeze: true,
+						callback: (r) => r.message && frappe.msgprint(r.message),
+					})
+			);
+		});
 	},
 };

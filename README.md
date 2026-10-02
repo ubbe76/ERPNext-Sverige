@@ -121,6 +121,12 @@ och momsomföringar räknas inte med. Beloppen anges i hela kronor, och öretal 
 
 Rutorna 06, 07, 08, 37 och 38 stöds inte än och är alltid 0.
 
+**Lås perioden** låser bokföringen till och med periodens slutdatum när deklarationen är inlämnad och
+momsomföringen bokförd (bolagets *Accounts Frozen Till Date*). Därefter går det inte att bokföra, ändra eller
+makulera något med datum i perioden, inte heller som Administrator. Knappen vägrar om det finns utkast i
+perioden, låser aldrig framtida datum och flyttar aldrig ett låsdatum bakåt. Bara Accounts Manager och System
+Manager kan låsa. Ett felaktigt låsdatum ändras på bolaget av System Manager.
+
 ### SIE-export
 
 Rapporten **SIE-export** (modul Sweden Compliance) sammanställer verifikationerna per serie för valt
