@@ -1,0 +1,77 @@
+{
+ "app": "erpnext_sverige",
+ "creation": "2026-10-02 09:00:00.000000",
+ "modified": "2026-10-02 09:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "docstatus": 0,
+ "standard": 1,
+ "doctype": "Workspace Sidebar",
+ "name": "Svensk bokföring",
+ "title": "Svensk bokföring",
+ "module": "Sweden Compliance",
+ "header_icon": "landmark",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "calculator",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Momsdeklaration",
+   "link_to": "Momsdeklaration",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "file-down",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "SIE-export",
+   "link_to": "SIE-export",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "wallet",
+   "indent": 1,
+   "keep_closed": 0,
+   "label": "Bankfiler",
+   "link_to": null,
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Section Break"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "icon": "receipt-text",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Bankgiroinbetalning",
+   "link_to": "Bankgiro Inbetalning",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "icon": "wallet",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Leverantörsbetalning",
+   "link_to": "Leverantorsbetalning",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ]
+}
