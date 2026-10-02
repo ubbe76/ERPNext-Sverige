@@ -172,6 +172,12 @@ ordern, som då inte faktureras igen från försändelsen.
 I sandlådan fungerar fullständig bokning bara med DHL, UPS och DSV, och spårningen ger bara händelsen `ORDERED`.
 Ombud, tull, egen inlämning och flera Sendify-konton stöds inte än.
 
+### Skyddade bilagor
+
+Ett kvitto eller en inskannad leverantörsfaktura är själva verifikationen och ska bevaras (bokföringslagen 5 och
+7 kap.). En bilaga på ett **bokfört eller makulerat** dokument kan därför inte tas bort eller flyttas till ett
+annat dokument. Nya bilagor går att lägga till efter bokföring, och bilagor på utkast kan tas bort som vanligt.
+
 ### Backup och arkivering
 
 Bokföringslagen (7 kap.) kräver att räkenskapsinformationen bevaras i **7 år** efter räkenskapsårets slut, i

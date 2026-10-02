@@ -182,6 +182,10 @@ doc_events = {
 	"Purchase Invoice": {
 		"validate": "erpnext_sverige.accounting.account_selection.set_accounts_by_tax_category",
 	},
+	"File": {
+		"validate": "erpnext_sverige.sweden_compliance.bilagor.skydda_mot_flytt",
+		"on_trash": "erpnext_sverige.sweden_compliance.bilagor.skydda_mot_radering",
+	},
 	"Shipment": {
 		"before_cancel": "erpnext_sverige.frakt.bokning.avboka_vid_avbrott",
 		"on_trash": "erpnext_sverige.frakt.bokning.radera_vid_borttagning",
