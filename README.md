@@ -172,6 +172,52 @@ ordern, som då inte faktureras igen från försändelsen.
 I sandlådan fungerar fullständig bokning bara med DHL, UPS och DSV, och spårningen ger bara händelsen `ORDERED`.
 Ombud, tull, egen inlämning och flera Sendify-konton stöds inte än.
 
+### Backup och arkivering
+
+Bokföringslagen (7 kap.) kräver att räkenskapsinformationen bevaras i **7 år** efter räkenskapsårets slut, i
+varaktigt skick. `backup/erpnext-backup.sh` tar backup av databas och filer, krypterar den med gpg (AES-256) och
+laddar upp den till ett eller flera molnlager via [rclone](https://rclone.org), till exempel OneDrive, Google Drive
+och Backblaze B2. Varje mål får en egen, fullständig kopia.
+
+| Mapp per mål och site | Innehåll | Sparas |
+|---|---|---|
+| `daglig/ÅÅÅÅ-MM-DD/` | daglig backup | 30 dagar (`DAILY_DAYS`) |
+| `manad/ÅÅÅÅ-MM/` | första backupen varje månad | 8 år (`MONTHLY_YEARS`) |
+| `arkiv/ÅÅÅÅ/` | årsarkiv: backup + SIE 4-fil per bolag | raderas aldrig |
+
+**Inställning** (en gång):
+
+```bash
+# 1. Logga in på molntjänsterna (öppnar webbläsaren). Välj t.ex. namnen onedrive, gdrive och b2.
+rclone config
+
+# 2. Konfiguration och lösenfras
+mkdir -p ~/.config/erpnext-backup
+cp apps/erpnext_sverige/backup/config.example ~/.config/erpnext-backup/config   # anpassa REMOTES och SITES
+openssl rand -base64 32 > ~/.config/erpnext-backup/passphrase
+chmod 600 ~/.config/erpnext-backup/*
+
+# 3. Prova och schemalägg (varje natt kl. 02:30)
+apps/erpnext_sverige/backup/erpnext-backup.sh
+crontab -e   # 30 2 * * * <bench>/apps/erpnext_sverige/backup/erpnext-backup.sh >> <bench>/logs/erpnext-backup.log 2>&1
+```
+
+> **Spara lösenfrasen i en lösenordshanterare.** Utan den går backupen inte att läsa, och den finns annars bara
+> på den här datorn.
+
+**Årsarkiv**: kör efter bokslutet för året, t.ex. `erpnext-backup.sh arkiv 2026`.
+
+**Återställning**:
+
+```bash
+rclone copy onedrive:ERPNext-backup/<site>/manad/2026-10/ ./aterstall/
+gpg -d ./aterstall/<fil>.tar.gpg | tar -xf - -C ./aterstall/
+bench --site <site> restore ./aterstall/backup/*-database.sql.gz \
+  --with-public-files ./aterstall/backup/*-files.tar --with-private-files ./aterstall/backup/*-private-files.tar
+```
+
+Kontrollera loggen regelbundet. En körning som misslyckas skriver `KLART MED FEL` och avslutas med felkod.
+
 ### Kontrollskript för nya strängar
 
 När Frappe eller ERPNext uppdateras kan nya strängar med särskrivningar tillkomma. Skriptet
