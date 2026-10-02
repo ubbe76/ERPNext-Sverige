@@ -1,7 +1,7 @@
 {
  "app": "erpnext_sverige",
  "creation": "2026-10-02 09:00:00.000000",
- "modified": "2026-10-02 09:00:00.000000",
+ "modified": "2026-10-02 10:00:00.000000",
  "modified_by": "Administrator",
  "owner": "Administrator",
  "docstatus": 0,
@@ -21,6 +21,18 @@
    "keep_closed": 0,
    "label": "Momsdeklaration",
    "link_to": "Momsdeklaration",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "book-text",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Grundbok",
+   "link_to": "Grundbok",
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link"
