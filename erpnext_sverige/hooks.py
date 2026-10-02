@@ -2,7 +2,7 @@ app_name = "erpnext_sverige"
 app_title = "ERPNext Sverige"
 app_publisher = "Urban Källefors"
 app_description = "Swedish localization and manufacturing adaptations for ERPNext"
-app_email = "18618863+ubbe76@users.noreply.github.com"
+app_email = "erpnext@kallefors.se"
 app_license = "gpl-3.0"
 
 # Apps
