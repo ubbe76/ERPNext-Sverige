@@ -7,6 +7,7 @@ from frappe.tests import IntegrationTestCase
 from erpnext_sverige.frakt import FraktFel, bokning
 from erpnext_sverige.tests.frakt_utils import (
 	aktivera_frakt,
+	commit_som_savepoint,
 	make_eur_pall,
 	make_foljesedel,
 	make_frakt_item,
@@ -34,6 +35,7 @@ TOM_PDF = _tom_pdf()
 
 class FraktTestCase(IntegrationTestCase):
 	def setUp(self):
+		commit_som_savepoint(self)
 		aktivera_frakt()
 		self.kund = make_kund_med_adress()
 		self.pall = make_eur_pall()

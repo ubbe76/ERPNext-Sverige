@@ -8,9 +8,18 @@ COMPANY = "_Test Svenska AB"
 COMPANY_ABBR = "_TSA"
 BAS_CHART = "BAS 2024 med Nummer"
 
+_grunduppsatt = False
+
 
 def ensure_test_company():
-	"""Skapa testbolaget första gången; kör alltid den (idempotenta) grunduppsättningen."""
+	"""Skapa testbolaget första gången och kör den (idempotenta) grunduppsättningen en gång per testkörning.
+
+	Grunduppsättningen committar. Körd i varje test skulle den spara allt som tidigare tester i samma
+	klass skapat på test-siten, eftersom Frappe bara rullar tillbaka när klassen är klar.
+	"""
+	global _grunduppsatt
+	if _grunduppsatt and frappe.db.exists("Company", COMPANY):
+		return
 	if not frappe.db.exists("Company", COMPANY):
 		frappe.get_doc(
 			{
@@ -25,6 +34,7 @@ def ensure_test_company():
 			}
 		).insert()
 	setup_swedish_company(COMPANY)  # committar
+	_grunduppsatt = True
 
 
 def account(number: str) -> str:
