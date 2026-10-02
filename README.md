@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/images/erpnext-sverige-dark.svg">
+    <img alt="ERPNext Sverige" src=".github/images/erpnext-sverige.svg" width="420">
+  </picture>
+</p>
+
 # ERPNext Sverige
 
 Svensk lokalisering av [ERPNext](https://github.com/frappe/erpnext) version 16.
