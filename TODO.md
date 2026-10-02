@@ -1,7 +1,7 @@
 # TODO
 
-Siten `svensk-erp.local`, ett bolag (SEK, kontoplan BAS 2024 med nummer).
-Inga transaktioner är bokförda ännu. Gör klart steg 1 innan första verifikationen.
+Produktionssiten `svensk-erp.local`, ett bolag (SEK, kontoplan BAS 2024 med nummer). Tester körs på
+`test-erp.local` och i CI (GitHub Actions).
 
 ## 1. Bokföringsgrund (innan första verifikationen)
 
@@ -70,8 +70,7 @@ Fynd:
    F-skatt (inställning på bolaget), underlag och moms per momssats, kundens momsreg.nr och hänvisning vid
    EU-försäljning/export, bankgiro/plusgiro/bankkonto/IBAN/BIC från bolagets bankkonto, OCR-nummer
    (inställning på bolaget). Svenska eller engelska efter kundens språk.
-   - [ ] **Installera en PDF-generator**: wkhtmltopdf saknas, så PDF (utskrift, e-post) fungerar inte.
-     Alternativt Chrome-generatorn i Utskriftsinställningar.
+   - [x] **PDF-generator**: wkhtmltopdf 0.12.6.1 (med patchad Qt) är installerat.
    - [x] Svenskt talformat (`# ###,##`) och SEK med "kr" efter beloppet samt måndag som första veckodag (`set_swedish_regional_settings`, ingår i grunduppsättningen)
    - [ ] Lägg in bolagets adress och bankkonto (Bank Account med bankgiro) på riktiga siten
 4. [x] **Bankfiler**
@@ -87,14 +86,11 @@ Fynd:
 5. [ ] **PAXml-export till svenska lönesystem** (Visma Lön, Hogia, Fortnox Lön m.fl.)
    - Exportera tidrapporter och frånvaro per anställd och löneperiod som PAXml-fil
    - Bestäm datakälla: ERPNext:s tidrapporter (Timesheet) räcker för tid. Frånvaro och
-     närvaro kräver Frappe HRMS, som inte är installerat i dag.
+     närvaro finns i Frappe HRMS, som är installerat tillsammans med appen `hrms_sverige`.
    - Mappning mellan aktivitetstyper/frånvaroorsaker och lönearter per lönesystem
-6. [ ] **Transportbokning i Sverige**
-   - Bygg på ERPNext:s doctype Shipment (skapas från försäljningsföljesedel)
-   - Välj integrationsväg: direkt mot transportörer (PostNord, DHL Freight, Schenker, Bring, DSV)
-     eller via en fraktaggregator (t.ex. nShift/Unifaun) som täcker flera transportörer med ett API
-   - Boka sändning, hämta pris, skriv ut fraktsedel/etikett, spara sändnings-ID och spårningslänk
-   - Svenska tjänster: t.ex. PostNord MyPack, DHL Paket/Pall, ombudsval
+6. [x] **Transportbokning i Sverige** via fraktaggregatorn Sendify, byggt på ERPNext:s Shipment
+   (Försändelse): priser, bokning, fraktsedel, etikett och spårning. Se README, "Frakt via Sendify".
+   - [ ] Prova riktiga bokningar (i dag provat mot Sendifys sandlåda)
 7. [ ] **Breddat stöd för e-faktura i Sverige**
    - Utgående: skapa Peppol BIS Billing 3.0 (UBL) från försäljningsfaktura och kreditnota.
      Det är krav vid fakturering till offentlig sektor (lag 2018:1277).
@@ -124,3 +120,7 @@ Fynd:
   adress som tar emot e-post, till exempel en vidarebefordringsadress (alias på egen domän eller SimpleLogin/Proton/Firefox Relay).
   Dagens adress är GitHubs anonyma adress, som inte kan ta emot e-post. Marketplace kräver en adress som fungerar.
   Commits kan behålla den anonyma adressen.
+- [x] CI: testsviten körs med GitHub Actions på en ny site (`.github/workflows/ci.yml`)
+- [x] Versionsnummer och ändringslogg (`CHANGELOG.md`), första pre-release v0.1.0
+- [ ] Bestäm om repot ska bli publikt. Gå i så fall igenom punkterna från granskningen 2026-10-01
+  (författaradress i en merge-commit, adressen i sandlådetestet, interna anteckningar som den här filen)
