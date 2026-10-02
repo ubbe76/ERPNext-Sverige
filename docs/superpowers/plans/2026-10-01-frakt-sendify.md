@@ -3277,8 +3277,8 @@ from erpnext_sverige.frakt import sendify
 from erpnext_sverige.frakt.parter import nasta_arbetsdag, upphamtningstid
 
 NYCKEL = frappe.conf.get("sendify_sandbox_api_key")
-PART = {"adressrad_1": "Östra Larmgatan 16", "postnummer": "41107", "ort": "Göteborg", "landskod": "SE",
-	"kontakt_namn": "Test Testsson", "telefon": "0103303091", "epost": "test@example.com", "privatperson": False}
+PART = {"adressrad_1": "Testgatan 1", "postnummer": "41107", "ort": "Göteborg", "landskod": "SE",
+	"kontakt_namn": "Test Testsson", "telefon": "0701234567", "epost": "test@example.com", "privatperson": False}
 
 
 @unittest.skipUnless(NYCKEL, "sendify_sandbox_api_key saknas i site_config")

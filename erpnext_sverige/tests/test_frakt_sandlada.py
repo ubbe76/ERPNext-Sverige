@@ -11,12 +11,12 @@ from erpnext_sverige.frakt.parter import nasta_arbetsdag, upphamtningstid
 
 NYCKEL = frappe.conf.get("sendify_sandbox_api_key")
 PART = {
-	"adressrad_1": "Östra Larmgatan 16",
+	"adressrad_1": "Testgatan 1",
 	"postnummer": "41107",
 	"ort": "Göteborg",
 	"landskod": "SE",
 	"kontakt_namn": "Test Testsson",
-	"telefon": "0103303091",
+	"telefon": "0701234567",
 	"epost": "test@example.com",
 	"privatperson": False,
 }
