@@ -224,7 +224,7 @@ scheduler_events = {
 # Testing
 # -------
 
-# before_tests = "erpnext_sverige.install.before_tests"
+before_tests = "erpnext_sverige.tests.utils.before_tests"
 
 # Extend DocType Class
 # ------------------------------

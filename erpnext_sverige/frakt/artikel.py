@@ -45,8 +45,15 @@ def sakerstall_fraktartikel() -> None:
 		konto = frappe.db.get_value(
 			"Account", {"company": company, "account_number": FRAKTKONTO, "is_group": 0}
 		)
-		if konto and not any(d.company == company for d in item.item_defaults):
+		if not konto:
+			continue
+		# ERPNext lägger själv till en rad för standardbolaget (med standardlager men utan intäktskonto)
+		rad = next((d for d in item.item_defaults if d.company == company), None)
+		if not rad:
 			item.append("item_defaults", {"company": company, "income_account": konto})
+			andrad = True
+		elif not rad.income_account:
+			rad.income_account = konto
 			andrad = True
 	if andrad:
 		item.save(ignore_permissions=True)

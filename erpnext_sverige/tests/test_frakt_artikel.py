@@ -58,3 +58,19 @@ class TestFraktartikel(IntegrationTestCase):
 		frappe.db.set_single_value("Fraktinstallningar", "fraktartikel", None)
 		sakerstall_fraktartikel()
 		self.assertFalse(frappe.db.get_single_value("Fraktinstallningar", "fraktartikel"))
+
+	def test_rad_utan_intaktskonto_far_fraktkontot(self):
+		# ERPNext lägger till en rad för standardbolaget utan intäktskonto när artikeln skapas efter guiden
+		execute()
+		item = frappe.get_doc("Item", FRAKTARTIKEL)
+		for rad in item.item_defaults:
+			if rad.company == COMPANY:
+				rad.income_account = None
+		item.save()
+		sakerstall_fraktartikel()
+		self.assertEqual(
+			frappe.db.get_value(
+				"Item Default", {"parent": FRAKTARTIKEL, "company": COMPANY}, "income_account"
+			),
+			account("3520"),
+		)
