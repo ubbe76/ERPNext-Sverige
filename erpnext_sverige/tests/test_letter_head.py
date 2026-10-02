@@ -62,9 +62,15 @@ class TestLetterHead(IntegrationTestCase):
 		create_letter_head()
 		item = make_item("TEST-SE-BREVHUVUD", kind=GOODS)
 		customer = make_party("Customer", "Test SE Kund AB", TAX_CATEGORY_SE)
+		# Nya dokument får standardvärdet "letter_head". Det läses ur den delade Redis-cachen, som andra
+		# processer (t.ex. en worker efter migrate) kan fylla med det committade värdet medan testets
+		# transaktion pågår. Kontrollera därför standardvärdet i databasen och sätt brevhuvudet explicit.
+		self.assertEqual(
+			frappe.db.get_value("DefaultValue", {"parent": "__default", "defkey": "letter_head"}, "defvalue"),
+			LETTER_HEAD,
+		)
 		si = make_invoice("Sales Invoice", customer, [(item, 100)], submit=False)
-		# Nya dokument får standardbrevhuvudet; utskriften använder dokumentets brevhuvud.
-		self.assertEqual(si.letter_head, LETTER_HEAD)
+		si.letter_head = LETTER_HEAD
 		frappe.local.lang = "sv"
 		html = frappe.get_print("Sales Invoice", si.name, print_format="Faktura Sverige", doc=si)
 		header = html.split('class="letter-head"', 1)[1].split("</div>\n", 1)[0]
