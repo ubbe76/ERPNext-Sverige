@@ -132,6 +132,13 @@ makulera något med datum i perioden, inte heller som Administrator. Knappen vä
 perioden, låser aldrig framtida datum och flyttar aldrig ett låsdatum bakåt. Bara Accounts Manager och System
 Manager kan låsa. Ett felaktigt låsdatum ändras på bolaget av System Manager.
 
+### Grundbok
+
+Rapporten **Grundbok** (Svensk bokföring) visar bokföringsposterna i **registreringsordning**, som
+bokföringslagen (5 kap. 1 §) kräver: registreringstidpunkt, bokföringsdatum, verifikation, konto, belopp, part
+och vem som registrerade. Huvudboken i ERPNext sorteras i stället efter bokföringsdatum. Makuleringar visas som
+egna rader där de registrerades.
+
 ### SIE-export
 
 Rapporten **SIE-export** (modul Sweden Compliance) sammanställer verifikationerna per serie för valt
