@@ -25,6 +25,43 @@ function satt_period(report) {
 		);
 }
 
+// Filen hämtas i bakgrunden och sparas, i stället för i en ny flik: en ny flik med en nedladdning blir kvar
+// tom och ser ut att ladda i vissa webbläsare. Fel (t.ex. fel period) visas som vanliga meddelanden.
+function ladda_ner_eskd(args) {
+	const url = "/api/method/erpnext_sverige.sweden_compliance.vat_return.download_eskd";
+	frappe.dom.freeze();
+	fetch(`${url}?${new URLSearchParams(args)}`, {
+		headers: { "X-Frappe-CSRF-Token": frappe.csrf_token },
+	})
+		.then(async (r) => {
+			if (!r.ok) {
+				const svar = await r.json().catch(() => ({}));
+				const meddelanden = JSON.parse(svar._server_messages || "[]").map(
+					(m) => JSON.parse(m).message
+				);
+				frappe.msgprint({
+					message: meddelanden.join("<br>") || __("Filen kunde inte skapas"),
+					indicator: "red",
+				});
+				return;
+			}
+			const namn =
+				(r.headers.get("Content-Disposition") || "").match(/filename=([^;]+)/)?.[1] ||
+				"momsdeklaration.xml";
+			const lank = document.createElement("a");
+			lank.href = URL.createObjectURL(await r.blob());
+			lank.download = namn;
+			document.body.appendChild(lank);
+			lank.click();
+			lank.remove();
+			setTimeout(() => URL.revokeObjectURL(lank.href), 10000);
+		})
+		.catch(() =>
+			frappe.msgprint({ message: __("Ingen kontakt med servern"), indicator: "red" })
+		)
+		.finally(() => frappe.dom.unfreeze());
+}
+
 frappe.query_reports["Momsdeklaration"] = {
 	filters: [
 		{
@@ -62,10 +99,7 @@ frappe.query_reports["Momsdeklaration"] = {
 			to_date: report.get_filter_value("to_date"),
 		});
 
-		report.page.add_inner_button(__("Ladda ner eSKD-fil"), () => {
-			const url = "/api/method/erpnext_sverige.sweden_compliance.vat_return.download_eskd";
-			window.open(`${url}?${new URLSearchParams(args())}`);
-		});
+		report.page.add_inner_button(__("Ladda ner eSKD-fil"), () => ladda_ner_eskd(args()));
 
 		report.page.add_inner_button(__("Skapa momsomföring"), () => {
 			frappe.call({
