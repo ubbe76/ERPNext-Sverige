@@ -5,7 +5,7 @@ dimension 6), ingående/utgående balanser, periodens resultat och alla verifika
 Teckenkodning PC8 (IBM codepage 437), belopp med punkt som decimaltecken, debet positivt.
 
 Verifikationsserier per dokumenttyp:
-A journalposter, B kundfakturor, C leverantörsfakturor, D betalningar, E lager, F övrigt.
+A verifikationer, B kundfakturor, C leverantörsfakturor, D betalningar, E lager, F övrigt.
 Numren löper i datumordning inom varje serie. ERPNext-namnet följer med i verifikationstexten.
 Bokslutsverifikationer (Period Closing Voucher) exporteras inte; mottagande program gör eget bokslut.
 """
@@ -24,7 +24,7 @@ SIE_ENCODING = "cp437"  # "PC8"
 CANCELLATION_PREFIX = "On cancellation of"
 
 SERIES = {
-	"Journal Entry": ("A", "Journalposter"),
+	"Journal Entry": ("A", "Verifikationer"),
 	"Sales Invoice": ("B", "Kundfakturor"),
 	"POS Invoice": ("B", "Kundfakturor"),
 	"Purchase Invoice": ("C", "Leverantörsfakturor"),

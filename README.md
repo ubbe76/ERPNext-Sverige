@@ -25,7 +25,7 @@ Frappe och ERPNext. Katalogen laddas efter deras egna, och därför ersätter de
 | Cost Center | Resultat Enheter | Resultatenhet |
 | Mode of Payment | Betalning Sätt | Betalsätt |
 | Payment Terms | Betalning Villkor | Betalningsvillkor |
-| Fiscal Year | Bokföring År | Bokföringsår |
+| Fiscal Year | Bokföring År | Räkenskapsår |
 | Accounts Settings | Bokföring Inställningar | Bokföringsinställningar |
 | Party | Parti | Part |
 
@@ -129,7 +129,7 @@ och momsomföringar räknas inte med. Beloppen anges i hela kronor, och öretal 
 
 - **Ladda ner eSKD-fil**: fil för uppladdning i Skatteverkets e-tjänst för momsdeklaration.
   **Verifiera formatet mot Skatteverkets aktuella specifikation innan filen används på riktigt.**
-- **Skapa momsomföring**: skapar en journalpost som **utkast**, daterad periodens sista dag, som nollställer
+- **Skapa momsomföring**: skapar en verifikation som **utkast**, daterad periodens sista dag, som nollställer
   momskontona (2610–2649) mot 2650. Öresavrundningen bokförs på 3740. Granska och bokför den själv.
 
 Rutorna 06, 07, 08, 37 och 38 stöds inte än och är alltid 0.
@@ -155,7 +155,7 @@ räkenskapsår. Knappen **Ladda ner SIE-fil** ger en SIE 4-fil (PC8) till reviso
 - bolagsuppgifter, kontoplan och kontotyper
 - ingående och utgående balanser (`#IB`/`#UB`) och periodens resultat (`#RES`), även för föregående år om det finns
 - resultatenheter som dimension 1 (kostnadsställe) och projekt som dimension 6
-- alla verifikationer med rader (`#VER`/`#TRANS`) i serierna A journalposter, B kundfakturor,
+- alla verifikationer med rader (`#VER`/`#TRANS`) i serierna A verifikationer, B kundfakturor,
   C leverantörsfakturor, D betalningar, E lager och F övrigt, numrerade i datumordning. ERPNext-namnet står
   i verifikationstexten. En makulering exporteras som en egen verifikation, "Makulering av …".
 
@@ -349,6 +349,14 @@ Stilregler för översättningarna:
 - Tillverkning: Operation (inte Åtgärd), Operationsföljd (Routing), Arbetsstation (Workstation),
   Tillverkningsorder (Work Order), Operationskort (Job Card), Färdigartikel (Finished Good), Materialuttag
   (Material Issue). ERPNext:s standardlager Stores heter Lager.
+- Bokföring: Verifikation (Journal Entry), Huvudbok (General Ledger), Balansräkning/Resultaträkning,
+  Saldobalans (Trial Balance), Kundreskontra/Leverantörsreskontra (Accounts Receivable/Payable), Kundfaktura
+  och Leverantörsfaktura (Sales/Purchase Invoice), Räkenskapsår (Fiscal Year, bokföringslagens term),
+  Källskatt (Tax Withholding, inte momsavdrag), Beskattningsunderlag (Taxable Amount).
+- Försäljning, inköp och lager: Offert och Offertförfrågan (Quotation/RFQ), Följesedel (Delivery Note),
+  Inleverans (Purchase Receipt), Materialinleverans (Material Receipt), Lagerinventering (Stock
+  Reconciliation), Beställningspunkt (Reorder Level), Affärsmöjlighet (Opportunity), Transportör (Carrier).
+- Utskriftsmallarnas egna etiketter har msgctxt "Swedish print" och ändras bara medvetet.
 
 ## Licens
 
