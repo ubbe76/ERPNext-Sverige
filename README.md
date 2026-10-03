@@ -346,6 +346,9 @@ Stilregler för översättningarna:
 - Skriv sammansatta ord ihop: Artikelgrupp, Leverantörsgrupp, Bankkonto.
 - Stor bokstav bara först i en etikett eller mening, och i egennamn.
 - Följ BAS-terminologin där den finns, till exempel Resultatenhet och Bokföringsår.
+- Tillverkning: Operation (inte Åtgärd), Operationsföljd (Routing), Arbetsstation (Workstation),
+  Tillverkningsorder (Work Order), Operationskort (Job Card), Färdigartikel (Finished Good), Materialuttag
+  (Material Issue). ERPNext:s standardlager Stores heter Lager.
 
 ## Licens
 
