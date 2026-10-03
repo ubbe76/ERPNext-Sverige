@@ -330,6 +330,18 @@ bench --site <testsite> run-tests --module erpnext_sverige.tests.test_bgmax
 bench --site <testsite> run-tests --module erpnext_sverige.tests.test_pain001
 ```
 
+### Testdata för tillverkning
+
+`scripts/demodata_tillverkning.py` lägger in en påhittad plåt- och svetsverkstad i ett bolag på en test- eller
+demosite: råmaterial, halvfabrikat och produkter med stycklistor (material och arbetsmoment), arbetsstationer
+med timkostnad, leverantörer, kunder (även EU), priser och ett ingående lager av råmaterial. Lagren kopplas till
+BAS-kontona 1410, 1440 och 1450. Skriptet skapar bara det som saknas och körs bara där `allow_tests` är på:
+
+```bash
+bench --site <demosite> set-config allow_tests true
+bench --site <demosite> execute erpnext_sverige.scripts.demodata_tillverkning.skapa --kwargs "{'company': '<bolag>'}"
+```
+
 Stilregler för översättningarna:
 - Skriv sammansatta ord ihop: Artikelgrupp, Leverantörsgrupp, Bankkonto.
 - Stor bokstav bara först i en etikett eller mening, och i egennamn.
