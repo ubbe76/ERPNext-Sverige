@@ -6,3 +6,4 @@
 # Patches added in this section will be executed after doctypes are migrated
 erpnext_sverige.patches.skapa_fraktartikel
 erpnext_sverige.patches.fyll_momsregnr
+erpnext_sverige.patches.upphamtningstider_per_dag

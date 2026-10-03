@@ -7,7 +7,7 @@ import frappe
 from frappe.tests import IntegrationTestCase
 
 from erpnext_sverige.frakt import sendify
-from erpnext_sverige.frakt.parter import nasta_arbetsdag, upphamtningstid
+from erpnext_sverige.frakt.parter import forsta_upphamtning
 
 NYCKEL = frappe.conf.get("sendify_sandbox_api_key")
 PART = {
@@ -58,7 +58,9 @@ class TestSendifySandlada(IntegrationTestCase):
 			"avsandarens_referens": "DN-TEST",
 		}
 		sendify_id = sendify.skapa_sandning(sandning)
-		priser, _varningar = sendify.hamta_priser(sendify_id, upphamtningstid(nasta_arbetsdag(), "10:00:00"))
+		priser, _varningar = sendify.hamta_priser(
+			sendify_id, forsta_upphamtning(frappe.get_doc("Fraktinstallningar"))
+		)
 		self.assertTrue(priser, "inga priser i sandlådan")
 		valt = next(
 			p

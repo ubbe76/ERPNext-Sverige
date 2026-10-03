@@ -2,6 +2,25 @@
 const FRAKT_BOKNING = "erpnext_sverige.frakt.bokning";
 
 frappe.ui.form.on("Shipment", {
+	// Upphämtningstiderna följer dagen enligt Fraktinställningar; stängda och röda dagar ger en varning
+	pickup_date(frm) {
+		if (!frappe.boot.frakt_aktiverad || !frm.doc.pickup_date || frm.doc.docstatus !== 0)
+			return;
+		frappe
+			.call({
+				method: "erpnext_sverige.frakt.parter.hamta_upphamtningstider",
+				args: { datum: frm.doc.pickup_date },
+			})
+			.then((r) => {
+				const svar = r.message || {};
+				if (svar.stangt) {
+					frappe.msgprint({ message: svar.stangt, indicator: "orange" });
+					return;
+				}
+				frm.set_value({ pickup_from: svar.fran, pickup_to: svar.till });
+			});
+	},
+
 	refresh(frm) {
 		if (!frappe.boot.frakt_aktiverad || frm.is_new()) return;
 		const grupp = __("Sendify");

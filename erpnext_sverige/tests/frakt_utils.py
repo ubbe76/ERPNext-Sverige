@@ -138,8 +138,10 @@ def aktivera_frakt(**andringar):
 			"bolag": COMPANY,
 			"avsandaradress": make_adress("_Test Svenska AB lager", "Company", COMPANY, foretag=True),
 			"avsandarkontakt": make_kontakt("_Test Lagerchef", "Company", COMPANY),
-			"upphamtning_fran": "09:00:00",
-			"upphamtning_till": "16:00:00",
+			"upphamtningstider": [
+				{"veckodag": dag, "fran": "09:00:00", "till": "16:00:00"}
+				for dag in ("Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag")
+			],
 			"paslag_procent": 10,
 			"paslag_belopp": 20,
 			"fraktartikel": FRAKTARTIKEL,

@@ -52,9 +52,12 @@ class TestFraktpris(IntegrationTestCase):
 			},
 		)
 
-	def test_nasta_arbetsdag_hoppar_over_helg(self):
-		self.assertEqual(parter.nasta_arbetsdag(date(2026, 10, 2)), date(2026, 10, 5))  # fredag → måndag
-		self.assertEqual(parter.nasta_arbetsdag(date(2026, 10, 5)), date(2026, 10, 6))
+	def test_nasta_upphamtningsdag_hoppar_over_helg(self):
+		inst = frappe.get_doc("Fraktinstallningar")
+		self.assertEqual(
+			parter.nasta_upphamtningsdag(inst, date(2026, 10, 2)), date(2026, 10, 5)
+		)  # fre → mån
+		self.assertEqual(parter.nasta_upphamtningsdag(inst, date(2026, 10, 5)), date(2026, 10, 6))
 
 	def test_upphamtningstid(self):
 		self.assertEqual(parter.upphamtningstid("2026-10-05", "09:30:00"), datetime(2026, 10, 5, 9, 30))
@@ -111,7 +114,9 @@ class TestPrisforfragan(IntegrationTestCase):
 		):
 			fraktpris.kontrollera("Sales Order", so.name)
 		onskad = priser.call_args.args[1]
-		self.assertGreaterEqual(onskad.date(), parter.nasta_arbetsdag())
+		self.assertGreaterEqual(
+			onskad.date(), parter.nasta_upphamtningsdag(frappe.get_doc("Fraktinstallningar"))
+		)
 
 	def test_tillfallig_sandning_raderas_aven_vid_fel(self):
 		so = self.order()
