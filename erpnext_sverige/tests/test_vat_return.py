@@ -4,8 +4,9 @@ from datetime import date
 from unittest.mock import patch
 
 import frappe
+from erpnext.accounts.utils import FiscalYearError
 from frappe.tests import IntegrationTestCase, UnitTestCase
-from frappe.utils import today
+from frappe.utils import getdate, today
 from lxml import etree
 
 from erpnext_sverige.setup.company import TAX_CATEGORY_EU, TAX_CATEGORY_SE
@@ -168,6 +169,15 @@ def brutet_rakenskapsar(datum):
 	return start, date(start.year + 1, 4, 30)
 
 
+def bara_2026(datum, company=None, as_dict=False, raise_on_missing=True, **kwargs):
+	"""Som get_fiscal_year när bara räkenskapsåret 2026 finns."""
+	if getdate(datum).year == 2026:
+		return frappe._dict(year_start_date=date(2026, 1, 1), year_end_date=date(2026, 12, 31))
+	if raise_on_missing:
+		frappe.throw(f"Datum {datum} är inte under något aktivt räkenskapsår", FiscalYearError)
+	return False
+
+
 class TestPerioden(UnitTestCase):
 	def test_manad(self):
 		self.assertEqual(
@@ -224,6 +234,17 @@ class TestMomsperiodKontroll(IntegrationTestCase):
 
 	def test_las_stoppas_om_slutdatum_inte_ar_periodslut(self):
 		self.assertRaisesRegex(frappe.ValidationError, "per kvartal", las_period, COMPANY, "2026-08-31")
+
+	def test_forsta_aret_ger_pagaende_period(self):
+		# Årsredovisare utan avslutat räkenskapsår före det pågående (bolagets första år): pågående året,
+		# utan felmeddelande, i stället för ett fel när rapporten öppnas
+		frappe.db.set_value("Company", COMPANY, "se_momsperiod", "År")
+		frappe.local.message_log = []
+		with patch("erpnext_sverige.sweden_compliance.vat_return.get_fiscal_year", side_effect=bara_2026):
+			self.assertEqual(
+				senaste_avslutade_period(COMPANY, date(2026, 10, 3)), (date(2026, 1, 1), date(2026, 12, 31))
+			)
+		self.assertEqual(frappe.local.message_log, [])
 
 	def test_senaste_avslutade_period(self):
 		self.assertEqual(

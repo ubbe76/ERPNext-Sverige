@@ -82,7 +82,8 @@ Fynd:
      Positioner och element är skrivna enligt Bankgirots manual och bankernas anvisningar men inte provade skarpt.
    - [ ] Betalningar i utländsk valuta (EUR m.m.) i betalfilen; i dag bara SEK
    - [ ] Inläsning av bankens kontoutdrag (camt.053) för avstämning
-5. [x] **PAXml-export till svenska lönesystem** (byggt i appen HRMS Sverige: Löneunderlag till Crona Lön) (Visma Lön, Hogia, Fortnox Lön m.fl.)
+5. [x] **PAXml-export till svenska lönesystem**: byggt i appen HRMS Sverige (Löneunderlag till Crona Lön; PAXml
+   fungerar även för Visma Lön, Hogia, Fortnox Lön m.fl.)
    - Exportera tidrapporter och frånvaro per anställd och löneperiod som PAXml-fil
    - Bestäm datakälla: ERPNext:s tidrapporter (Timesheet) räcker för tid. Frånvaro och
      närvaro finns i Frappe HRMS, som är installerat tillsammans med appen `hrms_sverige`.
@@ -121,5 +122,5 @@ Fynd:
   Commits kan behålla den anonyma adressen.
 - [x] CI: testsviten körs med GitHub Actions på en ny site (`.github/workflows/ci.yml`)
 - [x] Versionsnummer och ändringslogg (`CHANGELOG.md`), första pre-release v0.1.0
-- [x] Repot är publikt sedan 2026-10-03. Gå i så fall igenom punkterna från granskningen 2026-10-01
-  (författaradress i en merge-commit, adressen i sandlådetestet, interna anteckningar som den här filen)
+- [x] Repot är publikt sedan 2026-10-03. Punkterna från granskningen 2026-10-01 är åtgärdade (adressen i
+  sandlådetestet och interna anteckningar), utom författaradressen i merge-commits som gjorts via GitHub

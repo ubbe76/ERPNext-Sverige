@@ -317,8 +317,13 @@ def bolagets_period(company: str, datum) -> tuple[date, date]:
 
 
 def senaste_avslutade_period(company: str, idag=None) -> tuple[date, date]:
-	start, _slut = bolagets_period(company, idag or getdate())
-	return bolagets_period(company, start - timedelta(days=1))
+	"""Perioden före den pågående. Redovisar bolaget per år och saknar räkenskapsår före det pågående (bolagets
+	första år) blir det den pågående perioden, i stället för ett fel när rapporten öppnas."""
+	start, slut = bolagets_period(company, idag or getdate())
+	forra = start - timedelta(days=1)
+	if _momsperiod(company) == AR and not get_fiscal_year(forra, company=company, raise_on_missing=False):
+		return start, slut
+	return bolagets_period(company, forra)
 
 
 def kontrollera_period(company: str, from_date, to_date) -> None:
