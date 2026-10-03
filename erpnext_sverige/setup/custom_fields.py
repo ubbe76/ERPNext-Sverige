@@ -35,10 +35,20 @@ def _get_base_custom_fields():
 		],
 		"Company": [
 			{
+				"fieldname": "se_momsregnr",
+				"label": _("Momsregistreringsnummer"),
+				"fieldtype": "Data",
+				"insert_after": "tax_id",
+				"description": _(
+					"SE + organisationsnummer + 01. Fylls i när organisationsnumret anges. "
+					"Töm fältet om bolaget inte är momsregistrerat; då skrivs inget nummer ut på fakturan."
+				),
+			},
+			{
 				"fieldname": "se_f_skatt",
 				"label": _("Godkänd för F-skatt"),
 				"fieldtype": "Check",
-				"insert_after": "tax_id",
+				"insert_after": "se_momsregnr",
 				"description": _('Skriver "Godkänd för F-skatt" på fakturan.'),
 			},
 			{

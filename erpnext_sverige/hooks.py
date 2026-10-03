@@ -157,6 +157,9 @@ after_migrate = "erpnext_sverige.setup.custom_fields.create_custom_fields"
 extend_bootinfo = "erpnext_sverige.frakt.boot.extend_bootinfo"
 
 doc_events = {
+	"Company": {
+		"validate": "erpnext_sverige.sweden_compliance.invoice.satt_momsregnr",
+	},
 	"Item": {
 		"validate": "erpnext_sverige.frakt.kollin.validera_artikel",
 	},
