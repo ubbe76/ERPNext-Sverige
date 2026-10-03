@@ -40,7 +40,7 @@ msgid " Is Child Table"
 msgstr "Är undertabell"
 
 msgid " Is Subcontracted"
-msgstr " Är underkontrakterad"
+msgstr " Läggs ut på underleverantör"
 
 msgid " Phantom Item"
 msgstr " Virtuell artikel"
@@ -198,7 +198,7 @@ msgid "(H) Valuation Rate"
 msgstr "(H) Värderingspris"
 
 msgid "(Hour Rate / 60) * Actual Operation Time"
-msgstr "(Timpris/60) * Faktisk åtgärdstid"
+msgstr "(Timpris/60) * Faktisk operationstid"
 
 msgid "(I) Valuation Rate"
 msgstr "(I) Värderingspris"
@@ -210,7 +210,7 @@ msgid "(Purchase Order + Material Request + Actual Expense)"
 msgstr "(Inköpsorder + Materialbegäran + Faktisk kostnad)"
 
 msgid "(Total Workstation Time / Manufacturing Time) * 60"
-msgstr "(Total arbetsplatstid / Produktionstid) * 60"
+msgstr "(Total arbetsstationstid / Produktionstid) * 60"
 
 msgid "+ Add / Remove Fields"
 msgstr "+Lägg till/Ta bort fält"
@@ -1644,7 +1644,7 @@ msgid "Actual Operating Cost"
 msgstr "Faktisk driftkostnad"
 
 msgid "Actual Operation Time"
-msgstr "Faktisk åtgärdstid"
+msgstr "Faktisk operationstid"
 
 msgid "Actual Posting"
 msgstr "Faktisk registrering"
@@ -1740,7 +1740,7 @@ msgid "Add Container"
 msgstr "Lägg till behållare"
 
 msgid "Add Corrective Operation Cost in Finished Good Valuation"
-msgstr "Lägg till korrigerande driftkostnad i färdig artikel"
+msgstr "Lägg till kostnad för korrigerande operationer i värderingen av färdiga artiklar"
 
 msgid "Add Custom Tags"
 msgstr "Lägg till anpassade taggar"
@@ -2056,7 +2056,7 @@ msgid "Additional Notes"
 msgstr "Extra anmärkningar"
 
 msgid "Additional Operating Cost"
-msgstr "Extra driftskostnad"
+msgstr "Extra driftkostnad"
 
 msgid "Additional Permissions"
 msgstr "Extra behörigheter"
@@ -2432,7 +2432,7 @@ msgid "All items have already been received"
 msgstr "Alla artiklar är redan mottagna"
 
 msgid "All items have already been transferred for this Work Order."
-msgstr "Alla artiklar har redan överförts för denna arbetsorder."
+msgstr "Alla artiklar har redan överförts för denna tillverkningsorder."
 
 msgid "All items in this document already have a linked Quality Inspection."
 msgstr "Alla artiklar i detta dokument har redan länkad kvalitetskontroll."
@@ -2513,7 +2513,7 @@ msgid "Allow Continuous Material Consumption"
 msgstr "Tillåt kontinuerlig materialförbrukning"
 
 msgid "Allow Editing of Items and Quantities in Work Order"
-msgstr "Tillåt ändring av artiklar och kvantiteter i arbetsorder"
+msgstr "Tillåt ändring av artiklar och kvantiteter i tillverkningsorder"
 
 msgid "Allow Excess Material Transfer"
 msgstr "Tillåt överflödig materialöverföring"
@@ -2669,7 +2669,7 @@ msgid "Allow in Quick Entry"
 msgstr "Tillåt i snabbpost"
 
 msgid "Allow material consumptions without immediately manufacturing finished goods against a Work Order"
-msgstr "Tillåt materialförbrukning utan att omedelbart producera färdiga artiklar mot arbetsorder"
+msgstr "Tillåt materialförbrukning utan att omedelbart producera färdiga artiklar mot tillverkningsorder"
 
 msgid "Allow multi-currency invoices against single party account "
 msgstr "Tillåt flervalutafakturor mot partskonto"
@@ -3246,7 +3246,7 @@ msgid "As per your request, your account and data on {0} associated with email {
 msgstr "Enligt begäran har ditt konto och data på {0} kopplat till e-post {1} tagits bort permanent"
 
 msgid "As there are sufficient Sub Assembly Items, Work Order is not required for Warehouse {0}."
-msgstr "Eftersom det finns tillräckligt med underenhetsartiklar erfordras inte arbetsorder för lager {0}."
+msgstr "Eftersom det finns tillräckligt med underenhetsartiklar erfordras inte tillverkningsorder för lager {0}."
 
 msgid "As there are sufficient raw materials, Material Request is not required for Warehouse {0}."
 msgstr "Eftersom det finns tillräckligt med råmaterial erfordras inte materialbegäran för lager {0}."
@@ -4014,6 +4014,9 @@ msgstr "Stycklistejämförelseverktyg"
 msgid "BOM Component"
 msgstr "Stycklistekomponent"
 
+msgid "BOM Configuration"
+msgstr "Stycklisteinställningar"
+
 msgid "BOM Created"
 msgstr "Stycklista skapad"
 
@@ -4054,10 +4057,10 @@ msgid "BOM No. for a Finished Good Item"
 msgstr "Stycklistenummer för färdig artikel"
 
 msgid "BOM Operation"
-msgstr "Stycklisteåtgärd"
+msgstr "Stycklisteoperation"
 
 msgid "BOM Operations Time"
-msgstr "Stycklisteåtgärdstid"
+msgstr "Stycklisteoperationstid"
 
 msgid "BOM Rate"
 msgstr "Stycklistepris"
@@ -4078,7 +4081,7 @@ msgid "BOM Tree"
 msgstr "Stycklisteträdstruktur"
 
 msgid "BOM Update Batch"
-msgstr "Stycklisteuppdateringsparti "
+msgstr "Stycklisteuppdateringsparti"
 
 msgid "BOM Update Initiated"
 msgstr "Stycklisteuppdatering initierad"
@@ -4105,7 +4108,7 @@ msgid "BOM Website Item"
 msgstr "Webbplatsartikel för stycklista"
 
 msgid "BOM Website Operation"
-msgstr "Webbplatsåtgärd för stycklista"
+msgstr "Stycklisteoperation för webbplats"
 
 msgid "BOM and Finished Good Quantity is mandatory for Disassembly"
 msgstr "Stycklista och färdigartikelkvantitet erfordras för demontering"
@@ -5101,7 +5104,7 @@ msgid "By default, the Supplier Name is set as per the Supplier Name entered. If
 msgstr "Som standard är leverantörens namn satt enligt angivet leverantörsnamn. Om man vill att leverantörer ska namnges enligt en <a href=\"https://docs.erpnext.com/docs/user/manual/en/setting-up/settings/naming-series\" target=\"_blank\">Namngivningsserie</a>, välj 'Namngivningsserie'."
 
 msgid "By-Product"
-msgstr "Resterande artikel"
+msgstr "Biprodukt"
 
 msgid "Bypass Restricted IP Address Check If Two Factor Auth Enabled"
 msgstr "Ignorera begränsad IP-adresskontroll om tvåfaktorsautentisering är aktiverad"
@@ -5273,7 +5276,7 @@ msgid "Campaign Schedules"
 msgstr "Kampanjscheman"
 
 msgid "Can not close Work Order. Since {0} Job Cards are in Work In Progress state."
-msgstr "Kan inte stänga arbetsorder, eftersom {0} jobbkort har status Pågående arbete."
+msgstr "Kan inte stänga tillverkningsorder, eftersom {0} operationskort har status Pågående arbete."
 
 msgid "Can not filter based on Cashier, if grouped by Cashier"
 msgstr "Kan inte filtrera baserat på kassör, om grupperad efter kassör"
@@ -5336,7 +5339,7 @@ msgid "Cancelled Document restored as Draft"
 msgstr "Annullerat dokument återställt som utkast"
 
 msgid "Cancelled Job Card cannot be processed."
-msgstr "Avbrutet jobbkort kan inte behandlas."
+msgstr "Avbrutet operationskort kan inte behandlas."
 
 msgid "Cancelling documents"
 msgstr "Annullerar dokument"
@@ -5411,7 +5414,7 @@ msgid "Cannot cancel this document as it is linked with the submitted Asset Valu
 msgstr "Det går inte att annullera detta dokument eftersom det är länkat till godkänd tillgångsvärdejustering <b>{0}</b>. Annullera tillgångsvärdejusteringen för att fortsätta."
 
 msgid "Cannot cancel transaction for Completed Work Order."
-msgstr "Kan inte annullera transaktion för klar arbetsorder."
+msgstr "Kan inte annullera transaktion för klar tillverkningsorder."
 
 msgid "Cannot change Attributes after stock transaction. Make a new Item and transfer stock to the new Item"
 msgstr "Kan inte ändra egenskaper efter lagertransaktion. Skapa en ny artikel och överför kvantitet till den nya artikeln"
@@ -5582,7 +5585,7 @@ msgid "Cannot set multiple Item Defaults for a company."
 msgstr "Kan inte ange flera artikelstandarder för ett bolag."
 
 msgid "Cannot submit Job Card {0} while it is On Hold. Please resume and complete the job before submission."
-msgstr "Kan inte godkänna jobbkort {0} medan det är pausat. Fortsätt och avsluta jobbet innan godkännande."
+msgstr "Kan inte godkänna operationskort {0} medan det är pausat. Fortsätt och avsluta jobbet innan godkännande."
 
 msgid "Capacity (Stock UOM)"
 msgstr "Kapacitet (lagerenhet)"
@@ -6116,7 +6119,7 @@ msgid "Closed Period"
 msgstr "Stängd period"
 
 msgid "Closed Work Order can not be stopped or Re-opened"
-msgstr "Stängd arbetsorder kan inte stoppas eller öppnas igen"
+msgstr "Stängd tillverkningsorder kan inte stoppas eller öppnas igen"
 
 msgid "Closed order cannot be cancelled. Unclose to cancel."
 msgstr "Stängd order kan inte annulleras. Öppna igen för att annullera."
@@ -6178,7 +6181,7 @@ msgid "Cmd+Enter to add comment"
 msgstr "Cmd+Enter att lägga till komentar"
 
 msgid "Co-Product"
-msgstr "Restartikel"
+msgstr "Samprodukt"
 
 msgid "Code Editor Type"
 msgstr "Kodredigerartyp"
@@ -6459,7 +6462,7 @@ msgid "Completed By User"
 msgstr "Klar av användare"
 
 msgid "Completed Operation"
-msgstr "Klar åtgärd"
+msgstr "Klar operation"
 
 msgid "Completed Projects"
 msgstr "Slutförda projekt"
@@ -6489,7 +6492,7 @@ msgid "Completed Time"
 msgstr "Klar tid"
 
 msgid "Completed Work Orders"
-msgstr "Klara arbetsordrar"
+msgstr "Klara tillverkningsordrar"
 
 msgid "Completed quantity cannot be negative."
 msgstr "Slutförd kvantitet kan inte vara negativ."
@@ -6498,7 +6501,7 @@ msgid "Completed, Pending and Process Loss quantities must add up to this."
 msgstr "Färdig, väntande och processförlustkvantitet måste läggas till detta."
 
 msgid "Completed, Process Loss or Pending Qty is required for Job Card {0}, please start and complete the job card before submission"
-msgstr "Slutförd, processförlust eller väntande kvantitet erfordras för jobbkort {0}, vänligen starta och slutför jobbkort innan godkännande"
+msgstr "Slutförd, processförlust eller väntande kvantitet erfordras för operationskort {0}, vänligen starta och slutför operationskort innan godkännande"
 
 msgid "Completion By"
 msgstr "Klart av"
@@ -6645,7 +6648,7 @@ msgid "Consider Projected Qty in Calculation"
 msgstr "Inkludera beräknad kvantitet i beräkningen"
 
 msgid "Consider Projected Qty in Calculation (RM)"
-msgstr "Inkludera beräknad kvantitet i beräkningen (RM)"
+msgstr "Inkludera beräknad kvantitet i beräkningen (råmaterial)"
 
 msgid "Consider Rejected Warehouses"
 msgstr "Inkludera avvisade lager "
@@ -6699,7 +6702,7 @@ msgid "Consumables"
 msgstr "Förbrukningsartiklar"
 
 msgid "Consume Components"
-msgstr "Förbrukningskomponenter"
+msgstr "Förbruka komponenter"
 
 msgid "Consumed Amount"
 msgstr "Förbrukat belopp"
@@ -6930,13 +6933,13 @@ msgid "Corrective Action"
 msgstr "Korrigerande åtgärd"
 
 msgid "Corrective Job Card"
-msgstr "Korrigerande jobbkort"
+msgstr "Korrigerande operationskort"
 
 msgid "Corrective Operation"
-msgstr "Korrigerande åtgärd"
+msgstr "Korrigerande operation"
 
 msgid "Corrective Operation Cost"
-msgstr "Korrigerande åtgärdskostnad"
+msgstr "Korrigerande operationskostnad"
 
 msgid "Cost Center"
 msgstr "Resultatenhet"
@@ -7182,10 +7185,10 @@ msgid "Create Item"
 msgstr "Skapa artikel"
 
 msgid "Create Job Card"
-msgstr "Skapa jobbkort"
+msgstr "Skapa operationskort"
 
 msgid "Create Job Card based on Batch Size"
-msgstr "Skapa jobbkort baserat på partistorlek"
+msgstr "Skapa operationskort baserat på partistorlek"
 
 msgid "Create Journal Entries"
 msgstr "Skapa journalposter"
@@ -7240,10 +7243,10 @@ msgid "Create New Lead"
 msgstr "Skapa ny potentiell kund"
 
 msgid "Create Operation"
-msgstr "Skapa åtgärd"
+msgstr "Skapa operation"
 
 msgid "Create Operations"
-msgstr "Skapa åtgärder"
+msgstr "Skapa operationer"
 
 msgid "Create Opportunity"
 msgstr "Skapa möjlighet"
@@ -7378,10 +7381,10 @@ msgid "Create Warehouses"
 msgstr "Skapa lager"
 
 msgid "Create Work Order"
-msgstr "Skapa arbetsorder"
+msgstr "Skapa tillverkningsorder"
 
 msgid "Create Workstation"
-msgstr "Skapa arbetsplats"
+msgstr "Skapa arbetsstation"
 
 msgid "Create a New Format"
 msgstr "Skapa nytt format"
@@ -8632,7 +8635,7 @@ msgid "Default Workspace"
 msgstr "Standardarbetsyta"
 
 msgid "Default Workstation"
-msgstr "Standardarbetsplats"
+msgstr "Standardarbetsstation"
 
 msgid "Default account will be automatically updated in POS Invoice when this mode is selected."
 msgstr "Standardkonto uppdateras automatiskt i kassafaktura när detta läge är valt."
@@ -8958,6 +8961,9 @@ msgstr "Leveranslager"
 
 msgid "Delivery to"
 msgstr "Leverera till"
+
+msgid "Demand"
+msgstr "Efterfrågan"
 
 msgid "Demand Qty"
 msgstr "Efterfrågat antal"
@@ -9768,8 +9774,11 @@ msgstr "Driftstopptid (timmar)"
 msgid "Downtime Analysis"
 msgstr "Driftstoppsstatistik"
 
+msgid "Downtime Entry"
+msgstr "Registrerat driftstopp"
+
 msgid "Downtime Reason"
-msgstr "Driftstoppsanledning"
+msgstr "Orsak till driftstopp"
 
 msgid "Driver Address"
 msgstr "Startadress"
@@ -10084,7 +10093,7 @@ msgid "Educational Qualification"
 msgstr "Utbildning & kvalificering"
 
 msgid "Either Workstation or Workstation Type is mandatory"
-msgstr "Antingen arbetsplats eller arbetsplatstyp erfordras"
+msgstr "Antingen arbetsstation eller arbetsstationstyp erfordras"
 
 msgid "Either target qty or target amount is mandatory"
 msgstr "Målkvantitet eller målbelopp erfordras"
@@ -10540,7 +10549,7 @@ msgid "Enabling the check box will fetch timesheet on select of a Project in Sal
 msgstr "Om aktiverad hämtas tidrapport vid val av ett projekt i försäljningsfaktura"
 
 msgid "Enabling this checkbox will force each Job Card Time Log to have From Time and To Time"
-msgstr "Om aktiverad tvingas varje Tidslogg för Jobbkort att ha från tid och till tid"
+msgstr "Om aktiverad måste varje tidslogg för operationskort ha från- och till-tid"
 
 msgid "Enabling this ensures each Purchase Invoice has a unique value in Supplier Invoice No. field within a particular fiscal year"
 msgstr "Aktivera för att säkerställa att varje Inköpsfaktura har unikt värde i fältet Leverantörsfakturanummer per räkenskapsår"
@@ -10588,7 +10597,7 @@ msgid "End Date cannot be before Start Date."
 msgstr "Slutdatum kan inte vara tidigare än startdatum."
 
 msgid "End Time"
-msgstr "Sluttid "
+msgstr "Sluttid"
 
 msgid "End Transit"
 msgstr "Avsluta transit"
@@ -10612,7 +10621,7 @@ msgid "Ends on"
 msgstr "Slutdatum/tid"
 
 msgid "Enforce Time Logs"
-msgstr "Aktivera tidsloggar"
+msgstr "Kräv tidsloggar"
 
 msgid "Enqueued By"
 msgstr "Ställd i kö av"
@@ -10661,10 +10670,10 @@ msgid "Enter Visit Details"
 msgstr "Ange besöksdetaljer"
 
 msgid "Enter a name for Routing."
-msgstr "Ange namn för åtgärdsordning."
+msgstr "Ange namn för operationsföljd."
 
 msgid "Enter a name for the Operation, for example, Cutting."
-msgstr "Ange namn för åtgärd, till exempel skärning."
+msgstr "Ange namn för operation, till exempel skärning."
 
 msgid "Enter a name for this Holiday List."
 msgstr "Ange namn för denna helglista."
@@ -10709,10 +10718,7 @@ msgid ""
 "Enter the Operation, the table will fetch the Operation details like Hourly Rate, Workstation automatically.\n"
 "\n"
 " After that, set the Operation Time in minutes and the table will calculate the Operation Costs based on the Hourly Rate and Operation Time."
-msgstr ""
-"Ange åtgärd, detaljer hämtas automatiskt som timpris, arbetsstation .\n"
-"\n"
-" Efteråt, anges åtgärdstid i minuter och system beräknar åtgärdskostnad baserat på timpris och tid."
+msgstr "Ange operation, detaljer hämtas automatiskt som timpris, arbetsstation .\n\n Efteråt, anges operationstid i minuter och system beräknar operationskostnad baserat på timpris och tid."
 
 msgctxt "Do MMM YYYY"
 msgid "Enter the closing balance you see in your bank statement for {0} as of the {1}"
@@ -10884,6 +10890,9 @@ msgstr "Överskottsmaterial förbrukat"
 
 msgid "Excess Transfer"
 msgstr "Överskottsöverföring"
+
+msgid "Excessive machine set up time"
+msgstr "För lång ställtid"
 
 msgid "Exchange Gain / Loss"
 msgstr "Växelkursresultat"
@@ -11145,7 +11154,7 @@ msgid "Extra Consumed Qty"
 msgstr "Extra förbrukad kvantitet"
 
 msgid "Extra Job Card Quantity"
-msgstr "Extra jobbkortskvantitet"
+msgstr "Extra operationskortskvantitet"
 
 msgid "Extra Large"
 msgstr "Extra stor"
@@ -11508,10 +11517,10 @@ msgid "Filters saved"
 msgstr "Filter sparade"
 
 msgid "Final BOM"
-msgstr "Färdig stycklista"
+msgstr "Slutlig stycklista"
 
 msgid "Final Product"
-msgstr "Färdig artikel"
+msgstr "Slutprodukt"
 
 msgid "Finance Book"
 msgstr "Bokslutsregister"
@@ -11557,6 +11566,9 @@ msgstr "Bokslutsrapporter kommer att genereras med hjälp av Bokföringsregister
 
 msgid "Fingerprint Stats"
 msgstr "Fingeravtrycksstatistik"
+
+msgid "Finished Good"
+msgstr "Färdigartikel"
 
 msgid "Finished Good BOM"
 msgstr "Färdigartikelstycklista"
@@ -11631,7 +11643,7 @@ msgid "Finished Goods based Operating Cost"
 msgstr "Färdigartikelbaserad driftkostnad"
 
 msgid "Finished Item {0} does not match with Work Order {1}"
-msgstr "Färdigartikel {0} stämmer inte med arbetsorder {1}"
+msgstr "Färdigartikel {0} stämmer inte med tillverkningsorder {1}"
 
 msgid "Finished good quantity being consumed ({0} in stock UOM) must equal the quantity to disassemble ({1}). Do not change the UOM, conversion factor or quantity of the finished good row."
 msgstr "Kvantitet färdiga artiklar som förbrukas ({0} i lagerenhet) måste vara lika med kvantitet som ska demonteras ({1}). Ändra inte enhet, konverteringsfaktor eller kvantitet för raden med den färdiga artikeln."
@@ -11757,7 +11769,7 @@ msgid "Float Precision"
 msgstr "Flyttalsprecision"
 
 msgid "Floor Name"
-msgstr "Ytbenämning"
+msgstr "Namn på produktionsyta"
 
 msgid "Focus on Item Group filter"
 msgstr "Fokusera på artikelgruppfilter"
@@ -11853,10 +11865,10 @@ msgid "For Item {0} cannot be received more than {1} qty against the {2} {3}"
 msgstr "För artikel {0} kan inte tas emot mer än {1} i kvantitet mot {2} {3}"
 
 msgid "For Job Card"
-msgstr "För jobbkort"
+msgstr "För operationskort"
 
 msgid "For Operation"
-msgstr "För åtgärd"
+msgstr "För operation"
 
 msgid "For PDF statements, we auto-detect the tables on each page. You can then confirm each detected table, map its columns, and exclude anything that is not transactions (e.g. ads or summaries). Password-protected PDFs are supported - the password is saved on the bank account and reused."
 msgstr "För PDF-kontoutdrag identifierar vi automatiskt tabellerna på varje sida. Du kan sedan bekräfta varje identifierad tabell, mappa dess kolumner och exkludera allt som inte är transaktioner (t.ex. annonser eller sammanfattningar). Lösenordsskyddade PDF-filer stöds – lösenordet sparas i bankkonto och återanvänds."
@@ -11889,7 +11901,7 @@ msgid "For Warehouse"
 msgstr "För lager"
 
 msgid "For Work Order"
-msgstr "För arbetsorder"
+msgstr "För tillverkningsorder"
 
 msgid "For a dynamic subject, use Jinja tags like this: <code>{{ doc.name }} Delivered</code>"
 msgstr "För dynamiskt ämne, använd Jinja-taggar som denna: <code>{{ doc.name }} Levererad</code>"
@@ -12102,7 +12114,7 @@ msgid "From Company"
 msgstr "Från bolag"
 
 msgid "From Corrective Job Card"
-msgstr "Från korrigerande jobbkort"
+msgstr "Från korrigerande operationskort"
 
 msgid "From Currency"
 msgstr "Från valuta"
@@ -13203,6 +13215,9 @@ msgstr "Identifierar beslutsfattare"
 msgid "Identity Details"
 msgstr "Identitetsdetaljer"
 
+msgid "Idle"
+msgstr "Ledig"
+
 msgid "If \"Months\" is selected, a fixed amount will be booked as deferred revenue or expense for each month irrespective of the number of days in a month. It will be prorated if deferred revenue or expense is not booked for an entire month"
 msgstr "Om 'Månader' valts bokförs fast belopp som uppskjuten intäkt eller kostnad för varje månad, oberoende av antal dagar i månaden. Det kommer att vara proportionellt om uppskjuten intäkt eller kostnad inte bokförs för en hel månad"
 
@@ -13369,6 +13384,9 @@ msgstr "Om aktiverat tillåter system negativa lagertransaktioner för denna par
 msgid "If enabled, the system will allow selecting UOMs in sales and purchase transactions only if the conversion rate is set in the item master."
 msgstr "Om aktiverad kommer system att tillåta val av enhet i försäljnings- och inköpstransaktioner endast om konverteringssats är angiven i artikelinställningar."
 
+msgid "If enabled, the system will allow users to edit the raw materials and their quantities in the Work Order. The system will not reset the quantities as per the BOM, if the user has changed them."
+msgstr "Om aktiverad tillåter system att användare ändrar artiklar och deras kvantiteter i tillverkningsorder. System kommer inte att återställa kvantiteter enligt stycklista om användare har ändrat dem."
+
 msgid "If enabled, the system will generate an accounting entry for materials rejected in the Purchase Receipt."
 msgstr "Om aktiverad, skapar system bokföringspost för material som avvisats i inköpsföljesedel."
 
@@ -13454,7 +13472,7 @@ msgid "If the reorder check is set at the Group warehouse level, the available q
 msgstr "Om återbeställningskontroll är angiven på grupplagernivå blir tillgänglig kvantitet summan av planerade kvantiteter för alla underordnade lager."
 
 msgid "If the selected BOM has Operations mentioned in it, the system will fetch all Operations from BOM, these values can be changed."
-msgstr "Om vald stycklista har angivna åtgärder kommer system att hämta alla åtgärder från stycklista, dessa värden kan ändras."
+msgstr "Om vald stycklista har angivna operationer kommer system att hämta alla operationer från stycklista, dessa värden kan ändras."
 
 msgid "If the user has access to Employee and Report is enabled, they can view Employee-based reports."
 msgstr "Om användare har åtkomst till personal och rapport och är aktiverad kan de visa personalbaserade rapporter."
@@ -13490,7 +13508,7 @@ msgid "If this option is configured 'Yes', ERPNext will prevent you from creatin
 msgstr "Om 'Ja' kommer System att hindra dig från att skapa inköpsfaktura utan att skapa inköpsföljesedel. Vald konfiguration kan åsidosättas för viss leverantör genom att aktivera kryssrutan 'Tillåt skapande av inköpsfaktura utan inköpsföljesedel' i Leverantörsinställningar. "
 
 msgid "If ticked, multiple materials can be used for a single Work Order. This is useful if one or more time consuming products are being manufactured."
-msgstr "Om vald kan flera material användas för en arbetsorder. Detta är användbart om en eller flera tidskrävande artiklar produceras."
+msgstr "Om vald kan flera material användas för en tillverkningsorder. Detta är användbart om en eller flera tidskrävande artiklar produceras."
 
 msgid "If ticked, the BOM cost will be automatically updated based on Valuation Rate / Price List Rate / last purchase rate of raw materials."
 msgstr "Om vald uppdateras stycklistekostnad automatiskt baserat på värderingspris / prislistepris / senaste inköpspris för råmaterial."
@@ -13574,7 +13592,7 @@ msgid "Ignore Voucher Type filter and Select Vouchers Manually"
 msgstr "Ignorera verifikattypfilter och välj verifikat manuellt"
 
 msgid "Ignore Workstation Time Overlap"
-msgstr "Ignorera arbetsplatstidsöverlappning"
+msgstr "Ignorera arbetsstationstidsöverlappning"
 
 msgid "Ignore XSS Filter"
 msgstr "Ignorera XSS-filter"
@@ -14486,7 +14504,7 @@ msgid "Invalid Opening Entry"
 msgstr "Ogiltig öppningspost"
 
 msgid "Invalid Operation"
-msgstr "Ogiltig åtgärd"
+msgstr "Ogiltig operation"
 
 msgid "Invalid Option"
 msgstr "Ogiltigt alternativ"
@@ -14837,10 +14855,10 @@ msgid "Is Container"
 msgstr "Är kontainer"
 
 msgid "Is Corrective Job Card"
-msgstr "Är korrigerande jobbkort"
+msgstr "Är korrigerande operationskort"
 
 msgid "Is Corrective Operation"
-msgstr "Är korrigerande åtgärd"
+msgstr "Är korrigerande operation"
 
 msgid "Is Credit Card"
 msgstr "Är kreditkort"
@@ -14882,10 +14900,10 @@ msgid "Is Exchange Gain / Loss?"
 msgstr "Är växelkursresultat?"
 
 msgid "Is Expandable"
-msgstr "Är utvidningsbar"
+msgstr "Är utvidgningsbar"
 
 msgid "Is Final Finished Good"
-msgstr "Är färdig klar artikel"
+msgstr "Är slutlig färdigartikel"
 
 msgid "Is Finished Item"
 msgstr "Är färdig artikel"
@@ -15062,7 +15080,7 @@ msgid "Is Sub Assembly Item"
 msgstr "Är underenhetsartikel"
 
 msgid "Is Subcontracted"
-msgstr "Är underkontrakterad"
+msgstr "Läggs ut på underleverantör"
 
 msgid "Is Subcontracted Item"
 msgstr "Är underleverantörsartikel"
@@ -15137,7 +15155,7 @@ msgid "Issue a debit note against an existing Sales Invoice to adjust the rate. 
 msgstr "Utfärda en debetnota mot en befintlig försäljningsfaktura för att justera priset. Kvantiteten kommer att behållas från ursprungsfakturan."
 
 msgid "Issued Items Against Work Order"
-msgstr "Utfärdade artiklar mot arbetsorder"
+msgstr "Utfärdade artiklar mot tillverkningsorder"
 
 msgid "Issuing Date"
 msgstr "Utfärdandedatum"
@@ -15212,7 +15230,7 @@ msgid "Item Description"
 msgstr "Artikelbeskrivning"
 
 msgid "Item Details"
-msgstr "Artikeldetaljer "
+msgstr "Artikeldetaljer"
 
 msgid "Item Group"
 msgstr "Artikelgrupp"
@@ -15392,7 +15410,7 @@ msgid "Item name"
 msgstr "Artikelnamn"
 
 msgid "Item operation"
-msgstr "Artikelåtgärd"
+msgstr "Artikelns operation"
 
 msgid "Item qty can not be updated as raw materials are already processed."
 msgstr "Artikelkvantitet kan inte uppdateras eftersom råmaterial redan är bearbetat."
@@ -15553,35 +15571,47 @@ msgstr "JSON-begäran av"
 msgid "Jane Doe"
 msgstr "Okänd person"
 
+msgid "Job Capacity"
+msgstr "Kapacitet"
+
+msgid "Job Card"
+msgstr "Operationskort"
+
 msgid "Job Card Analysis"
-msgstr "Jobbkortsstatistik"
+msgstr "Operationskortsstatistik"
 
 msgid "Job Card Item"
-msgstr "Jobbkortspost"
+msgstr "Operationskortspost"
 
 msgid "Job Card On Hold"
-msgstr "Jobbkort pausat"
+msgstr "Operationskort pausat"
 
 msgid "Job Card Operation"
-msgstr "Jobbkortsåtgärd"
+msgstr "Operation i operationskort"
 
 msgid "Job Card Scheduled Time"
-msgstr "Schemalagd tid för jobbkort"
+msgstr "Schemalagd tid för operationskort"
 
 msgid "Job Card Secondary Item"
-msgstr "Sekundär artikel för jobbkort"
+msgstr "Sekundär artikel för operationskort"
 
 msgid "Job Card Summary"
-msgstr "Jobbkortsöversikt"
+msgstr "Operationskortsöversikt"
 
 msgid "Job Card Time Log"
-msgstr "Jobbkortstidslogg"
+msgstr "Operationskortstidslogg"
 
 msgid "Job Card and Capacity Planning"
-msgstr "Jobbkort & kapacitetsplanering"
+msgstr "Operationskort & kapacitetsplanering"
+
+msgid "Job Card {0} has been completed"
+msgstr "Operationskort {0} klar"
 
 msgid "Job Card {0}: As per the sequence of the operations in the work order {1}, submit the manufacturing entry for the operation {2} before the operation {3}."
-msgstr "Jobbkort {0}: Enligt ordning av åtgärder i arbetsorder {1}, godkänn produktionspost för åtgärd {2} före åtgärd {3}."
+msgstr "Operationskort {0}: Enligt ordning av operationer i tillverkningsorder {1}, godkänn produktionspost för operation {2} före operation {3}."
+
+msgid "Job Cards"
+msgstr "Operationskort"
 
 msgid "Job Info"
 msgstr "Jobbinfo"
@@ -16138,6 +16168,9 @@ msgstr "Brev- eller e-posttext"
 msgid "Letter or Email Closing Text"
 msgstr "Avslutande text för brev eller e-post"
 
+msgid "Level (BOM)"
+msgstr "Nivå (stycklista)"
+
 msgid "Leverantorsbetalning"
 msgstr "Leverantörsbetalning"
 
@@ -16569,6 +16602,9 @@ msgstr "Bibehåll försäljningsmarginal"
 msgid "Maintain same rate throughout the purchase  cycle"
 msgstr "Bibehåll inköpsmarginal"
 
+msgid "Maintenance"
+msgstr "Underhåll"
+
 msgid "Maintenance Date"
 msgstr "Servicedatum"
 
@@ -16675,7 +16711,7 @@ msgid "Make Payment via Journal Entry"
 msgstr "Skapa betalning via journalpost"
 
 msgid "Make Purchase / Work Order"
-msgstr "Skapa inköps-/arbetsorder"
+msgstr "Skapa inköps-/tillverkningsorder"
 
 msgid "Make Purchase Invoice"
 msgstr "Skapa inköpsfaktura"
@@ -16690,7 +16726,7 @@ msgid "Make Sales Invoice"
 msgstr "Skapa försäljningsfaktura"
 
 msgid "Make Serial No / Batch from Work Order"
-msgstr "Skapa serie-/partinummer från arbetsorder"
+msgstr "Skapa serie-/partinummer från tillverkningsorder"
 
 msgid "Make Stock Entry"
 msgstr "Skapa lagerpost"
@@ -16952,7 +16988,7 @@ msgid "Material Consumption is not set in Manufacturing Settings."
 msgstr "Materialförbrukning är inte angiven i produktionsinställningar."
 
 msgid "Material Issue"
-msgstr "Materialärende"
+msgstr "Materialuttag"
 
 msgid "Material Planning"
 msgstr "Materialplanering"
@@ -17243,7 +17279,7 @@ msgid "Method Not Allowed"
 msgstr "Metod ej tillåten"
 
 msgid "Method {0} is not allowed to be run on a Job Card."
-msgstr "Metod {0} får inte köras på ett jobbkort."
+msgstr "Metod {0} får inte köras på ett operationskort."
 
 msgid "Microgram/Litre"
 msgstr "Mikrogram/liter"
@@ -17502,7 +17538,7 @@ msgid "Month(s) after the end of the invoice month"
 msgstr "Månad(er) efter fakturamånadens slut"
 
 msgid "Monthly Completed Work Orders"
-msgstr "Klara arbetsordrar per månad"
+msgstr "Klara tillverkningsordrar per månad"
 
 msgid "Monthly Distribution"
 msgstr "Fördelning per månad"
@@ -17526,7 +17562,7 @@ msgid "Monthly Sales Target"
 msgstr "Försäljningsmål per månad"
 
 msgid "Monthly Total Work Orders"
-msgstr "Arbetsordrar per månad"
+msgstr "Tillverkningsordrar per månad"
 
 msgid "More Info"
 msgstr "Extra information"
@@ -18321,7 +18357,7 @@ msgid "No Upcoming Events"
 msgstr "Inga kommande händelser"
 
 msgid "No Work Orders were created"
-msgstr "Inga arbetsordrar skapades"
+msgstr "Inga tillverkningsordrar skapades"
 
 msgid "No accounting entries for the following warehouses"
 msgstr "Inga bokföringsposter för följande lager"
@@ -18435,7 +18471,7 @@ msgid "No of Visits"
 msgstr "Antal besök"
 
 msgid "No of Workstations"
-msgstr "Antal arbetsplatser"
+msgstr "Antal arbetsstationer"
 
 msgid "No open Material Requests found for the given criteria."
 msgstr "Inga öppna materialbegäranden hittades för angivna kriterier."
@@ -18492,7 +18528,7 @@ msgid "No. of Employees"
 msgstr "Antal personal"
 
 msgid "No. of parallel job cards which can be allowed on this workstation. Example: 2 would mean this workstation can process production for two Work Orders at a time."
-msgstr "Antal samtidiga jobbkort som kan tillåtas på denna arbetsstation. Exempel: 2 skulle innebära att denna arbetsstation kan hantera två arbetsordrar åt gången."
+msgstr "Antal samtidiga operationskort som kan tillåtas på denna arbetsstation. Exempel: 2 skulle innebära att denna arbetsstation kan hantera två tillverkningsordrar åt gången."
 
 msgid "Non Completed Tasks"
 msgstr "Ej slutförda uppgifter"
@@ -19015,7 +19051,7 @@ msgid "On submission of the stock transaction, system will auto create the Seria
 msgstr "Vid godkännande av lagertransaktion kommer systemet automatiskt att skapa serie- och partipaket baserat på fälten Serienummer/Parti."
 
 msgid "On-machine press checks"
-msgstr "Presskontroll"
+msgstr "Kontroller i pressen"
 
 msgid "Onboarding Name"
 msgstr "Introduktionsnamn"
@@ -19042,7 +19078,7 @@ msgid "Once submitted, submittable documents cannot be changed. They can only be
 msgstr "När de har godkänts kan inte godkända dokument ändras. De kan bara annulleras och sedan ändras."
 
 msgid "Once the Work Order is Closed. It can't be resumed."
-msgstr "När arbetsordern är stängd kan den inte återupptas."
+msgstr "När tillverkningsordern är stängd kan den inte återupptas."
 
 msgid "Once you have set this, the users will only be able access documents (eg. Blog Post) where the link exists (eg. Blogger)."
 msgstr "När du har angivit detta kommer användarna bara att kunna få åtkomst till dokument (t.ex. Blogginlägg) där en länk finns (t.ex. Bloggare)."
@@ -19057,7 +19093,7 @@ msgid "One customer can be part of only single Loyalty Program."
 msgstr "En kund kan endast ingå i ett enda lojalitetsprogram."
 
 msgid "Ongoing Job Cards"
-msgstr "Pågående jobbkort"
+msgstr "Pågående operationskort"
 
 msgid "Online Auctions"
 msgstr "Auktioner på nätet"
@@ -19129,7 +19165,7 @@ msgid "Only one operation can have 'Is Final Finished Good' checked when 'Track 
 msgstr "Endast en operation kan ha \"Är slutgiltig färdig artikel\" angiven när \"Spåra halvfärdiga artiklar\" är aktiverat."
 
 msgid "Only one {0} entry can be created against the Work Order {1}"
-msgstr "Endast en {0}-post kan skapas mot arbetsorder {1}"
+msgstr "Endast en {0}-post kan skapas mot tillverkningsorder {1}"
 
 msgid "Only reports of type Report Builder can be deleted"
 msgstr "Endast rapporter av typen Rapportgenerator kan tas bort"
@@ -19265,10 +19301,10 @@ msgid "Open URL in a New Tab"
 msgstr "Öppna URL i ny flik"
 
 msgid "Open Work Order {0}"
-msgstr "Öppna arbetsorder {0}"
+msgstr "Öppna tillverkningsorder {0}"
 
 msgid "Open Work Orders"
-msgstr "Öppna arbetsordrar"
+msgstr "Öppna tillverkningsordrar"
 
 msgid "Open a new ticket"
 msgstr "Öppna nytt ärende"
@@ -19392,7 +19428,7 @@ msgid "Operating Cost Per BOM Quantity"
 msgstr "Driftkostnad per stycklistekvantitet"
 
 msgid "Operating Cost as per Work Order / BOM"
-msgstr "Driftkostnad enligt arbetsorder/stycklista"
+msgstr "Driftkostnad enligt tillverkningsorder/stycklista"
 
 msgid "Operating Cost(Company Currency)"
 msgstr "Driftkostnad (bolagsvaluta)"
@@ -19403,47 +19439,62 @@ msgstr "Driftkostnader"
 msgid "Operating Costs (Per Hour)"
 msgstr "Driftkostnader (per timme)"
 
+msgid "Operation"
+msgstr "Operation"
+
 msgid "Operation & Materials"
-msgstr "Åtgärd & material"
+msgstr "Operation & material"
 
 msgid "Operation Cost"
-msgstr "Åtgärdskostnad"
+msgstr "Operationskostnad"
 
 msgid "Operation Description"
-msgstr "Åtgärdsbeskrivning"
+msgstr "Operationsbeskrivning"
+
+msgid "Operation ID"
+msgstr "Operations-id"
 
 msgid "Operation Row ID"
-msgstr "Åtgärdsrad-ID"
+msgstr "Operationsrad-id"
 
 msgid "Operation Row Id"
-msgstr "Åtgärdsrad-ID"
+msgstr "Operationsrad-id"
 
 msgid "Operation Row Number"
-msgstr "Åtgärdsradnummer"
+msgstr "Operationsradnummer"
 
 msgid "Operation Time"
-msgstr "Åtgärdstid"
+msgstr "Operationstid"
 
 msgid "Operation Time must be greater than 0 for Operation {0}"
-msgstr "Åtgärdstid måste vara högre än 0 för åtgärd {0}"
+msgstr "Operationstid måste vara högre än 0 för operation {0}"
 
 msgid "Operation completed for how many finished goods?"
-msgstr "Åtgärd klar för hur många färdiga artiklar?"
+msgstr "Operation klar för hur många färdiga artiklar?"
 
 msgid "Operation time does not depend on quantity to produce"
-msgstr "Åtgärdstid beror inte på kvantitet som ska produceras"
+msgstr "Operationstid beror inte på kvantitet som ska produceras"
 
 msgid "Operation {0} added multiple times in the work order {1}"
-msgstr "Åtgärd {0} har lagts till flera gånger i arbetsorder {1}"
+msgstr "Operation {0} har lagts till flera gånger i tillverkningsorder {1}"
 
 msgid "Operation {0} does not belong to the work order {1}"
-msgstr "Åtgärd {0} tillhör inte arbetsorder {1}"
+msgstr "Operation {0} tillhör inte tillverkningsorder {1}"
 
 msgid "Operation {0} longer than any available working hours in workstation {1}, break down the operation into multiple operations"
-msgstr "Åtgärd {0} är längre än alla tillgängliga arbetstider för arbetsplats {1}, dela upp åtgärden i flera åtgärder"
+msgstr "Operation {0} är längre än alla tillgängliga arbetstider för arbetsstation {1}, dela upp operationen i flera operationer"
+
+msgid "Operations"
+msgstr "Operationer"
 
 msgid "Operations Routing"
-msgstr "Åtgärdsrutt"
+msgstr "Operationsföljd"
+
+msgid "Operations cannot be left blank"
+msgstr "Operationer kan inte lämnas tomma"
+
+msgid "Operator"
+msgstr "Operatör"
 
 msgid "Opp Count"
 msgstr "Antal möjligheter"
@@ -19734,10 +19785,10 @@ msgid "Overproduction Percentage For Sales Order"
 msgstr "Procentuell överproduktion för försäljningsorder"
 
 msgid "Overproduction Percentage For Work Order"
-msgstr "Procentuell överproduktion för arbetsorder"
+msgstr "Procentuell överproduktion för tillverkningsorder"
 
 msgid "Overproduction for Sales and Work Order"
-msgstr "Procentuell överproduktion"
+msgstr "Överproduktion för försäljnings- och tillverkningsorder"
 
 msgid "Override the default payable / advance accounts on a per-company basis. Leave blank to use each company's defaults from Company settings."
 msgstr "Åsidosätt standardkontot för skuld/förskott per bolag. Lämna tomt för att använda standardvärden från bolagsinställningarna."
@@ -20739,7 +20790,7 @@ msgid "Pending Verification"
 msgstr "Verifieringskö"
 
 msgid "Pending Work Order"
-msgstr "Väntar på arbetsorder"
+msgstr "Väntar på tillverkningsorder"
 
 msgid "Pending quantity cannot be greater than the for quantity."
 msgstr "Väntande kvantitet kan inte vara högre än angiven kvantitet."
@@ -20753,9 +20804,7 @@ msgstr "Per dag"
 msgid ""
 "Per Day\n"
 "Shift Time (In Hours) * No of Workstations * No of Shift"
-msgstr ""
-"Per dag\n"
-"Skifttid (i timmar) * Antal arbetsplatser * Antal skift"
+msgstr "Per dag\nSkifttid (i timmar) * Antal arbetsstationer * Antal skift"
 
 msgid "Per Month"
 msgstr "Per månad"
@@ -21055,7 +21104,7 @@ msgid "Plan material for sub-assemblies"
 msgstr "Planera material för underenheter"
 
 msgid "Plan time logs outside Workstation working hours"
-msgstr "Planera tid utanför arbetsplatsens arbetstid"
+msgstr "Planera tid utanför arbetsstationens arbetstid"
 
 msgid "Planned End Date"
 msgstr "Planerat slutdatum"
@@ -21067,7 +21116,7 @@ msgid "Planned End Time"
 msgstr "Planerad sluttid"
 
 msgid "Planned Operating Cost"
-msgstr "Planerad driftskostnad"
+msgstr "Planerad driftkostnad"
 
 msgid "Planned Purchase Order"
 msgstr "Planerad inköpsorder"
@@ -21076,7 +21125,7 @@ msgid "Planned Qty"
 msgstr "Planerad kvantitet"
 
 msgid "Planned Qty: Quantity, for which, Work Order has been raised, but is pending to be manufactured."
-msgstr "Planerad kvantitet: kvantitet, för vilken arbetsorder är skapad, men som väntar på att produceras."
+msgstr "Planerad kvantitet: kvantitet, för vilken tillverkningsorder är skapad, men som väntar på att produceras."
 
 msgid "Planned Quantity"
 msgstr "Planerad kvantitet"
@@ -21088,7 +21137,7 @@ msgid "Planned Start Time"
 msgstr "Planerad starttid"
 
 msgid "Planned Work Order"
-msgstr "Planerad arbetsorder"
+msgstr "Planerad tillverkningsorder"
 
 msgid "Plant Dashboard"
 msgstr "Produktionsöversikt"
@@ -21143,6 +21192,9 @@ msgstr "Lägg till roll \"Leverantör\" till användare {0}."
 
 msgid "Please add Mode of payments and opening balance details."
 msgstr "Lägg till betalsätt och information om öppningssaldo."
+
+msgid "Please add Operations first."
+msgstr "Lägg till operationer först."
 
 msgid "Please add Request for Quotation to the sidebar in Portal Settings."
 msgstr "Lägg till offertbegäran i sidofältet i portalinställningar."
@@ -21649,7 +21701,7 @@ msgid "Please select a Warehouse"
 msgstr "Välj lager"
 
 msgid "Please select a Work Order first."
-msgstr "Välj arbetsorder"
+msgstr "Välj tillverkningsorder"
 
 msgid "Please select a bank account to view the bank clearance summary."
 msgstr "Välj bankkonto för att se bankavräkningssammanfattning."
@@ -21712,7 +21764,7 @@ msgid "Please select at least one filter: Item Code, Batch, or Serial No."
 msgstr "Välj minst ett filter: artikelkod, parti eller serienummer."
 
 msgid "Please select atleast one operation to create Job Card"
-msgstr "Välj minst en åtgärd för att skapa jobbkort"
+msgstr "Välj minst en operation för att skapa operationskort"
 
 msgid "Please select correct account"
 msgstr "Välj rätt konto"
@@ -21938,10 +21990,10 @@ msgid "Please set the Item Code first"
 msgstr "Ange artikelkod"
 
 msgid "Please set the Target Warehouse in the Job Card"
-msgstr "Ange till-lager i jobbkortet"
+msgstr "Ange till-lager i operationskortet"
 
 msgid "Please set the WIP Warehouse in the Job Card"
-msgstr "Ange lager för pågående arbete i jobbkortet"
+msgstr "Ange lager för pågående arbete i operationskortet"
 
 msgid "Please set the cost center field in {0} or setup a default Cost Center for the Company."
 msgstr "Ange resultatenhet i {0} eller ange standardresultatenhet för bolag."
@@ -22562,7 +22614,7 @@ msgid "Product Bundle Help"
 msgstr "Artikelpakethjälp"
 
 msgid "Product Bundle Item"
-msgstr "Artikelpaketartikel"
+msgstr "Artikel i artikelpaket"
 
 msgid "Product Bundle Parent"
 msgstr "Överordnad för artikelpaket"
@@ -22601,10 +22653,10 @@ msgid "Production Plan Already Submitted"
 msgstr "Produktionsplan redan godkänd"
 
 msgid "Production Plan Item"
-msgstr "Produktionsplan för artikel"
+msgstr "Artikel i produktionsplan"
 
 msgid "Production Plan Item Reference"
-msgstr "Produktionsplanpostreferens"
+msgstr "Referens till rad i produktionsplan"
 
 msgid "Production Plan Material Request"
 msgstr "Materialbegäran för produktionsplan"
@@ -22619,7 +22671,7 @@ msgid "Production Plan Quantity Exceeded"
 msgstr "Produktionsplankvantitet överskriden"
 
 msgid "Production Plan Sales Order"
-msgstr "Produktionsplan för kundorder"
+msgstr "Försäljningsorder i produktionsplan"
 
 msgid "Production Plan Sub Assembly Item"
 msgstr "Underenhetsartikel för produktionsplan"
@@ -23108,7 +23160,7 @@ msgid "Qty To Manufacture ({0}) cannot be a fraction for the UOM {2}. To allow t
 msgstr "Kvantitet att producera ({0}) kan inte vara bråkdel för enhet {2}. För att tillåta detta, inaktivera '{1}' i enhet {2}."
 
 msgid "Qty To Manufacture in the job card cannot be greater than Qty To Manufacture in the work order for the operation {0}. <br><br><b>Solution: </b> Either you can reduce the Qty To Manufacture in the job card or set the 'Overproduction Percentage For Work Order' in the {1}."
-msgstr "Kvantitet att producera på jobbkortet kan inte vara högre än kvantitet att producera i arbetsordern för åtgärd {0}. <br><br><b>Lösning: </b> Du kan antingen minska kvantitet att producera på jobbkortet eller ange 'Överproduktionsprocent för arbetsorder' i {1}."
+msgstr "Kvantitet att producera på operationskortet kan inte vara högre än kvantitet att producera i tillverkningsordern för operation {0}. <br><br><b>Lösning: </b> Du kan antingen minska kvantitet att producera på operationskortet eller ange 'Överproduktionsprocent för tillverkningsorder' i {1}."
 
 msgid "Qty To Produce"
 msgstr "Kvantitet att producera"
@@ -24507,6 +24559,9 @@ msgstr "Begärande webbplats"
 msgid "Require Trusted Certificate"
 msgstr "Erfordra betrott certifikat"
 
+msgid "Required By"
+msgstr "Behövs senast"
+
 msgid "Required Date"
 msgstr "Förväntat datum"
 
@@ -24536,6 +24591,9 @@ msgstr "Skicka om betalnings-e-post"
 
 msgid "Reservation Based On"
 msgstr "Reservation baserad på"
+
+msgid "Reserve Stock"
+msgstr "Reservera lager"
 
 msgid "Reserve Warehouse"
 msgstr "Reservlager"
@@ -25070,10 +25128,10 @@ msgid "Route Redirects"
 msgstr "Sökvägsomdirigeringar"
 
 msgid "Routing"
-msgstr "Åtgärdsordning"
+msgstr "Operationsföljd"
 
 msgid "Routing Name"
-msgstr "Åtgärdsordningsnamn"
+msgstr "Namn på operationsföljd"
 
 msgid "Row # {0}: Cannot return more than {1} for Item {2}"
 msgstr "Rad # {0}: Kan inte returnera mer än {1} för artikel {2}"
@@ -25085,7 +25143,7 @@ msgid "Row # {0}: Returned Item {1} does not exist in {2} {3}"
 msgstr "Rad # {0}: Returnerad artikel {1} finns inte i {2} {3}"
 
 msgid "Row #1: Sequence ID must be 1 for Operation {0}."
-msgstr "Rad #1: Sekvens-ID måste vara 1 för åtgärd {0}."
+msgstr "Rad #1: Sekvens-ID måste vara 1 för operation {0}."
 
 msgid "Row #{0} (Payment Table): Amount must be negative"
 msgstr "Rad #{0} (betalningstabell): Belopp måste vara negativt"
@@ -25164,7 +25222,7 @@ msgid "Row #{0}: Cannot set Rate if the billed amount is greater than the amount
 msgstr "Rad #{0}: Kan inte ange pris om fakturerat belopp är högre än belopp för artikel {1}."
 
 msgid "Row #{0}: Cannot transfer more than Required Qty {1} for Item {2} against Job Card {3}"
-msgstr "Rad # {0}: Kan inte överföra mer än erforderlig kvantitet {1} för artikel {2} mot jobbkort {3}"
+msgstr "Rad # {0}: Kan inte överföra mer än erforderlig kvantitet {1} för artikel {2} mot operationskort {3}"
 
 msgid "Row #{0}: Child Item should not be a Product Bundle. Please remove Item {1} and Save"
 msgstr "Rad # {0}: Underordnad artikel ska inte vara artikelpaket. Ta bort artikel {1} och spara"
@@ -25206,7 +25264,7 @@ msgid "Row #{0}: Customer Provided Item {1} is not a part of Subcontracting Inwa
 msgstr "Rad #{0}: Kundförsedd artikel {1} finns inte i intern underleverantörsorder {2}"
 
 msgid "Row #{0}: Customer Provided Item {1} is not a part of Work Order {2}"
-msgstr "Rad #{0}: Kundförsedd artikel {1} finns inte i arbetsorder {2}"
+msgstr "Rad #{0}: Kundförsedd artikel {1} finns inte i tillverkningsorder {2}"
 
 msgid "Row #{0}: Default BOM not found for FG Item {1}"
 msgstr "Rad # {0}: Standardstycklista hittades inte för färdig artikel {1} "
@@ -25314,10 +25372,10 @@ msgid "Row #{0}: Opening Accumulated Depreciation must be less than or equal to 
 msgstr "Rad #{0}: Ingående ackumulerad avskrivning måste vara lägre än eller lika med {1}"
 
 msgid "Row #{0}: Operation {1} is not completed for {2} qty of finished goods in Work Order {3}. Please update operation status via Job Card {4}."
-msgstr "Rad # {0}: Åtgärd {1} är inte klar för {2} kvantitet färdiga artiklar i arbetsorder {3}. Uppdatera åtgärdsstatus via jobbkort {4}."
+msgstr "Rad # {0}: Operation {1} är inte klar för {2} kvantitet färdiga artiklar i tillverkningsorder {3}. Uppdatera operationsstatus via operationskort {4}."
 
 msgid "Row #{0}: Overconsumption of Customer Provided Item {1} against Work Order {2} is not allowed in the Subcontracting Inward process."
-msgstr "Rad #{0}: Överförbrukning av kundförsedd artikel {1} mot arbetsorder {2} är inte tillåten i intern underleverantörsprocess."
+msgstr "Rad #{0}: Överförbrukning av kundförsedd artikel {1} mot tillverkningsorder {2} är inte tillåten i intern underleverantörsprocess."
 
 msgid "Row #{0}: Please select Item Code in Assembly Items"
 msgstr "Rad # {0}: Välj artikelkod för monteringsartiklar"
@@ -25392,7 +25450,7 @@ msgstr ""
 "\t\t\t\t\tdenna validering."
 
 msgid "Row #{0}: Sequence ID must be {1} or {2} for Operation {3}."
-msgstr "Rad #{0}: Sekvens-ID måste vara {1} eller {2} för åtgärd {3}."
+msgstr "Rad #{0}: Sekvens-ID måste vara {1} eller {2} för operation {3}."
 
 msgid "Row #{0}: Serial No {1} does not belong to Batch {2}"
 msgstr "Rad # {0}: Serienummer {1} tillhör inte parti {2}"
@@ -25428,7 +25486,7 @@ msgid "Row #{0}: Source Warehouse {1} for item {2} cannot be a customer warehous
 msgstr "Rad #{0}: Lager {1} för artikel {2} får inte vara kundlager."
 
 msgid "Row #{0}: Source Warehouse {1} for item {2} must be same as Source Warehouse {3} in the Work Order."
-msgstr "Rad #{0}: Lager {1} för artikel {2} måste vara samma som lager {3} i arbetsorder."
+msgstr "Rad #{0}: Lager {1} för artikel {2} måste vara samma som lager {3} i tillverkningsorder."
 
 msgid "Row #{0}: Source and Target Warehouse cannot be the same for Material Transfer"
 msgstr "Rad #{0}: Från- och till-lager kan inte vara samma för materialöverföring"
@@ -25477,6 +25535,9 @@ msgstr "Rad #{0}: Lager {1} stämmer inte med lager {2} i serie- och partipaket 
 
 msgid "Row #{0}: Withholding Amount {1} does not match calculated amount {2}."
 msgstr "Rad #{0}: Avdragsbelopp {1} stämmer inte med beräknat belopp {2}."
+
+msgid "Row #{0}: Work Order exists against full or partial quantity of Item {1}"
+msgstr "Rad #{0}: Tillverkningsorder finns för hel eller delvis kvantitet av artikel {1}"
 
 msgid "Row #{0}: You cannot use the inventory dimension '{1}' in Stock Reconciliation to modify the quantity or valuation rate. Stock reconciliation with inventory dimensions is intended solely for performing opening entries."
 msgstr "Rad #{0}: Kan inte använda lagerdimension '{1}' i lageravstämning för att ändra kvantitet eller värderingspris. Lageravstämning med lagerdimensioner är endast avsedd för att utföra öppningsposter."
@@ -25563,10 +25624,10 @@ msgid "Row Values Changed"
 msgstr "Radvärde ändrat"
 
 msgid "Row {0} : Operation is required against the raw material item {1}"
-msgstr "Rad # {0}: Åtgärd erfordras mot råmaterialpost {1}"
+msgstr "Rad # {0}: Operation erfordras mot råmaterialpost {1}"
 
 msgid "Row {0} in {1} {2}: Work Order quantity after process loss {3} exceeds the remaining allowed quantity {4}."
-msgstr "Rad {0} i {1} {2}: Arbetsorderkvantitet efter processförlust {3} överstiger återstående tillåtna kvantitet {4}."
+msgstr "Rad {0} i {1} {2}: Tillverkningsorderkvantitet efter processförlust {3} överstiger återstående tillåtna kvantitet {4}."
 
 msgid "Row {0}# Item {1} not found in 'Raw Materials Supplied' table in {2} {3}"
 msgstr "Rad # {0}: Artikel {1} hittades inte i tabellen \"Råmaterial levererat\" i {2} {3}"
@@ -25683,7 +25744,7 @@ msgid "Row {0}: Not allowed to enable Allow on Submit for standard fields"
 msgstr "Rad {0}: Ej tillåtet att aktivera tillåt vid godkännande för standardfält"
 
 msgid "Row {0}: Operation time should be greater than 0 for operation {1}"
-msgstr "Rad {0}: Åtgärdstid ska vara högre än 0 för åtgärd {1}"
+msgstr "Rad {0}: Operationstid ska vara högre än 0 för operation {1}"
 
 msgid "Row {0}: Packed Qty must be equal to {1} Qty."
 msgstr "Rad # {0}: Packad kvantitet måste vara lika med {1} kvantitet."
@@ -25743,7 +25804,7 @@ msgid "Row {0}: Sales Invoice {1} is already created for {2}"
 msgstr "Rad {0}: Försäljningsfaktura {1} har redan skapats för {2}"
 
 msgid "Row {0}: Serial/Batch has been reset to values linked with Work Order {1} because the previously selected serial/batch does not belong to this Work Order."
-msgstr "Rad {0}: Serie-/partinummer har återställts till värden som är kopplade till arbetsorder {1} eftersom tidigare valt serie-/partinummer inte hör till denna arbetsorder."
+msgstr "Rad {0}: Serie-/partinummer har återställts till värden som är kopplade till tillverkningsorder {1} eftersom tidigare valt serie-/partinummer inte hör till denna tillverkningsorder."
 
 msgid "Row {0}: Subcontracted Item is mandatory for the raw material {1}"
 msgstr "Rad # {0}: Underleverantörsartikel erfordras för råmaterial {1}"
@@ -25764,7 +25825,7 @@ msgid "Row {0}: Update Stock must be checked for item {1} because it is against 
 msgstr "Rad {0}: Lageruppdatering måste kontrolleras för artikel {1} eftersom den avser plocklista {2}."
 
 msgid "Row {0}: Workstation or Workstation Type is mandatory for an operation {1}"
-msgstr "Rad {0}: Arbetsplats eller arbetsplatstyp erfordras för åtgärd {1}"
+msgstr "Rad {0}: Arbetsstation eller arbetsstationstyp erfordras för operation {1}"
 
 msgid "Row {0}: user has not applied the rule {1} on the item {2}"
 msgstr "Rad # {0}: Användare har inte tillämpat regel {1} på artikel {2}"
@@ -26255,7 +26316,7 @@ msgid "Scan Batch No"
 msgstr "Skanna partinummer"
 
 msgid "Scan Job Card Qrcode"
-msgstr "Skanna QR-kod för jobbkort"
+msgstr "Skanna QR-kod för operationskort"
 
 msgid "Scan Mode"
 msgstr "Skanningsläge"
@@ -26279,7 +26340,7 @@ msgid "Scanned Quantity"
 msgstr "Skannad kvantitet"
 
 msgid "Schedule Date"
-msgstr "Förväntat datum"
+msgstr "Planerat datum"
 
 msgid "Schedule Name"
 msgstr "Schemanamn"
@@ -26531,7 +26592,7 @@ msgid "Select Company Address"
 msgstr "Välj bolagsadress"
 
 msgid "Select Corrective Operation"
-msgstr "Välj korrigerande åtgärd"
+msgstr "Välj korrigerande operation"
 
 msgid "Select Country"
 msgstr "Välj land"
@@ -26797,7 +26858,7 @@ msgid "Select the Bank Account to reconcile."
 msgstr "Välj bankkonto att stämma av."
 
 msgid "Select the Default Workstation where the Operation will be performed. This will be fetched in BOMs and Work Orders."
-msgstr "Välj standardarbetsstation där åtgärden ska utföras. Detta kommer att läggas till i stycklistor och arbetsordrar."
+msgstr "Välj standardarbetsstation där operationen ska utföras. Detta kommer att läggas till i stycklistor och tillverkningsordrar."
 
 msgid "Select the Item to be manufactured."
 msgstr "Välj artikel som ska produceras."
@@ -27021,6 +27082,12 @@ msgstr "Skickad till"
 
 msgid "Sent or Received"
 msgstr "Skickad eller mottagen"
+
+msgid "Sequence ID"
+msgstr "Sekvens-id"
+
+msgid "Sequence Id"
+msgstr "Sekvens-id"
 
 msgid "Serial & Batch Item"
 msgstr "Serienummer & parti"
@@ -27428,10 +27495,10 @@ msgid "Set Number of Backups"
 msgstr "Ange antal säkerhetskopior"
 
 msgid "Set Operating Cost / Secondary Items From Sub-assemblies"
-msgstr "Ange driftskostnad / sekundära artiklar från underenheter"
+msgstr "Ange driftkostnad / sekundära artiklar från underenheter"
 
 msgid "Set Operating Cost Based On BOM Quantity"
-msgstr "Ange åtgärdskostnad baserad på stycklista"
+msgstr "Beräkna driftkostnad utifrån stycklistekvantitet"
 
 msgid "Set Parent Row No in Items Table"
 msgstr "Ange överordnat radnummer i artikeltabellen"
@@ -27986,7 +28053,7 @@ msgid "Show Opening and Closing Balance"
 msgstr "Visa öppnings- och stängningssaldo"
 
 msgid "Show Operations"
-msgstr "Visa åtgärder"
+msgstr "Visa operationer"
 
 msgid "Show Payment Details"
 msgstr "Visa betalningsdetaljer"
@@ -28100,7 +28167,7 @@ msgid "Show in Resource Metadata"
 msgstr "Visa i resursmetadata"
 
 msgid "Show in Website"
-msgstr "Visa webbplats"
+msgstr "Visa på webbplats"
 
 msgid "Show in filter"
 msgstr "Visa i filter"
@@ -28394,7 +28461,7 @@ msgid "Source Stock Entry (Manufacture)"
 msgstr "Från produktionspost (Produktion)"
 
 msgid "Source Stock Entry {0} belongs to Work Order {1}, not {2}. Please use a manufacture entry from the same Work Order."
-msgstr "Källlagerpost {0} tillhör arbetsorder {1}, inte {2}. Använd produktionspost från samma arbetsorder."
+msgstr "Källlagerpost {0} tillhör tillverkningsorder {1}, inte {2}. Använd produktionspost från samma tillverkningsorder."
 
 msgid "Source Stock Entry {0} has no finished goods quantity"
 msgstr "Källlagerpost {0} har inte kvantitet för färdig artikel"
@@ -28730,7 +28797,7 @@ msgid "Stock Details"
 msgstr "Lagerdetaljer"
 
 msgid "Stock Entries already created for Work Order {0}: {1}"
-msgstr "Lagerposter redan skapade för arbetsorder {0}: {1}"
+msgstr "Lagerposter redan skapade för tillverkningsorder {0}: {1}"
 
 msgid "Stock Entry"
 msgstr "Lagerpost"
@@ -28961,10 +29028,10 @@ msgid "Stock will be reserved on submission of <b>Purchase Receipt</b> created a
 msgstr "Lager kommer att reserveras vid godkännande av <b>Inköpsföljesedel</b> skapad mot materialbegäran för försäljningsorder."
 
 msgid "Stop Reason"
-msgstr "Driftstoppsanledning"
+msgstr "Orsak till stopp"
 
 msgid "Stopped Work Order cannot be cancelled, Unstop it first to cancel"
-msgstr "Stoppad arbetsorder kan inte annulleras, ångra först för att annullera"
+msgstr "Stoppad tillverkningsorder kan inte annulleras, ångra först för att annullera"
 
 msgid "Storage Usage (MB)"
 msgstr "Lagringsanvändning (MB)"
@@ -29011,6 +29078,12 @@ msgstr "Underenhetsartiklar"
 msgid "Sub Assembly Warehouse"
 msgstr "Underenhetslager"
 
+msgid "Sub Operation"
+msgstr "Underoperation"
+
+msgid "Sub Operations"
+msgstr "Underoperationer"
+
 msgid "Sub Total:"
 msgstr "Delsumma:"
 
@@ -29024,19 +29097,22 @@ msgid "Subcontract BOM"
 msgstr "Underleverantörsstycklista"
 
 msgid "Subcontract Order Summary"
-msgstr "Orderöversikt"
+msgstr "Översikt över underleverantörsorder"
 
 msgid "Subcontract Return"
 msgstr "Underleverantörsretur"
 
 msgid "Subcontracted Item To Be Received"
-msgstr "Artiklar att ta emot"
+msgstr "Underleverantörsartiklar att ta emot"
 
 msgid "Subcontracted Purchase Order"
 msgstr "Inköpsorder"
 
 msgid "Subcontracted Raw Materials To Be Transferred"
-msgstr "Råmaterial att överföra"
+msgstr "Råmaterial att överföra till underleverantör"
+
+msgid "Subcontracting BOM"
+msgstr "Stycklista för underleverantör"
 
 msgid "Subcontracting Conversion Factor"
 msgstr "Konverteringsfaktor"
@@ -29051,13 +29127,13 @@ msgid "Subcontracting Inward"
 msgstr "Intern underleverantör"
 
 msgid "Subcontracting Inward Order"
-msgstr "Intern order"
+msgstr "Inkommande underleverantörsorder"
 
 msgid "Subcontracting Inward Order Count"
 msgstr "Interna order"
 
 msgid "Subcontracting Inward Order Item"
-msgstr "Intern orderartikel"
+msgstr "Artikel i inkommande underleverantörsorder"
 
 msgid "Subcontracting Inward Order Received Item"
 msgstr "Mottagen artikel för intern order"
@@ -29150,13 +29226,13 @@ msgid "Submit on Creation"
 msgstr "Godkänn vid skapande"
 
 msgid "Submit this Work Order for further processing."
-msgstr "Godkänn arbetsorder för vidare behandling."
+msgstr "Godkänn tillverkningsorder för vidare behandling."
 
 msgid "Submit your Quotation"
 msgstr "Godkänn offert"
 
 msgid "Submitted Job Card cannot be processed."
-msgstr "Godkänt jobbkort kan inte behandlas."
+msgstr "Godkänt operationskort kan inte behandlas."
 
 msgid "Submitted document cannot be converted back to draft while transitioning from <b>{0} State</b> to <b>{1} State</b>"
 msgstr "Godkänt dokument kan inte konverteras tillbaka till utkast under övergång från <b>{0} tillstånd</b> till <b>{1} tillstånd</b>"
@@ -29625,7 +29701,7 @@ msgid "Target Warehouse Reservation Error"
 msgstr "Fel vid reservation av till lager"
 
 msgid "Target Warehouse for Finished Good must be same as Finished Good Warehouse {1} in Work Order {2} linked to the Subcontracting Inward Order."
-msgstr "Lager för färdiga artiklar måste vara samma som lager för färdig artikel {1} i arbetsorder {2} som är länkad till intern underleverantörsorder."
+msgstr "Lager för färdiga artiklar måste vara samma som lager för färdig artikel {1} i tillverkningsorder {2} som är länkad till intern underleverantörsorder."
 
 msgid "Target Warehouse is required before Submit"
 msgstr "Till lager erfordras före godkännande"
@@ -29953,7 +30029,7 @@ msgid "The GL Entries will be cancelled in the background, it can take a few min
 msgstr "Bokföringsregisterposter kommer att annulleras i bakgrunden, det kan ta några minuter."
 
 msgid "The Job Card {0} has only {1} left to produce, but this entry books {2} ({3} finished goods and {4} process loss). Cancel or update its other manufacture entries first."
-msgstr "Jobbkortet {0} har bara {1} kvar att producera, men denna post bokför {2} ({3} färdiga varor och {4} processförlust). Avbryt eller uppdatera dess andra produktionsposter först."
+msgstr "Operationskortet {0} har bara {1} kvar att producera, men denna post bokför {2} ({3} färdiga varor och {4} processförlust). Avbryt eller uppdatera dess andra produktionsposter först."
 
 msgid "The Loyalty Program isn't valid for the selected company"
 msgstr "Lojalitetsprogrammet är inte giltigt för valt bolag"
@@ -29986,7 +30062,7 @@ msgid "The Stock Closing Entry for {0} is not completed yet. Wait for it to comp
 msgstr "Lagerstängningspost för {0} är inte slutförd ännu. Vänta tills den är klar innan periodstängningsverifikatet godkänns."
 
 msgid "The Stock Entry of type 'Manufacture' is known as backflush. Raw materials being consumed to manufacture finished goods is known as backflushing. <br><br> When creating Manufacture Entry, raw-material items are backflushed based on BOM of production item. If you want raw-material items to be backflushed based on Material Transfer entry made against that Work Order instead, then you can set it under this field."
-msgstr "Lagerpost av typ 'Produktion' kallas retroaktiv hämtning. Råmaterial som förbrukas för att producera färdiga artiklar kallas retroaktiv hämtning.<br><br> När produktionspost skapas hämtas råmaterialartiklar retroaktivt baserat på produktionsartikelns stycklista. Om råmaterialartiklar ska hämtas retroaktivt baserat på överföringsposter som skapas mot arbetsorder istället, ange det under detta fält."
+msgstr "Lagerpost av typ 'Produktion' kallas retroaktiv hämtning. Råmaterial som förbrukas för att producera färdiga artiklar kallas retroaktiv hämtning.<br><br> När produktionspost skapas hämtas råmaterialartiklar retroaktivt baserat på produktionsartikelns stycklista. Om råmaterialartiklar ska hämtas retroaktivt baserat på överföringsposter som skapas mot tillverkningsorder istället, ange det under detta fält."
 
 msgid "The User record for this request has been auto-deleted due to inactivity by system admins."
 msgstr "Användarpost för denna begäran har tagits bort automatiskt på grund av inaktivitet av systemadministratörer."
@@ -30281,7 +30357,7 @@ msgid "The warehouse account(s) below are not of type 'Stock'. Please set a corr
 msgstr "Lagerkonto nedan är inte av typ 'Lager'. Ange korrekt lagertillgångskonto för lager (kontotyp måste vara 'Lager'):"
 
 msgid "The warehouse where you store your raw materials. Each required item can have a separate source warehouse. Group warehouse also can be selected as source warehouse. On submission of the Work Order, the raw materials will be reserved in these warehouses for production usage."
-msgstr "Lager där råmaterial lagras. Varje erforderlig artikel kan ha separat från lager. Grupplager kan också väljas som från lager. Vid godkännande av arbetsorder kommer råmaterial att reserveras i dessa lager för produktion."
+msgstr "Lager där råmaterial lagras. Varje erforderlig artikel kan ha separat från lager. Grupplager kan också väljas som från lager. Vid godkännande av tillverkningsorder kommer råmaterial att reserveras i dessa lager för produktion."
 
 msgid "The warehouse where your Items will be transferred when you begin production. Group Warehouse can also be selected as a Work in Progress warehouse."
 msgstr "Lager där artiklar kommer att överföras när produktion påbörjas. Grupplager kan också väljas som lager för pågående arbete."
@@ -30383,7 +30459,7 @@ msgid "This Item is a Template and cannot be used in transactions.<br>All fields
 msgstr "Denna artikel är en mall och kan inte användas i transaktioner.<br>Alla fält som finns i tabellen 'Kopiera fält till variant' i artikelvariantinställningar kommer att kopieras till dess variantartiklar."
 
 msgid "This Job Card has no raw materials to transfer."
-msgstr "Detta jobbkort har inget råmaterial att överföra."
+msgstr "Detta operationskort har inget råmaterial att överföra."
 
 msgid "This Kanban Board will be private"
 msgstr "Detta anslagstavlebord kommer att vara privat"
@@ -30616,8 +30692,11 @@ msgstr "Tröskel för förslag (%)"
 msgid "Tier Name"
 msgstr "Nivånamn"
 
+msgid "Time (In Mins)"
+msgstr "Tid (minuter)"
+
 msgid "Time Between Operations (Mins)"
-msgstr "Tid mellan åtgärder (minuter)"
+msgstr "Tid mellan operationer (minuter)"
 
 msgid "Time Format"
 msgstr "Tidsformat"
@@ -30830,7 +30909,7 @@ msgid "To Warehouse (Optional)"
 msgstr "Till lager (valfritt)"
 
 msgid "To add Operations tick the 'With Operations' checkbox."
-msgstr "Att lägga till åtgärder kryssa i rutan 'Med åtgärder'."
+msgstr "Att lägga till operationer kryssa i rutan 'Med operationer'."
 
 msgid ""
 "To add dynamic subject, use jinja tags like\n"
@@ -31235,7 +31314,7 @@ msgid "Total Operating Cost"
 msgstr "Totala driftkostnader"
 
 msgid "Total Operation Time"
-msgstr "Total drifttid"
+msgstr "Total operationstid"
 
 msgid "Total Order Considered"
 msgstr "Total order inkluderad"
@@ -31385,7 +31464,7 @@ msgid "Total Working Time"
 msgstr "Totalt antal arbetade timmar"
 
 msgid "Total Workstation Time (In Hours)"
-msgstr "Total arbetsplatstid (i timmar)"
+msgstr "Total arbetsstationstid (i timmar)"
 
 msgid "Total allocated percentage for sales team should be 100"
 msgstr "Totalt tilldelad procentsats för försäljningslag ska vara 100%"
@@ -31544,7 +31623,7 @@ msgid "Transaction date can't be earlier than previous movement date"
 msgstr "Transaktionsdatum får inte vara tidigare än föregående överföringsdatum"
 
 msgid "Transaction not allowed against stopped Work Order {0}"
-msgstr "Transaktion tillåts inte mot stoppad arbetsorder {0}"
+msgstr "Transaktion tillåts inte mot stoppad tillverkningsorder {0}"
 
 msgid "Transaction reference no {0} dated {1}"
 msgstr "Transaktionsreferensnummer {0} daterad {1}"
@@ -31610,7 +31689,7 @@ msgid "Transferred Quantity"
 msgstr "Överförd kvantitet"
 
 msgid "Transferred Raw Materials"
-msgstr "Överför råmaterial"
+msgstr "Överfört råmaterial"
 
 msgid "Transit Entry"
 msgstr "Transitpost"
@@ -31863,7 +31942,7 @@ msgid "Under Withheld Reason"
 msgstr "Anledning till underavdrag"
 
 msgid "Under Working Hours table, you can add start and end times for a Workstation. For example, a Workstation may be active from 9 am to 1 pm, then 2 pm to 5 pm. You can also specify the working hours based on shifts. While scheduling a Work Order, the system will check for the availability of the Workstation based on the working hours specified."
-msgstr "Under arbetstidstabell kan man lägga till start- och sluttider för arbetsstation. Till exempel kan arbetsstation vara aktiv från 9.00 till 12.00, sedan 1300 till 17.00. Du kan även ange arbetstid utifrån skift. Under schemaläggning av arbetsorder kommer systemet att kontrollera tillgänglighet för arbetsstation baserat på angiven arbetstid."
+msgstr "Under arbetstidstabell kan man lägga till start- och sluttider för arbetsstation. Till exempel kan arbetsstation vara aktiv från 9.00 till 12.00, sedan 1300 till 17.00. Du kan även ange arbetstid utifrån skift. Under schemaläggning av tillverkningsorder kommer systemet att kontrollera tillgänglighet för arbetsstation baserat på angiven arbetstid."
 
 msgid "Undo Transaction Reconciliation"
 msgstr "Ångra transaktionsavstämning"
@@ -31917,7 +31996,7 @@ msgid "Unpaid and Discounted"
 msgstr "Obetald och rabatterad"
 
 msgid "Unplanned machine maintenance"
-msgstr "Oplanerad service"
+msgstr "Oplanerat maskinunderhåll"
 
 msgid "Unpublish"
 msgstr "Ångra publicering"
@@ -32061,7 +32140,7 @@ msgid "Update Consumed Material Cost In Project"
 msgstr "Uppdatera förbrukad materialkostnad i projekt"
 
 msgid "Update Cost"
-msgstr "Uppdatera pris"
+msgstr "Uppdatera kostnad"
 
 msgid "Update Cost Center Name / Number"
 msgstr "Uppdatera resultatenhetsnamn / nummer"
@@ -32154,7 +32233,7 @@ msgid "Updating Variants..."
 msgstr "Uppdaterar varianter..."
 
 msgid "Updating Work Order status"
-msgstr "Uppdaterar arbetsorderstatus"
+msgstr "Uppdaterar tillverkningsorderstatus"
 
 msgid "Updating counter may lead to document name conflicts if not done properly"
 msgstr "Uppdatering av räknare kan leda till dokumentnamnkonflikter om det inte görs på rätt sätt"
@@ -32184,7 +32263,7 @@ msgid "Upon enabling this, the JV will be submitted for a different exchange rat
 msgstr "När du aktiverar detta kommer Journalverifikat att godkännas för annan växelkurs."
 
 msgid "Upon submission of the Sales Order, Work Order, or Production Plan, the system will automatically reserve the stock."
-msgstr "Vid godkännande av Försäljningsorder, Arbetsorder eller Produktionsplan kommer systemet automatiskt att reservera lager."
+msgstr "Vid godkännande av försäljningsorder, tillverkningsorder eller produktionsplan reserverar systemet automatiskt lager."
 
 msgid "Upper Income"
 msgstr "Övre inkomst"
@@ -32464,7 +32543,7 @@ msgid "Users can enable the checkbox If they want to adjust the incoming rate (s
 msgstr "Användare kan kryssa i rutan om de vill justera inköpspris (anges med inköpsföljesedel) baserat på inköpsfakturapris."
 
 msgid "Users can make manufacture entry against Job Cards"
-msgstr "Användare kan skapa produktionspost mot jobbkort"
+msgstr "Användare kan skapa produktionspost mot operationskort"
 
 msgid "Uses system's theme to switch between light and dark mode"
 msgstr "Använder systemtema för att ändra mellan ljust och mörkt läge"
@@ -32913,10 +32992,10 @@ msgid "View Website"
 msgstr "Visa webbplats"
 
 msgid "View Work Order Summary"
-msgstr "Visa arbetsorderöversikt"
+msgstr "Visa tillverkningsorderöversikt"
 
 msgid "View Work Order Summary Report"
-msgstr "Visa arbetsorderöversiktsrapport"
+msgstr "Visa tillverkningsorderöversiktsrapport"
 
 msgid "View attachments"
 msgstr "Visa bilagor"
@@ -32997,7 +33076,7 @@ msgid "WIP Warehouse"
 msgstr "Lager för pågående arbete"
 
 msgid "WIP Work Orders"
-msgstr "Pågående arbetsordrar"
+msgstr "Pågående tillverkningsordrar"
 
 msgid "Warehouse Capacity Summary"
 msgstr "Lagerkapacitetsöversikt"
@@ -33375,7 +33454,7 @@ msgid "With Letter head"
 msgstr "Med brevhuvud"
 
 msgid "With Operations"
-msgstr "Med åtgärder"
+msgstr "Med operationer"
 
 msgid "With Period Closing Entry For Opening Balances"
 msgstr "Med periodstängningsverifikat för ingående saldon"
@@ -33401,59 +33480,80 @@ msgstr "Vunnen möjlighet (senaste månaden)"
 msgid "Work Done"
 msgstr "Arbete klart"
 
+msgid "Work Order"
+msgstr "Tillverkningsorder"
+
 msgid "Work Order / Subcontract PO"
-msgstr "Arbetsorder / underleverantörsinköpsorder"
+msgstr "Tillverkningsorder / underleverantörsinköpsorder"
 
 msgid "Work Order Additional Item"
-msgstr "Tilläggsartikel för arbetsorder"
+msgstr "Tilläggsartikel för tillverkningsorder"
 
 msgid "Work Order Analysis"
-msgstr "Arbetsorderstatistik"
+msgstr "Tillverkningsorderstatistik"
 
 msgid "Work Order Consumed Materials"
-msgstr "Förbrukat material för arbetsorder"
+msgstr "Förbrukat material för tillverkningsorder"
 
 msgid "Work Order Item"
-msgstr "Arbetsorderartikel"
+msgstr "Tillverkningsorderartikel"
 
 msgid "Work Order Mismatch"
-msgstr "Avvikande arbetsorder"
+msgstr "Avvikande tillverkningsorder"
 
 msgid "Work Order Operation"
-msgstr "Arbetsorderåtgärd"
+msgstr "Operation i tillverkningsorder"
 
 msgid "Work Order Qty"
-msgstr "Arbetsorderkvantitet"
+msgstr "Tillverkningsorderkvantitet"
 
 msgid "Work Order Qty Analysis"
-msgstr "Statistik för arbetsorderkvantitet"
+msgstr "Statistik för tillverkningsorderkvantitet"
 
 msgid "Work Order Stock Report"
-msgstr "Lagerrapport för arbetsorder"
+msgstr "Lagerrapport för tillverkningsorder"
 
 msgid "Work Order Summary"
-msgstr "Arbetsorderöversikt"
+msgstr "Tillverkningsorderöversikt"
 
 msgid "Work Order Summary Report"
-msgstr "Arbetsorderöversiktsrapport"
+msgstr "Tillverkningsorderöversiktsrapport"
+
+msgid "Work Order cannot be created for following reason: <br> {0}"
+msgstr "Tillverkningsorder kan inte skapas för följande anledning:<br> {0}"
 
 msgid "Work Order cannot be raised against a Item Template"
-msgstr "Arbetsorder kan inte skapas mot en artikelmall"
+msgstr "Tillverkningsorder kan inte skapas mot en artikelmall"
+
+msgid "Work Order has been {0}"
+msgstr "Tillverkningsorder har varit {0}"
 
 msgid "Work Order must reference a row in Production Plan {0}."
-msgstr "Arbetsorder måste hänvisa till en rad i produktionsplan {0}."
+msgstr "Tillverkningsorder måste hänvisa till en rad i produktionsplan {0}."
 
 msgid "Work Order must reference only one Production Plan row."
-msgstr "Arbetsorder får endast hänvisa till en rad i produktionsplanen."
+msgstr "Tillverkningsorder får endast hänvisa till en rad i produktionsplanen."
+
+msgid "Work Order not created"
+msgstr "Tillverkningsorder inte skapad"
+
+msgid "Work Order {0} created"
+msgstr "Tillverkningsorder {0} skapad"
+
+msgid "Work Order {0} has no produced qty"
+msgstr "Tillverkningsorder {0} har inte producerad kvantitet"
 
 msgid "Work Order {0}: Job Card not found for the operation {1}"
-msgstr "Arbetsorder {0}: Jobbkort hittades inte för åtgärd {1}"
+msgstr "Tillverkningsorder {0}: Operationskort hittades inte för operation {1}"
+
+msgid "Work Orders"
+msgstr "Tillverkningsordrar"
 
 msgid "Work Orders Created: {0}"
-msgstr "Arbetsordrar skapade: {0}"
+msgstr "Tillverkningsordrar skapade: {0}"
 
 msgid "Work Orders in Progress"
-msgstr "Pågående arbetsordrar"
+msgstr "Pågående tillverkningsordrar"
 
 msgid "Work in Progress"
 msgstr "Pågående arbete"
@@ -33569,35 +33669,41 @@ msgstr "Arbetsytesidofält"
 msgid "Workspace Sidebar Item"
 msgstr "Arbetsytesidofältsartikel"
 
+msgid "Workstation"
+msgstr "Arbetsstation"
+
 msgid "Workstation / Machine"
-msgstr "Arbetsplats/maskin"
+msgstr "Arbetsstation/maskin"
 
 msgid "Workstation Cost"
-msgstr "Arbetsplatskostnad"
+msgstr "Arbetsstationskostnad"
 
 msgid "Workstation Dashboard"
-msgstr "Arbetsplatsöversikt"
+msgstr "Arbetsstationsöversikt"
 
 msgid "Workstation Name"
-msgstr "Arbetsplatsnamn"
+msgstr "Arbetsstationsnamn"
 
 msgid "Workstation Operating Component"
-msgstr "Driftkomponent för arbetsplats"
+msgstr "Driftkomponent för arbetsstation"
 
 msgid "Workstation Operating Component Account"
-msgstr "Driftkomponentkonto för arbetsplats"
+msgstr "Driftkomponentkonto för arbetsstation"
 
 msgid "Workstation Status"
-msgstr "Arbetsplatsstatus"
+msgstr "Arbetsstationsstatus"
 
 msgid "Workstation Type"
-msgstr "Arbetsplatstyp"
+msgstr "Arbetsstationstyp"
 
 msgid "Workstation Working Hour"
-msgstr "Arbetstid för arbetsplats"
+msgstr "Arbetstid för arbetsstation"
 
 msgid "Workstation is closed on the following dates as per Holiday List: {0}"
-msgstr "Arbetsplats är stängd på följande datum enligt helglista: {0}"
+msgstr "Arbetsstation är stängd på följande datum enligt helglista: {0}"
+
+msgid "Workstations"
+msgstr "Arbetsstationer"
 
 msgid "Write Off Account"
 msgstr "Avskrivningskonto"
@@ -33759,7 +33865,7 @@ msgid "You can use Customize Form to set levels on fields."
 msgstr "Använd Anpassa formulär för att ange nivåer på fält."
 
 msgid "You can't make any changes to Job Card since Work Order is closed."
-msgstr "Du kan inte göra några ändringar i jobbkortet eftersom arbetsordern är stängd."
+msgstr "Du kan inte göra några ändringar i operationskortet eftersom tillverkningsordern är stängd."
 
 msgid "You can't process the serial number {0} as it has already been used in the SABB {1}. {2} if you want to inward same serial number multiple times then enabled 'Allow existing Serial No to be Manufactured/Received again' in the {3}"
 msgstr "Du kan inte behandla serienummer {0} eftersom det redan har använts i serie- och partipaketet {1}. {2} För att skapa internt serienummer flera gånger aktivera \"Tillåt att befintligt serienummer produceras/tas emot igen\" i {3}"
@@ -34025,6 +34131,9 @@ msgstr "Välj konto för pågående kapitalarbete i kontotabellen"
 msgid "{0} '{1}' not in Fiscal Year {2}"
 msgstr "{0} {1} inte under räkenskapsår {2}"
 
+msgid "{0} ({1}) cannot be greater than planned quantity ({2}) in Work Order {3}"
+msgstr "{0} ({1}) kan inte vara högre än planerad kvantitet ({2}) i tillverkningsorder {3}"
+
 msgid "{0} <b>{1}</b> has submitted Assets. Remove Item <b>{2}</b> from table to continue."
 msgstr "{0} <b>{1}</b> har godkänt tillgångar. Ta bort artikel <b>{2}</b> från tabellen för att fortsätta."
 
@@ -34054,6 +34163,9 @@ msgstr "{0} ej tillåtet att ändra {1} efter godkännande från {2} till {3}"
 
 msgid "{0} Operating Cost for operation {1}"
 msgstr "{0} operationskostnad för åtgärd {1}"
+
+msgid "{0} Operations: {1}"
+msgstr "{0} Operationer: {1}"
 
 msgid "{0} Retain Sample is based on batch, please check Has Batch No to retain sample of item"
 msgstr "{0} behåll prov är baserat på parti. välj har partinummer att behålla prov på artikel"
