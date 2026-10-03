@@ -1,5 +1,41 @@
 # Ändringslogg
 
+## v0.2.0 – 2026-10-03 (pre-release)
+
+### Nytt
+
+- **Redovisningsperiod för moms** per bolag (månad, kvartal eller år). Momsdeklarationen öppnas med senaste
+  avslutade perioden, och eSKD-fil, momsomföring och periodlåsning kräver en hel period.
+- **eSKD-filen** följer Skatteverkets anvisningar (organisationsnummer xxxxxx-xxxx, ingen DOCTYPE, inget indrag),
+  provad genom uppladdning i e-tjänsten.
+- **Momsregistreringsnummer** som eget fält på bolaget; töms för bolag som inte är momsregistrerade.
+- **Upphämtningstider per veckodag** i Fraktinställningar (t.ex. kortare fredag), utan upphämtning på röda dagar
+  i bolagets helglista.
+- **Testdata för tillverkning:** skriptet `demodata_tillverkning` lägger in en påhittad plåt- och svetsverkstad
+  med stycklistor, operationer, arbetsstationer, parter och ingående lager (bara på sajter med `allow_tests`).
+
+### Ändrat
+
+- **Översättningar:** alla ERPNext-moduler granskade, cirka 900 rättelser, och en ordlista: Verifikation,
+  Huvudbok, Balansräkning/Resultaträkning, Saldobalans, Kundreskontra/Leverantörsreskontra,
+  Kundfaktura/Leverantörsfaktura, Offert/Offertförfrågan, Följesedel, Inleverans, Lagerinventering,
+  Beställningspunkt, Affärsmöjlighet, Källskatt, samt för tillverkning Operation, Arbetsstation,
+  Tillverkningsorder och Operationskort.
+- **Standardlagret Stores heter Lager** (inte "Butiker"); befintliga lager döps om vid migrering.
+- **Brevhuvud Sverige** visar bara logotypen när bolaget har en (annars bolagsnamnet), i mindre storlek.
+- SIE-exportens serie A heter Verifikationer.
+
+### Rättat
+
+- Momsdeklarationen visade fel när ett bolag med årsredovisning saknade föregående räkenskapsår, och uppdaterades
+  inte vid byte till ett bolag med samma period.
+- eSKD-filen laddas ner utan att en tom flik blir kvar.
+- Brevhuvudet skapades med källan Bild, så mallen syntes inte i formuläret.
+- Brevhuvudets logotyp blev en trasig bild i utskriftsvyn på andra datorer (relativ adress i stället för
+  sajtens host_name).
+- Sendify-sandlådetestet använder en påhittad adress; interna sajtnamn och sökvägar i dokumentationen är ersatta
+  med platshållare.
+
 ## v0.1.0 – 2026-10-02 (pre-release)
 
 Första versionen. Kräver Frappe och ERPNext version 16. Detaljer finns i [README](README.md) och i
