@@ -28978,6 +28978,9 @@ msgstr "Spara bifogat PDF-dokument"
 msgid "Store the API secret securely. It won't be displayed again."
 msgstr "Förvara API-hemligheten på ett säkert sätt. Den kommer inte att visas igen."
 
+msgid "Stores"
+msgstr "Lager"
+
 msgid "Style Settings"
 msgstr "Stilinställningar"
 

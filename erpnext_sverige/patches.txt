@@ -11,3 +11,4 @@ erpnext_sverige.patches.brevhuvud_html_kalla
 erpnext_sverige.patches.brevhuvud_relativ_logga
 erpnext_sverige.patches.brevhuvud_bara_logga
 erpnext_sverige.patches.brevhuvud_loggstorlek
+erpnext_sverige.patches.lager_i_stallet_for_butiker
