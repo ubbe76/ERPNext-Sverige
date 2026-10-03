@@ -9,7 +9,14 @@ from frappe.utils import cint, flt, now_datetime
 from erpnext_sverige.frakt import FraktFel, hamta_installningar, leverantor, visa_fraktfel
 from erpnext_sverige.frakt.fraktpris import kundpris, registrera_produkter
 from erpnext_sverige.frakt.kollin import foresla_kollin
-from erpnext_sverige.frakt.parter import avsandare, nasta_arbetsdag, part, upphamtningstid
+from erpnext_sverige.frakt.parter import (
+	avsandare,
+	kontrollera_upphamtningsdag,
+	nasta_upphamtningsdag,
+	part,
+	upphamtningstid,
+	upphamtningstider,
+)
 
 
 def _foljesedlar(doc) -> list[str]:
@@ -80,9 +87,8 @@ def skapa_shipment(delivery_note: str) -> str:
 	doc.pickup_company = inst.bolag
 	doc.pickup_address_name = inst.avsandaradress
 	doc.pickup_address = get_address_display(inst.avsandaradress)
-	doc.pickup_date = nasta_arbetsdag()
-	doc.pickup_from = inst.upphamtning_fran
-	doc.pickup_to = inst.upphamtning_till
+	doc.pickup_date = nasta_upphamtningsdag(inst)
+	doc.pickup_from, doc.pickup_to = upphamtningstider(inst, doc.pickup_date)
 	doc.description_of_content = _("Gods enligt följesedel {0}").format(dn.name)
 	doc.avsandarens_referens = dn.name
 	doc.mottagarens_referens = dn.po_no
@@ -162,6 +168,7 @@ def _synka_sandning(doc) -> str:
 @visa_fraktfel
 def hamta_priser(shipment: str) -> dict:
 	doc = _utkast(shipment)
+	kontrollera_upphamtningsdag(hamta_installningar(), doc.pickup_date)
 	sendify_id = _synka_sandning(doc)
 	priser, varningar = leverantor().hamta_priser(
 		sendify_id, upphamtningstid(doc.pickup_date, doc.pickup_from)
@@ -196,6 +203,7 @@ def boka(shipment: str, token: str, fraktprodukt: str, pris: float, valuta: str 
 	doc = _utkast(shipment)
 	if not doc.sendify_id:
 		frappe.throw(_("Hämta priser innan du bokar"))
+	kontrollera_upphamtningsdag(hamta_installningar(), doc.pickup_date)
 	# Kontrollera det ERPNext kräver vid godkännandet innan betald bokning görs hos Sendify
 	doc.check_permission("submit")
 	if flt(doc.value_of_goods) <= 0:

@@ -6,7 +6,7 @@ from frappe.utils import flt, getdate, rounded
 
 from erpnext_sverige.frakt import FraktFel, hamta_installningar, leverantor, visa_fraktfel
 from erpnext_sverige.frakt.kollin import foresla_kollin
-from erpnext_sverige.frakt.parter import avsandare, nasta_arbetsdag, part, upphamtningstid
+from erpnext_sverige.frakt.parter import avsandare, forsta_upphamtning, nasta_upphamtningsdag, part
 
 
 def kundpris(pris: float) -> float:
@@ -153,10 +153,11 @@ def kontrollera(doctype: str, name: str) -> dict:
 		"kollin": kollin,
 		"referens_id": f"{doctype} {name}",
 	}
-	datum = nasta_arbetsdag()
+	# Upphämtning tidigast nästa upphämtningsdag, och inte före leveransdatumet
+	datum = nasta_upphamtningsdag(inst)
 	if doc.get("delivery_date"):
 		datum = max(getdate(doc.delivery_date), datum)
-	svar = priser_for_tillfallig_sandning(sandning, upphamtningstid(datum, inst.upphamtning_fran))
+	svar = priser_for_tillfallig_sandning(sandning, forsta_upphamtning(inst, datum))
 	svar["varningar"] = varningar + svar["varningar"]
 	for p in svar["priser"]:
 		p["forvald"] = p["fraktprodukt"] == doc.get("fraktprodukt")

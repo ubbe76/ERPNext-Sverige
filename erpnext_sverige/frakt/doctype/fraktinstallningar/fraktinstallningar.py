@@ -7,11 +7,12 @@ from erpnext_sverige.frakt import hamta_installningar, leverantor, visa_fraktfel
 
 class Fraktinstallningar(Document):
 	def validate(self):
+		self.validera_upphamtningstider()
 		if not self.aktiverad:
 			return
 		saknas = [
 			self.meta.get_label(falt)
-			for falt in ("bolag", "avsandaradress", "fraktartikel")
+			for falt in ("bolag", "avsandaradress", "fraktartikel", "upphamtningstider")
 			if not self.get(falt)
 		]
 		if not self.api_nyckel:
@@ -19,6 +20,17 @@ class Fraktinstallningar(Document):
 		if saknas:
 			frappe.throw(_("Fyll i {0} innan transportbokning aktiveras").format(", ".join(saknas)))
 		self.validera_fraktartikel()
+
+	def validera_upphamtningstider(self):
+		from frappe.utils import get_time
+
+		sedda = set()
+		for rad in self.upphamtningstider:
+			if rad.veckodag in sedda:
+				frappe.throw(_("{0} finns flera gånger i Upphämtningstider").format(_(rad.veckodag)))
+			sedda.add(rad.veckodag)
+			if get_time(rad.fran) >= get_time(rad.till):
+				frappe.throw(_("Upphämtning {0}: Från måste vara före Till").format(_(rad.veckodag).lower()))
 
 	def validera_fraktartikel(self):
 		from erpnext_sverige.setup.custom_fields import GOODS
@@ -48,7 +60,7 @@ def testa_anslutning() -> str:
 def hamta_transportorsprodukter() -> int:
 	"""Prisförfrågan på en exempelsändning (en EUR-pall från avsändaren till sig själv) för att fylla registret."""
 	from erpnext_sverige.frakt.fraktpris import priser_for_tillfallig_sandning
-	from erpnext_sverige.frakt.parter import avsandare, nasta_arbetsdag, upphamtningstid
+	from erpnext_sverige.frakt.parter import avsandare, forsta_upphamtning
 
 	frappe.only_for(("System Manager", "Stock Manager"))
 	inst = hamta_installningar()
@@ -71,5 +83,5 @@ def hamta_transportorsprodukter() -> int:
 		],
 		"referens_id": "ERPNext exempelsändning",
 	}
-	svar = priser_for_tillfallig_sandning(sandning, upphamtningstid(nasta_arbetsdag(), inst.upphamtning_fran))
+	svar = priser_for_tillfallig_sandning(sandning, forsta_upphamtning(inst))
 	return len(svar["priser"])
