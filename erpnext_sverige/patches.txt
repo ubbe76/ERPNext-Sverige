@@ -10,3 +10,4 @@ erpnext_sverige.patches.upphamtningstider_per_dag
 erpnext_sverige.patches.brevhuvud_html_kalla
 erpnext_sverige.patches.brevhuvud_relativ_logga
 erpnext_sverige.patches.brevhuvud_bara_logga
+erpnext_sverige.patches.brevhuvud_loggstorlek
