@@ -6,7 +6,11 @@
 </p>
 
 # ERPNext Sverige
->## Använd inte i produktion. Mycket kvar att göra och mycket som inte är testat!
+
+> [!IMPORTANT]
+> **Under utveckling.** Appen har automatiska tester, och eSKD-filen för momsdeklarationen är provad hos
+> Skatteverket. Bankfilerna och frakten är däremot ännu inte provade skarpt mot bank och transportör. Prova på
+> en testsite först och stäm av resultatet mot bokföringen. Vad som återstår står i [TODO.md](TODO.md).
 
 Svensk lokalisering av [ERPNext](https://github.com/frappe/erpnext) version 16.
 
