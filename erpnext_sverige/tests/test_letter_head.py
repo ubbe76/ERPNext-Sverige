@@ -1,7 +1,7 @@
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from erpnext_sverige.patches import brevhuvud_html_kalla, brevhuvud_relativ_logga
+from erpnext_sverige.patches import brevhuvud_bara_logga, brevhuvud_html_kalla, brevhuvud_relativ_logga
 from erpnext_sverige.setup.company import (
 	ERPNEXT_LETTER_HEADS,
 	LETTER_HEAD,
@@ -90,6 +90,28 @@ class TestLetterHead(IntegrationTestCase):
 		mall = frappe.db.get_value("Letter Head", LETTER_HEAD, "content")
 		html = frappe.render_template(mall, {"doc": frappe._dict(company=COMPANY)})
 		self.assertIn('src="/files/logga.png"', html)
+		# Logotypen innehåller oftast namnet; namnet skrivs bara ut utan logotyp
+		self.assertNotIn(f">{COMPANY}<", html)
+		frappe.db.set_value("Company", COMPANY, "company_logo", None)
+		html = frappe.render_template(mall, {"doc": frappe._dict(company=COMPANY)})
+		self.assertIn(f">{COMPANY}<", html)
+		self.assertNotIn("<img", html)
+
+	def test_patchen_byter_forra_mallen_men_inte_egen(self):
+		create_letter_head()
+		frappe.db.set_value("Letter Head", LETTER_HEAD, "content", brevhuvud_bara_logga.FORRA_MALLEN)
+		brevhuvud_bara_logga.execute()
+		self.assertNotIn("display: flex", frappe.db.get_value("Letter Head", LETTER_HEAD, "content"))
+		# Variant utan kommentarsraden: skapad från första mallen och rättad av brevhuvud_relativ_logga
+		utan_kommentar = "\n".join(
+			rad for rad in brevhuvud_bara_logga.FORRA_MALLEN.split("\n") if "Relativ adress" not in rad
+		)
+		frappe.db.set_value("Letter Head", LETTER_HEAD, "content", utan_kommentar)
+		brevhuvud_bara_logga.execute()
+		self.assertNotIn("display: flex", frappe.db.get_value("Letter Head", LETTER_HEAD, "content"))
+		frappe.db.set_value("Letter Head", LETTER_HEAD, "content", "<p>Eget</p>")
+		brevhuvud_bara_logga.execute()
+		self.assertEqual(frappe.db.get_value("Letter Head", LETTER_HEAD, "content"), "<p>Eget</p>")
 
 	def test_patchen_byter_till_relativ_adress(self):
 		create_letter_head()
