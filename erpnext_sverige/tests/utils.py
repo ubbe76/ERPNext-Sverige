@@ -60,6 +60,9 @@ def ensure_test_company():
 				"chart_of_accounts": BAS_CHART,
 			}
 		).insert()
+	# Installationsguiden (before_tests i CI) skapar bolaget utan organisationsnummer, och testerna sätter det
+	# med db.set_value förbi valideringen. Sätt därför båda numren här, så att utskrifterna har momsreg.nr.
+	frappe.db.set_value("Company", COMPANY, {"tax_id": "5560000000", "se_momsregnr": "SE556000000001"})
 	setup_swedish_company(COMPANY)  # committar
 	_grunduppsatt = True
 
