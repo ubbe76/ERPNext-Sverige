@@ -111,7 +111,7 @@ Fynd:
   bench --site <site> execute erpnext_sverige.scripts.sarskrivningar.report --kwargs "{'title_case_only': True}"
   ```
 
-## 5. Inför publicering (publikt repo eller Frappe Marketplace)
+## 5. Publicering
 
 - [x] Byt `app_email` i `erpnext_sverige/hooks.py` och e-posten under `authors` i `pyproject.toml` till en
   adress som tar emot e-post, till exempel en vidarebefordringsadress (alias på egen domän eller SimpleLogin/Proton/Firefox Relay).
@@ -120,4 +120,6 @@ Fynd:
 - [x] CI: testsviten körs med GitHub Actions på en ny site (`.github/workflows/ci.yml`)
 - [x] Versionsnummer och ändringslogg (`CHANGELOG.md`), första pre-release v0.1.0
 - [x] Repot är publikt sedan 2026-10-03. Punkterna från granskningen 2026-10-01 är åtgärdade (adressen i
-  sandlådetestet och interna anteckningar), utom författaradressen i merge-commits som gjorts via GitHub
+  sandlådetestet och interna anteckningar). Merge-commits görs lokalt med projektets adress; äldre
+  merge-commits via GitHub har kvar författarens adress
+- [ ] Frappe Marketplace: publicera appen där när den är färdig för andra
