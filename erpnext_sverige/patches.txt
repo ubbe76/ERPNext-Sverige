@@ -8,3 +8,4 @@ erpnext_sverige.patches.skapa_fraktartikel
 erpnext_sverige.patches.fyll_momsregnr
 erpnext_sverige.patches.upphamtningstider_per_dag
 erpnext_sverige.patches.brevhuvud_html_kalla
+erpnext_sverige.patches.brevhuvud_relativ_logga

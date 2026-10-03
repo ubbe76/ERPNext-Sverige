@@ -1,7 +1,7 @@
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from erpnext_sverige.patches import brevhuvud_html_kalla
+from erpnext_sverige.patches import brevhuvud_html_kalla, brevhuvud_relativ_logga
 from erpnext_sverige.setup.company import (
 	ERPNEXT_LETTER_HEADS,
 	LETTER_HEAD,
@@ -80,6 +80,26 @@ class TestLetterHead(IntegrationTestCase):
 		)
 		brevhuvud_html_kalla.execute()
 		self.assertEqual(frappe.db.get_value("Letter Head", LETTER_HEAD, "source"), "Image")
+
+	def test_logga_med_relativ_adress(self):
+		# Relativ adress: webbläsaren hämtar bilden från samma värd, och get_pdf gör adressen absolut
+		frappe.db.set_value("Company", COMPANY, "company_logo", "/files/logga.png")
+		if frappe.db.exists("Letter Head", LETTER_HEAD):
+			frappe.delete_doc("Letter Head", LETTER_HEAD, force=True)
+		create_letter_head()
+		mall = frappe.db.get_value("Letter Head", LETTER_HEAD, "content")
+		html = frappe.render_template(mall, {"doc": frappe._dict(company=COMPANY)})
+		self.assertIn('src="/files/logga.png"', html)
+
+	def test_patchen_byter_till_relativ_adress(self):
+		create_letter_head()
+		frappe.db.set_value(
+			"Letter Head", LETTER_HEAD, "content", '<p>Eget</p><img src="{{ frappe.utils.get_url(logo) }}">'
+		)
+		brevhuvud_relativ_logga.execute()
+		self.assertEqual(
+			frappe.db.get_value("Letter Head", LETTER_HEAD, "content"), '<p>Eget</p><img src="{{ logo }}">'
+		)
 
 	def test_invoice_header_is_swedish(self):
 		make_letter_head(ERPNEXT_LETTER_HEADS[-1], is_default=1)
