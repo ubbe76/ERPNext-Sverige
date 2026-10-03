@@ -20762,7 +20762,7 @@ msgid "Payment Plan"
 msgstr "Betalningsplan"
 
 msgid "Payment Receipt Note"
-msgstr "Betalningspåminnelse"
+msgstr "Betalningskvitto"
 
 msgid "Payment Received"
 msgstr "Betalning mottagen"
@@ -33840,7 +33840,7 @@ msgid "Workflow Builder"
 msgstr "Arbetsflödesgenerator"
 
 msgid "Workflow Builder ID"
-msgstr "Arbetsflödesgenerator"
+msgstr "Arbetsflödesgeneratorns ID"
 
 msgid "Workflow Builder allows you to create workflows visually. You can drag and drop states and link them to create transitions. Also you can update their properties from the sidebar."
 msgstr "Arbetsflödesgenerator skapar arbetsflöden visuellt. Dra och släpp tillstånd och länka dem för att skapa övergångar. Du kan också uppdatera deras egenskaper från sidofältet."
@@ -34026,13 +34026,13 @@ msgid "Yandex.Mail"
 msgstr "Yandex.Mail"
 
 msgid "Year End Date"
-msgstr "Slutdatum"
+msgstr "Årets slutdatum"
 
 msgid "Year Name"
 msgstr "Årsnamn"
 
 msgid "Year Start Date"
-msgstr "Startdatum"
+msgstr "Årets startdatum"
 
 msgid "Year of Passing"
 msgstr "Examensår"
