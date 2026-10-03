@@ -117,7 +117,7 @@ def create_letter_head():
 			"letter_head",
 			"brevhuvud_sverige.html",
 		)
-		frappe.get_doc(
+		doc = frappe.get_doc(
 			{
 				"doctype": "Letter Head",
 				"letter_head_name": LETTER_HEAD,
@@ -125,6 +125,9 @@ def create_letter_head():
 				"content": frappe.read_file(path),
 			}
 		).insert(ignore_permissions=True)
+		# Letter Head.before_insert sätter källan till Bild utanför migrering och installation. Då visar
+		# formuläret bara ett tomt bildfält och döljer Header HTML, fast mallen används vid utskrift.
+		doc.db_set("source", "HTML", update_modified=False)
 	current = frappe.db.get_value("Letter Head", {"is_default": 1, "disabled": 0})
 	if not current or current in ERPNEXT_LETTER_HEADS:
 		letter_head = frappe.get_doc("Letter Head", LETTER_HEAD)

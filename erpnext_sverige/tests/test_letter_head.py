@@ -1,6 +1,7 @@
 import frappe
 from frappe.tests import IntegrationTestCase
 
+from erpnext_sverige.patches import brevhuvud_html_kalla
 from erpnext_sverige.setup.company import (
 	ERPNEXT_LETTER_HEADS,
 	LETTER_HEAD,
@@ -56,6 +57,29 @@ class TestLetterHead(IntegrationTestCase):
 		frappe.db.set_value("Letter Head", LETTER_HEAD, "content", "<p>Ändrat</p>")
 		create_letter_head()
 		self.assertEqual(frappe.db.get_value("Letter Head", LETTER_HEAD, "content"), "<p>Ändrat</p>")
+
+	def test_skapas_med_html_som_kalla(self):
+		# Frappes before_insert sätter källan till Bild utanför migrering; då döljs Header HTML i formuläret
+		if frappe.db.exists("Letter Head", LETTER_HEAD):
+			frappe.delete_doc("Letter Head", LETTER_HEAD, force=True)
+		create_letter_head()
+		kalla, innehall = frappe.db.get_value("Letter Head", LETTER_HEAD, ["source", "content"])
+		self.assertEqual(kalla, "HTML")
+		self.assertIn("company_logo", innehall)
+
+	def test_patchen_ratter_kallan(self):
+		create_letter_head()
+		frappe.db.set_value("Letter Head", LETTER_HEAD, {"source": "Image", "image": None})
+		brevhuvud_html_kalla.execute()
+		self.assertEqual(frappe.db.get_value("Letter Head", LETTER_HEAD, "source"), "HTML")
+
+	def test_patchen_later_uppladdad_bild_vara(self):
+		create_letter_head()
+		frappe.db.set_value(
+			"Letter Head", LETTER_HEAD, {"source": "Image", "image": "/files/logo.png", "content": "<img>"}
+		)
+		brevhuvud_html_kalla.execute()
+		self.assertEqual(frappe.db.get_value("Letter Head", LETTER_HEAD, "source"), "Image")
 
 	def test_invoice_header_is_swedish(self):
 		make_letter_head(ERPNEXT_LETTER_HEADS[-1], is_default=1)
