@@ -8,7 +8,6 @@ from erpnext_sverige.sweden_compliance.invoice import (
 	get_exemption_notes,
 	get_payment_details,
 	get_vat_summary,
-	vat_number,
 )
 
 # Momssammanställningen bygger på kontona för utgående moms och gäller bara försäljning med priser
@@ -24,7 +23,7 @@ def get_print_context(doc) -> dict:
 	vat_total, other_charges = split_charges(doc)
 	return {
 		"org_nr": format_org_nr(company.tax_id),
-		"vat_no": vat_number(company.tax_id),
+		"vat_no": company.get("se_momsregnr") or None,
 		"f_skatt": company.get("se_f_skatt"),
 		"payment": get_payment_details(doc.company),
 		"vat_summary": get_vat_summary(doc) if doc.doctype in VAT_SUMMARY_DOCTYPES else [],

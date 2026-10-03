@@ -9,6 +9,7 @@ import json
 import re
 
 import frappe
+from frappe import _
 from frappe.utils import flt
 
 from erpnext_sverige.accounting.account_selection import VAT_RATE_BY_ACCOUNT, get_item_kind
@@ -176,3 +177,40 @@ def vat_number(tax_id: str | None) -> str | None:
 	"""Momsregistreringsnummer: SE + organisationsnummer (10 siffror) + 01."""
 	digits = _ten_digits(tax_id)
 	return f"SE{digits}01" if digits else None
+
+
+def satt_momsregnr(doc, method=None):
+	"""Bolagets momsregistreringsnummer (Company.validate).
+
+	Fylls i när organisationsnumret anges eller ändras. Ett tomt fält betyder att bolaget inte är momsregistrerat
+	och fylls inte i igen så länge organisationsnumret är oförändrat. Ett ifyllt nummer kontrolleras mot
+	organisationsnumret.
+	"""
+	# Fältet saknas tills sajten har migrerats; bolag i andra länder har inget svenskt nummer
+	if not doc.meta.has_field("se_momsregnr") or (doc.country and doc.country != "Sweden"):
+		return
+	foregaende = doc.get_doc_before_save()
+	org_nr_andrat = doc.is_new() or not foregaende or foregaende.tax_id != doc.tax_id
+	# Följer med när organisationsnumret ändras, om numret var det som räknats fram ur det gamla
+	if org_nr_andrat and (
+		not doc.get("se_momsregnr")
+		or (foregaende and doc.get("se_momsregnr") == vat_number(foregaende.tax_id))
+	):
+		doc.se_momsregnr = vat_number(doc.tax_id)
+	if not doc.get("se_momsregnr"):
+		return
+	nummer = re.sub(r"[\s-]", "", doc.get("se_momsregnr")).upper()
+	if not re.fullmatch(r"SE\d{10}01", nummer):
+		frappe.throw(
+			_(
+				"Momsregistreringsnumret ska vara SE följt av organisationsnumrets 10 siffror och 01, t.ex. {0}"
+			).format(vat_number(doc.tax_id) or "SE556000000001")
+		)
+	org_nr = _ten_digits(doc.tax_id)
+	if org_nr and nummer[2:12] != org_nr:
+		frappe.throw(
+			_("Momsregistreringsnumret {0} stämmer inte med organisationsnumret {1}").format(
+				nummer, format_org_nr(doc.tax_id)
+			)
+		)
+	doc.se_momsregnr = nummer
