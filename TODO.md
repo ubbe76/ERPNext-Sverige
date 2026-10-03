@@ -102,11 +102,8 @@ Fynd:
 
 ## 4. Översättningar och namn
 
-- [ ] Granska sakfel som flaggades vid rättningen av `locale/sv.po`, t.ex.:
-  - "Balance Sheet" översatt inkonsekvent ("Saldo Rapport"/"Balans Rapport"), bör vara "Balansräkning"
-  - "Payment Receipt Note" översatt som "Betalningspåminnelse"
-  - "Year of Passing" översatt som "Antal år"
-  - "Workflow Builder ID" och "Year Start/End Date" saknar ord i översättningen
+- [x] Granska sakfel i översättningarna: alla ERPNext-moduler granskade 2026-10-03 (cirka 900 rättelser och
+  en ordlista, se README, "Ändra översättningar")
 - [ ] Döp om särskrivna namn som är sparade i databasen, t.ex. momsmallarna
   "Försäljning Moms 25% - G" → "Försäljningsmoms 25 % - G"
 - [ ] Efter uppdatering av frappe/erpnext: kör kontrollskriptet och rätta nya strängar

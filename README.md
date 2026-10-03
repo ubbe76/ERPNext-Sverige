@@ -16,21 +16,28 @@ Appen installeras ovanpå ERPNext och anpassar systemet för svenska bolag, utan
 
 ### Rättade svenska översättningar
 
-ERPNext:s svenska översättning skriver isär sammansatta ord och använder engelska versaler. Appen levererar
-en egen översättningskatalog (`erpnext_sverige/locale/sv.po`) med drygt 11 000 rättade strängar från
-Frappe och ERPNext. Katalogen laddas efter deras egna, och därför ersätter den deras översättningar.
+ERPNext:s svenska översättning skriver isär sammansatta ord, använder engelska versaler och har många rena
+felöversättningar. Appen levererar en egen översättningskatalog (`erpnext_sverige/locale/sv.po`) med drygt
+11 000 rättade strängar från Frappe och ERPNext. Katalogen laddas efter deras egna, och därför ersätter den
+deras översättningar. Alla ERPNext-moduler är granskade, och begreppen följer svensk bokförings- och
+affärsterminologi:
 
 | Engelska | ERPNext | ERPNext Sverige |
 |---|---|---|
 | Cost Center | Resultat Enheter | Resultatenhet |
-| Mode of Payment | Betalning Sätt | Betalsätt |
-| Payment Terms | Betalning Villkor | Betalningsvillkor |
-| Fiscal Year | Bokföring År | Räkenskapsår |
-| Accounts Settings | Bokföring Inställningar | Bokföringsinställningar |
-| Party | Parti | Part |
+| Party | Parti (batch) | Part |
+| Journal Entry | Journalpost | Verifikation |
+| General Ledger | Bokföringsregister | Huvudbok |
+| Balance Sheet / Profit and Loss | Balansrapport / Resultatrapport | Balansräkning / Resultaträkning |
+| Accounts Receivable / Payable | Fordringar / Skulder | Kundreskontra / Leverantörsreskontra |
+| Sales / Purchase Invoice | Försäljningsfaktura / Inköpsfaktura | Kundfaktura / Leverantörsfaktura |
+| Tax Withholding | Momsavdrag | Källskatt |
+| Purchase Receipt | Inköpsföljesedel | Inleverans |
+| Work Order / Job Card | Arbetsorder / Jobbkort | Tillverkningsorder / Operationskort |
+| Operation / Workstation | Åtgärd / Arbetsplats | Operation / Arbetsstation |
+| Stores (standardlager) | Butiker | Lager |
 
-Utöver särskrivningar och versaler har även böjningsfel och ett antal rena felöversättningar rättats. Ett
-exempel är "Party" (motpart), som tidigare översattes med "Parti", det vill säga batch.
+Hela ordlistan finns under [Ändra översättningar](#ändra-översättningar).
 
 ### Momskategori för utländska kunder och leverantörer
 
@@ -45,11 +52,18 @@ fakturan, så en kund med adresser i flera länder får rätt moms per faktura.
 - Knappen **Kontrollera i VIES** på kund och leverantör frågar EU-kommissionens register om numret är giltigt
   och visar företagets namn och adress.
 
-### Fakturamall "Faktura Sverige"
+### Svenska utskriftsmallar
 
-Standardmall för kundfakturor med det som mervärdesskattelagen kräver:
+Appen har svenska mallar som är standard för respektive dokument: **Faktura Sverige** (kundfaktura), **Offert
+Sverige**, **Orderbekräftelse Sverige**, **Följesedel Sverige** och **Inköpsorder Sverige**. De har samma
+utseende, med brevhuvud, dokumentuppgifter, artikelrader och en sidfot med bolagets adress, organisationsnummer,
+momsregistreringsnummer och F-skatt.
 
-- organisationsnummer och momsregistreringsnummer (räknas fram ur bolagets Tax ID)
+Fakturamallen har det som mervärdesskattelagen kräver:
+
+- organisationsnummer (bolagets Tax ID) och momsregistreringsnummer (bolagets fält **Momsregistreringsnummer**,
+  som fylls i som SE + organisationsnummer + 01; töm det om bolaget inte är momsregistrerat, då skrivs inget
+  nummer ut)
 - underlag och moms per momssats, samt kundens momsregistreringsnummer
 - hänvisning vid EU-försäljning ("Omvänd skattskyldighet", "Unionsintern leverans") och export, på svenska och engelska
 - "Godkänd för F-skatt" om rutan **Godkänd för F-skatt** är ikryssad på bolaget
@@ -68,6 +82,8 @@ Mallen följer kundens språk: svenska, eller engelska för kunder med engelska 
 PDF kräver att wkhtmltopdf är installerat, eller att Chrome-generatorn väljs i Utskriftsinställningar.
 
 ### Bankfiler
+
+Båda finns i menyn **Svensk bokföring** under *Bankfiler*.
 
 **Bankgiroinbetalning** (Inbetalningar): ladda upp inbetalningsfilen från banken eller Bankgirot (BgMax) och
 klicka **Läs in fil**. Varje betalning matchas mot en bokförd kundfaktura via OCR-numret och blir en betalning i
@@ -99,12 +115,17 @@ bokföring. Funktionen går att köra flera gånger utan att något dubbleras.
 - Momsmallar som bokför på rätt BAS-konton (2611/2621/2631/2641)
 - Momskategorier med skatteregler för Sverige, EU (omvänd skattskyldighet) och länder utanför EU
 - Artikelmomsmallar för 12 %, 6 % och momsfritt
-- Brevhuvudet **Brevhuvud Sverige** (logotyp och bolagsnamn) som standard i stället för ERPNext:s, som
-  skriver ut dokumenttypen på engelska. Ett eget standardbrevhuvud behålls.
+- Brevhuvudet **Brevhuvud Sverige** som standard i stället för ERPNext:s, som skriver ut dokumenttypen på
+  engelska. Det visar bolagets logotyp (fältet Logotyp, bilden i bolagsformulärets sidopanel), eller
+  bolagsnamnet om logotyp saknas. Ett eget standardbrevhuvud behålls.
 
 ```bash
 bench --site <site> execute erpnext_sverige.setup.company.setup_swedish_company --kwargs "{'company': '<bolag>'}"
 ```
+
+Bolaget får också fälten **Momsregistreringsnummer**, **Godkänd för F-skatt**, **OCR-nummer på fakturor** och
+**Redovisningsperiod för moms**. ERPNext:s standardlager *Stores* heter **Lager**, och befintliga lager med det
+gamla namnet "Butiker" döps om vid migrering.
 
 ### Automatiskt kontoval på fakturor
 
@@ -123,12 +144,18 @@ som tidigare mot lagret.
 
 ### Momsdeklaration
 
-Rapporten **Momsdeklaration** (Redovisning → rapporter, modul Sweden Compliance) räknar fram Skatteverkets
-rutor 05–62 och 49 ur huvudboken för vald period, utifrån BAS-kontonummer. Makulerade verifikationer, bokslut
-och momsomföringar räknas inte med. Beloppen anges i hela kronor, och öretal stryks.
+Rapporten **Momsdeklaration** (menyn **Svensk bokföring**) räknar fram Skatteverkets rutor 05–62 och 49 ur
+huvudboken för vald period, utifrån BAS-kontonummer. Makulerade verifikationer, bokslut och momsomföringar
+räknas inte med. Beloppen anges i hela kronor, och öretal stryks.
 
-- **Ladda ner eSKD-fil**: fil för uppladdning i Skatteverkets e-tjänst för momsdeklaration.
-  **Verifiera formatet mot Skatteverkets aktuella specifikation innan filen används på riktigt.**
+**Redovisningsperiod**: bolagets fält **Redovisningsperiod för moms** (Månad, Kvartal eller År enligt
+Skatteverkets beslut; År är räkenskapsåret, även brutet). Rapporten öppnas med den senaste avslutade perioden,
+under bolagets första år med det pågående året. Rutorna kan visas för valfria datum, men knapparna nedan kräver
+en hel redovisningsperiod.
+
+- **Ladda ner eSKD-fil**: fil för Skatteverkets e-tjänst "Lämna momsdeklaration via fil". Organisationsnumret
+  skrivs som xxxxxx-xxxx, utan DOCTYPE och indrag, enligt Skatteverkets anvisningar. Formatet är provat genom
+  uppladdning i e-tjänsten.
 - **Skapa momsomföring**: skapar en verifikation som **utkast**, daterad periodens sista dag, som nollställer
   momskontona (2610–2649) mot 2650. Öresavrundningen bokförs på 3740. Granska och bokför den själv.
 
@@ -137,8 +164,9 @@ Rutorna 06, 07, 08, 37 och 38 stöds inte än och är alltid 0.
 **Lås perioden** låser bokföringen till och med periodens slutdatum när deklarationen är inlämnad och
 momsomföringen bokförd (bolagets *Accounts Frozen Till Date*). Därefter går det inte att bokföra, ändra eller
 makulera något med datum i perioden, inte heller som Administrator. Knappen vägrar om det finns utkast i
-perioden, låser aldrig framtida datum och flyttar aldrig ett låsdatum bakåt. Bara Accounts Manager och System
-Manager kan låsa. Ett felaktigt låsdatum ändras på bolaget av System Manager.
+perioden, låser bara vid slutet av en redovisningsperiod, låser aldrig framtida datum och flyttar aldrig ett
+låsdatum bakåt. Bara Accounts Manager och System Manager kan låsa. Ett felaktigt låsdatum ändras på bolaget av
+System Manager.
 
 ### Grundbok
 
@@ -149,7 +177,7 @@ egna rader där de registrerades.
 
 ### SIE-export
 
-Rapporten **SIE-export** (modul Sweden Compliance) sammanställer verifikationerna per serie för valt
+Rapporten **SIE-export** (menyn **Svensk bokföring**) sammanställer verifikationerna per serie för valt
 räkenskapsår. Knappen **Ladda ner SIE-fil** ger en SIE 4-fil (PC8) till revisor eller bokslutsprogram med:
 
 - bolagsuppgifter, kontoplan och kontotyper
@@ -168,7 +196,12 @@ Schenker. Modulen **Frakt** bygger på ERPNext:s Shipment (försändelse).
 
 **Inställningar** (Fraktinställningar): miljö (Sandlåda eller Produktion), API-nyckel (skapas i Sendify under
 *Settings → API*, sparas krypterad), avsändande bolag, adress och kontakt, upphämtningstider, påslag på
-fraktpriset (procent och/eller kronor) och fraktartikeln. **Testa anslutning** kontrollerar nyckeln och
+fraktpriset (procent och/eller kronor) och fraktartikeln. Allt finns i menyn **Frakt**.
+
+**Upphämtningstider** anges per veckodag (Från och Till), till exempel kortare fredag. En dag utan rad har ingen
+upphämtning, och röda dagar i bolagets helglista har aldrig upphämtning (vanliga veckohelger räknas inte, så en
+lördagsrad fungerar). En ny försändelse får nästa dag med upphämtning och den dagens tider. Ändras dagen på
+försändelsen byts tiderna, och en dag utan upphämtning stoppar prishämtning och bokning. **Testa anslutning** kontrollerar nyckeln och
 **Hämta transportörsprodukter** fyller registret Fraktprodukt. Frakten används först när **Aktiverad** är ikryssad.
 
 **Kollin**: på artikeln anges fraktsätt, antingen egna mått (längd, bredd, höjd, eventuellt pallplatser som räknas
@@ -250,25 +283,18 @@ bench --site <site> restore ./aterstall/backup/*-database.sql.gz \
 
 Kontrollera loggen regelbundet. En körning som misslyckas skriver `KLART MED FEL` och avslutas med felkod.
 
-### Kontrollskript för nya strängar
-
-När Frappe eller ERPNext uppdateras kan nya strängar med särskrivningar tillkomma. Skriptet
-`erpnext_sverige/scripts/sarskrivningar.py` listar dem:
-
-```bash
-bench --site <site> execute erpnext_sverige.scripts.sarskrivningar.report --kwargs "{'title_case_only': True}"
-```
-
-Utan `title_case_only` listas fler kandidater, men då följer också fler falsklarm med.
-
 ## Planerat
 
 Se [TODO.md](TODO.md). Det viktigaste:
 
-- **PAXml-export** av tid och frånvaro till svenska lönesystem (t.ex. Visma Lön, Hogia, Fortnox Lön)
-- **Frakt, etapp 2 och 3**: leverans till ombud för privatpersoner och tullinformation vid export utanför EU
+- **Frakt, etapp 2 och 3**: leverans till ombud för privatpersoner och tullinformation vid export utanför EU,
+  och prov med riktiga bokningar (i dag provat mot Sendifys sandlåda)
 - **E-faktura för Sverige**: skicka och ta emot fakturor enligt Peppol BIS Billing 3.0, vilket är krav vid
   fakturering till offentlig sektor
+- **Momsdeklaration**: rutorna 06, 07, 08, 37 och 38
+
+Lönefrågor (personal, frånvaro, stämpling och löneunderlag till lönesystem via PAXml) finns i den separata appen
+[HRMS Sverige](https://github.com/ubbe76/HRMS-Sverige).
 
 ## Installation
 
@@ -282,10 +308,13 @@ bench compile-po-to-mo --app erpnext_sverige --locale sv
 bench --site <site> clear-cache
 ```
 
-Repot är privat. Datorn som hämtar appen måste vara inloggad på GitHub, till exempel med `gh auth login`.
+Sätt sedan upp bolaget med `setup_swedish_company` (se [Grunduppsättning](#grunduppsättning-av-bokföring-och-moms)).
 
 Användaren måste ha språket **Svenska (sv)** valt för att se översättningarna. Ladda om sidan i webbläsaren
 med Ctrl+Shift+R efter installationen.
+
+Efter en uppdatering av appen: `bench --site <site> migrate`, och sedan `compile-po-to-mo` och `clear-cache`
+som ovan om översättningarna har ändrats.
 
 ## Utveckling
 
@@ -311,29 +340,52 @@ Granska ändringen med `git diff`, lägg till filen och committa igen.
    bench --site <site> clear-cache
    ```
 
-Ändra aldrig `sv.po` i `apps/frappe` eller `apps/erpnext`. De filerna skrivs över vid `bench update`.
+Ändra aldrig `sv.po` i `apps/frappe` eller `apps/erpnext`. De filerna skrivs över vid `bench update`. Appar som
+installeras efter den här (till exempel `hrms`) kan skriva över samma strängar; kontrollera det vid ändringar.
+
+Stilregler och ordlista:
+- Skriv sammansatta ord ihop: Artikelgrupp, Leverantörsgrupp, Bankkonto.
+- Stor bokstav bara först i en etikett eller mening, och i egennamn.
+- Följ BAS-terminologin och bokföringslagens termer där de finns, till exempel Resultatenhet och Räkenskapsår.
+- Bokföring: Verifikation (Journal Entry), Huvudbok (General Ledger), Balansräkning/Resultaträkning,
+  Saldobalans (Trial Balance), Kundreskontra/Leverantörsreskontra (Accounts Receivable/Payable), Kundfaktura
+  och Leverantörsfaktura (Sales/Purchase Invoice), Räkenskapsår (Fiscal Year), Källskatt (Tax Withholding,
+  inte momsavdrag), Beskattningsunderlag (Taxable Amount), Part (Party, aldrig "Parti", som är batch).
+- Försäljning, inköp och lager: Offert och Offertförfrågan (Quotation/RFQ), Följesedel (Delivery Note),
+  Inleverans (Purchase Receipt), Materialinleverans (Material Receipt), Materialuttag (Material Issue),
+  Lagerinventering (Stock Reconciliation), Beställningspunkt (Reorder Level), Affärsmöjlighet (Opportunity),
+  Transportör (Carrier). ERPNext:s standardlager Stores heter Lager.
+- Tillverkning: Operation (inte Åtgärd), Operationsföljd (Routing), Arbetsstation (Workstation),
+  Tillverkningsorder (Work Order), Operationskort (Job Card), Färdigartikel (Finished Good).
+- Utskriftsmallarnas egna etiketter har `msgctxt "Swedish print"` och ändras bara medvetet.
+- Var försiktig med korta ord som delas med andra sammanhang ("Left" är också justeringen Vänster).
+
+### Kontrollskript för nya strängar
+
+När Frappe eller ERPNext uppdateras kan nya strängar med särskrivningar tillkomma. Skriptet
+`erpnext_sverige/scripts/sarskrivningar.py` listar dem:
+
+```bash
+bench --site <site> execute erpnext_sverige.scripts.sarskrivningar.report --kwargs "{'title_case_only': True}"
+```
+
+Utan `title_case_only` listas fler kandidater, men då följer också fler falsklarm med.
 
 ### Tester
 
 Integrationstesterna skapar ett eget testbolag, `_Test Svenska AB`, med ERPNext:s BAS-kontoplan och kör
-appens grunduppsättning på det. Kör dem på en testsite, inte på den riktiga:
+appens grunduppsättning på det. Kör dem på en testsite, inte på den riktiga, och kör hela appen (enskilda
+moduler kan stoppas av ERPNext:s egna testposter):
 
 ```bash
 bench --site <testsite> set-config allow_tests true
-bench --site <testsite> run-tests --module erpnext_sverige.tests.test_account_selection
-bench --site <testsite> run-tests --module erpnext_sverige.tests.test_vat_return
-bench --site <testsite> run-tests --module erpnext_sverige.tests.test_sie_export
-bench --site <testsite> run-tests --module erpnext_sverige.tests.test_invoice
-bench --site <testsite> run-tests --module erpnext_sverige.tests.test_tax_category
-bench --site <testsite> run-tests --module erpnext_sverige.tests.test_credit_notes
-bench --site <testsite> run-tests --module erpnext_sverige.tests.test_bgmax
-bench --site <testsite> run-tests --module erpnext_sverige.tests.test_pain001
+bench --site <testsite> run-tests --app erpnext_sverige
 ```
 
 ### Testdata för tillverkning
 
 `scripts/demodata_tillverkning.py` lägger in en påhittad plåt- och svetsverkstad i ett bolag på en test- eller
-demosite: råmaterial, halvfabrikat och produkter med stycklistor (material och arbetsmoment), arbetsstationer
+demosite: råmaterial, halvfabrikat och produkter med stycklistor (material och operationer), arbetsstationer
 med timkostnad, leverantörer, kunder (även EU), priser och ett ingående lager av råmaterial. Lagren kopplas till
 BAS-kontona 1410, 1440 och 1450. Skriptet skapar bara det som saknas och körs bara där `allow_tests` är på:
 
@@ -341,22 +393,6 @@ BAS-kontona 1410, 1440 och 1450. Skriptet skapar bara det som saknas och körs b
 bench --site <demosite> set-config allow_tests true
 bench --site <demosite> execute erpnext_sverige.scripts.demodata_tillverkning.skapa --kwargs "{'company': '<bolag>'}"
 ```
-
-Stilregler för översättningarna:
-- Skriv sammansatta ord ihop: Artikelgrupp, Leverantörsgrupp, Bankkonto.
-- Stor bokstav bara först i en etikett eller mening, och i egennamn.
-- Följ BAS-terminologin där den finns, till exempel Resultatenhet och Bokföringsår.
-- Tillverkning: Operation (inte Åtgärd), Operationsföljd (Routing), Arbetsstation (Workstation),
-  Tillverkningsorder (Work Order), Operationskort (Job Card), Färdigartikel (Finished Good), Materialuttag
-  (Material Issue). ERPNext:s standardlager Stores heter Lager.
-- Bokföring: Verifikation (Journal Entry), Huvudbok (General Ledger), Balansräkning/Resultaträkning,
-  Saldobalans (Trial Balance), Kundreskontra/Leverantörsreskontra (Accounts Receivable/Payable), Kundfaktura
-  och Leverantörsfaktura (Sales/Purchase Invoice), Räkenskapsår (Fiscal Year, bokföringslagens term),
-  Källskatt (Tax Withholding, inte momsavdrag), Beskattningsunderlag (Taxable Amount).
-- Försäljning, inköp och lager: Offert och Offertförfrågan (Quotation/RFQ), Följesedel (Delivery Note),
-  Inleverans (Purchase Receipt), Materialinleverans (Material Receipt), Lagerinventering (Stock
-  Reconciliation), Beställningspunkt (Reorder Level), Affärsmöjlighet (Opportunity), Transportör (Carrier).
-- Utskriftsmallarnas egna etiketter har msgctxt "Swedish print" och ändras bara medvetet.
 
 ## Licens
 
