@@ -1,7 +1,12 @@
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from erpnext_sverige.patches import brevhuvud_bara_logga, brevhuvud_html_kalla, brevhuvud_relativ_logga
+from erpnext_sverige.patches import (
+	brevhuvud_bara_logga,
+	brevhuvud_html_kalla,
+	brevhuvud_loggstorlek,
+	brevhuvud_relativ_logga,
+)
 from erpnext_sverige.setup.company import (
 	ERPNEXT_LETTER_HEADS,
 	LETTER_HEAD,
@@ -90,6 +95,7 @@ class TestLetterHead(IntegrationTestCase):
 		mall = frappe.db.get_value("Letter Head", LETTER_HEAD, "content")
 		html = frappe.render_template(mall, {"doc": frappe._dict(company=COMPANY)})
 		self.assertIn('src="/files/logga.png"', html)
+		self.assertIn("max-height: 30px; max-width: 120px", html)
 		# Logotypen innehåller oftast namnet; namnet skrivs bara ut utan logotyp
 		self.assertNotIn(f">{COMPANY}<", html)
 		frappe.db.set_value("Company", COMPANY, "company_logo", None)
@@ -121,6 +127,20 @@ class TestLetterHead(IntegrationTestCase):
 		brevhuvud_relativ_logga.execute()
 		self.assertEqual(
 			frappe.db.get_value("Letter Head", LETTER_HEAD, "content"), '<p>Eget</p><img src="{{ logo }}">'
+		)
+
+	def test_patchen_minskar_loggan(self):
+		create_letter_head()
+		frappe.db.set_value(
+			"Letter Head",
+			LETTER_HEAD,
+			"content",
+			'<p>Eget</p><img style="max-height: 60px; max-width: 240px">',
+		)
+		brevhuvud_loggstorlek.execute()
+		self.assertEqual(
+			frappe.db.get_value("Letter Head", LETTER_HEAD, "content"),
+			'<p>Eget</p><img style="max-height: 30px; max-width: 120px">',
 		)
 
 	def test_invoice_header_is_swedish(self):
