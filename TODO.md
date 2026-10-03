@@ -54,7 +54,7 @@ Fynd:
 
 1. [x] **SIE-export (SIE 4)**: rapporten "SIE-export" (modul Sweden Compliance) laddar ner en SIE 4-fil per
    räkenskapsår med kontoplan, IB/UB/RES, resultatenheter (dim 1), projekt (dim 6) och alla verifikationer
-   (serie A journalposter, B kundfakturor, C leverantörsfakturor, D betalningar, E lager, F övrigt)
+   (serie A verifikationer, B kundfakturor, C leverantörsfakturor, D betalningar, E lager, F övrigt)
    - [ ] Provimportera filen i ett bokslutsprogram eller hos revisorn och kontrollera att allt kommer med
    - [ ] SIE-import (t.ex. ingående balanser från tidigare bokföringsprogram)
 2. [x] **Momsdeklaration**: rapporten "Momsdeklaration" (modul Sweden Compliance) räknar fram Skatteverkets
@@ -92,7 +92,7 @@ Fynd:
    (Försändelse): priser, bokning, fraktsedel, etikett och spårning. Se README, "Frakt via Sendify".
    - [ ] Prova riktiga bokningar (i dag provat mot Sendifys sandlåda)
 7. [ ] **Breddat stöd för e-faktura i Sverige**
-   - Utgående: skapa Peppol BIS Billing 3.0 (UBL) från försäljningsfaktura och kreditnota.
+   - Utgående: skapa Peppol BIS Billing 3.0 (UBL) från kundfaktura och kreditnota.
      Det är krav vid fakturering till offentlig sektor (lag 2018:1277).
    - Inkommande: läs in Peppol-fakturor som leverantörsfakturor, med matchning mot inköpsorder
    - Överföring via Peppol-accesspunkt (t.ex. InExchange, Pagero eller Crediflow)
