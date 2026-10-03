@@ -59,11 +59,10 @@ Fynd:
    - [ ] SIE-import (t.ex. ingående balanser från tidigare bokföringsprogram)
 2. [x] **Momsdeklaration**: rapporten "Momsdeklaration" (modul Sweden Compliance) räknar fram Skatteverkets
    rutor ur huvudboken, laddar ner eSKD-fil och skapar momsomföring (utkast) mot 2650
-   - [ ] **Verifiera eSKD-filen mot Skatteverkets aktuella specifikation** (filformat, elementnamn, OrgNr-format)
-     innan den laddas upp på riktigt. Testa uppladdningen i Skatteverkets e-tjänst, gärna med en testdeklaration.
-   - [ ] **Valbar redovisningsperiod** (månad, kvartal, år) per bolag. I dag utgår rapporten från räkenskapsåret
-     (bolaget redovisar per år), men valfria datum kan väljas i filtret. Perioden ska styra standardfiltret och
-     kontrollera att datumen motsvarar en hel redovisningsperiod.
+   - [x] **eSKD-filen kontrollerad mot Skatteverkets anvisningar och DTD** (2026-10-03): OrgNr som xxxxxx-xxxx,
+     ingen DOCTYPE, inget indrag; elementordningen följer DTD:n. Återstår: provuppladdning i e-tjänsten (utan att skicka in).
+   - [x] **Valbar redovisningsperiod** (månad, kvartal, år) per bolag: fältet Redovisningsperiod för moms.
+     Rapporten öppnas med senaste avslutade perioden; eSKD, momsomföring och låsning kräver en hel period.
    - [ ] Rutor som inte stöds och alltid är 0: 06 (uttag), 07 (vinstmarginal), 08 (frivillig skattskyldighet för hyra),
      37/38 (trepartshandel)
 3. [x] **Fakturamall "Faktura Sverige"** (standard för kundfakturor): organisationsnummer, momsreg.nr,
@@ -83,7 +82,8 @@ Fynd:
      Positioner och element är skrivna enligt Bankgirots manual och bankernas anvisningar men inte provade skarpt.
    - [ ] Betalningar i utländsk valuta (EUR m.m.) i betalfilen; i dag bara SEK
    - [ ] Inläsning av bankens kontoutdrag (camt.053) för avstämning
-5. [ ] **PAXml-export till svenska lönesystem** (Visma Lön, Hogia, Fortnox Lön m.fl.)
+5. [x] **PAXml-export till svenska lönesystem**: byggt i appen HRMS Sverige (Löneunderlag till Crona Lön; PAXml
+   fungerar även för Visma Lön, Hogia, Fortnox Lön m.fl.)
    - Exportera tidrapporter och frånvaro per anställd och löneperiod som PAXml-fil
    - Bestäm datakälla: ERPNext:s tidrapporter (Timesheet) räcker för tid. Frånvaro och
      närvaro finns i Frappe HRMS, som är installerat tillsammans med appen `hrms_sverige`.
@@ -122,5 +122,5 @@ Fynd:
   Commits kan behålla den anonyma adressen.
 - [x] CI: testsviten körs med GitHub Actions på en ny site (`.github/workflows/ci.yml`)
 - [x] Versionsnummer och ändringslogg (`CHANGELOG.md`), första pre-release v0.1.0
-- [ ] Bestäm om repot ska bli publikt. Gå i så fall igenom punkterna från granskningen 2026-10-01
-  (författaradress i en merge-commit, adressen i sandlådetestet, interna anteckningar som den här filen)
+- [x] Repot är publikt sedan 2026-10-03. Punkterna från granskningen 2026-10-01 är åtgärdade (adressen i
+  sandlådetestet och interna anteckningar), utom författaradressen i merge-commits som gjorts via GitHub

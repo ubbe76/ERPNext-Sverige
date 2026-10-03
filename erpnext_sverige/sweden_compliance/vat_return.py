@@ -5,11 +5,14 @@ Voucher) och tidigare momsomföringar räknas inte med, så att rapporten visar 
 omföringen.
 """
 
+import calendar
 import re
 from dataclasses import dataclass
+from datetime import date, timedelta
 from xml.sax.saxutils import escape
 
 import frappe
+from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
 from frappe.utils import flt, getdate
 
@@ -166,55 +169,45 @@ def _in_ranges(number: str, ranges) -> bool:
 
 # eSKD-fil ---------------------------------------------------------------------------------------
 
-ESKD_DOCTYPE = (
-	'<!DOCTYPE eSKDUpload PUBLIC "-//Skatteverket, Sweden//DTD Skatteverket eSKDUpload-DTD Version 6.0//SV" '
-	'"https://www1.skatteverket.se/demoeskd/eSKDUpload_6p0.dtd">'
-)
-
 
 def build_eskd_xml(company: str, from_date, to_date) -> bytes:
 	boxes = get_vat_return(company, from_date, to_date)
 	org_nr = format_org_nr(frappe.get_cached_value("Company", company, "tax_id"))
 	period = getdate(to_date).strftime("%Y%m")
 
+	# Som Skatteverkets exempel: utan DOCTYPE och utan indrag ("felaktiga mellanslag eller tabbar" avvisas)
 	lines = [
 		'<?xml version="1.0" encoding="ISO-8859-1"?>',
-		ESKD_DOCTYPE,
 		'<eSKDUpload Version="6.0">',
-		f"  <OrgNr>{escape(org_nr)}</OrgNr>",
-		"  <Moms>",
-		f"    <Period>{period}</Period>",
+		f"<OrgNr>{escape(org_nr)}</OrgNr>",
+		"<Moms>",
+		f"<Period>{period}</Period>",
 	]
 	for box in BOXES:
 		value = boxes[box.number]
 		if value or box.number == "49":
-			lines.append(f"    <{box.eskd}>{value}</{box.eskd}>")
-	lines += ["  </Moms>", "</eSKDUpload>", ""]
+			lines.append(f"<{box.eskd}>{value}</{box.eskd}>")
+	lines += ["</Moms>", "</eSKDUpload>", ""]
 	return "\n".join(lines).encode("iso-8859-1")
 
 
 def format_org_nr(tax_id: str | None) -> str:
-	"""Organisations- eller personnummer med tolv siffror, som eSKD-filen kräver."""
+	"""Organisations- eller personnummer med tio siffror och bindestreck (xxxxxx-xxxx), som Skatteverket kräver."""
 	value = (tax_id or "").strip().upper()
 	digits = re.sub(r"\D", "", value)
 	if value.startswith("SE") and len(digits) == 12 and digits.endswith("01"):  # momsregistreringsnummer
 		digits = digits[:10]
-	if len(digits) == 12:
-		return digits
+	elif len(digits) == 12:  # personnummer med sekel eller organisationsnummer med prefixet 16
+		digits = digits[2:]
 	if len(digits) != 10:
 		frappe.throw(_("Organisationsnumret (Tax ID) på bolaget måste ha 10 eller 12 siffror"))
-
-	if int(digits[2:4]) >= 20:  # organisationsnummer: tredje-fjärde siffran är minst 20
-		return "16" + digits
-	# Personnummer (enskild firma): innehavaren antas vara minst 18 år
-	year = int(digits[:2])
-	century = "20" if year <= (getdate().year - 18) % 100 else "19"
-	return century + digits
+	return f"{digits[:6]}-{digits[6:]}"
 
 
 @frappe.whitelist()
 def download_eskd(company: str, from_date: str, to_date: str):
 	frappe.has_permission("GL Entry", "read", throw=True)
+	kontrollera_period(company, from_date, to_date)
 	frappe.response["filename"] = f"momsdeklaration-{getdate(to_date).strftime('%Y%m')}.xml"
 	frappe.response["filecontent"] = build_eskd_xml(company, from_date, to_date)
 	frappe.response["type"] = "download"
@@ -231,6 +224,7 @@ def settlement_period(from_date, to_date) -> str:
 def create_vat_settlement(company: str, from_date: str, to_date: str) -> str:
 	"""Skapa momsomföringen som utkast: nollställ 2610-2649 mot 2650. Returnerar Journal Entry-namnet."""
 	frappe.has_permission("Journal Entry", "create", throw=True)
+	kontrollera_period(company, from_date, to_date)
 	period = settlement_period(from_date, to_date)
 
 	existing = frappe.db.get_value(
@@ -286,3 +280,76 @@ def _je_row(company: str, number: str, amount: float, with_cost_center: bool = F
 	if with_cost_center:
 		row["cost_center"] = frappe.get_cached_value("Company", company, "cost_center")
 	return row
+
+
+# Redovisningsperiod ------------------------------------------------------------------------------
+
+MANAD, KVARTAL, AR = "Månad", "Kvartal", "År"
+BENAMNING = {MANAD: "per månad", KVARTAL: "per kvartal", AR: "per år"}
+
+
+def perioden(typ: str | None, datum, rakenskapsar) -> tuple[date, date]:
+	"""Redovisningsperioden som innehåller datumet. `rakenskapsar(datum)` ger räkenskapsårets start och slut."""
+	datum = getdate(datum)
+	if typ == MANAD:
+		return datum.replace(day=1), datum.replace(day=calendar.monthrange(datum.year, datum.month)[1])
+	if typ == KVARTAL:
+		forsta = 3 * ((datum.month - 1) // 3) + 1
+		sista = forsta + 2
+		return date(datum.year, forsta, 1), date(datum.year, sista, calendar.monthrange(datum.year, sista)[1])
+	return rakenskapsar(datum)
+
+
+def _momsperiod(company: str) -> str:
+	return frappe.db.get_value("Company", company, "se_momsperiod") or AR
+
+
+def _rakenskapsar(company: str):
+	def ar(datum):
+		fy = get_fiscal_year(datum, company=company, as_dict=True)
+		return getdate(fy.year_start_date), getdate(fy.year_end_date)
+
+	return ar
+
+
+def bolagets_period(company: str, datum) -> tuple[date, date]:
+	return perioden(_momsperiod(company), datum, _rakenskapsar(company))
+
+
+def senaste_avslutade_period(company: str, idag=None) -> tuple[date, date]:
+	"""Perioden före den pågående. Redovisar bolaget per år och saknar räkenskapsår före det pågående (bolagets
+	första år) blir det den pågående perioden, i stället för ett fel när rapporten öppnas."""
+	start, slut = bolagets_period(company, idag or getdate())
+	forra = start - timedelta(days=1)
+	if _momsperiod(company) == AR and not get_fiscal_year(forra, company=company, raise_on_missing=False):
+		return start, slut
+	return bolagets_period(company, forra)
+
+
+def kontrollera_period(company: str, from_date, to_date) -> None:
+	"""Stoppa om datumen inte är exakt en redovisningsperiod för bolaget."""
+	ratt = bolagets_period(company, from_date)
+	if (getdate(from_date), getdate(to_date)) != ratt:
+		_fel_period(company, ratt)
+
+
+def kontrollera_periodslut(company: str, to_date) -> None:
+	"""Stoppa om datumet inte är sista dagen i en redovisningsperiod."""
+	ratt = bolagets_period(company, to_date)
+	if getdate(to_date) != ratt[1]:
+		_fel_period(company, ratt)
+
+
+def _fel_period(company: str, ratt: tuple[date, date]) -> None:
+	frappe.throw(
+		_("Bolaget redovisar moms {0}. Välj en hel period, t.ex. {1} – {2}.").format(
+			_(BENAMNING[_momsperiod(company)]), ratt[0], ratt[1]
+		)
+	)
+
+
+@frappe.whitelist()
+def standardperiod(company: str) -> dict:
+	"""Senaste avslutade redovisningsperioden, förval i rapporten."""
+	start, slut = senaste_avslutade_period(company)
+	return {"from_date": str(start), "to_date": str(slut)}

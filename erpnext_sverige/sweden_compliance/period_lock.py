@@ -30,6 +30,9 @@ def las_period(company: str, to_date: str) -> str:
 	to_date = getdate(to_date)
 	if to_date > getdate(today()):
 		frappe.throw(_("Det går inte att låsa en period som inte är slut"))
+	from erpnext_sverige.sweden_compliance.vat_return import kontrollera_periodslut
+
+	kontrollera_periodslut(company, to_date)
 
 	current = frappe.db.get_value("Company", company, "accounts_frozen_till_date")
 	if current and getdate(current) >= to_date:

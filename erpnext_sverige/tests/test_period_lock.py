@@ -31,6 +31,10 @@ class TestPeriodLock(IntegrationTestCase):
 		super().setUpClass()
 		ensure_test_company()
 
+	def setUp(self):
+		# Låsdatumen i testerna är månadsslut
+		frappe.db.set_value("Company", COMPANY, "se_momsperiod", "Månad")
+
 	def tearDown(self):
 		frappe.db.rollback()
 		frappe.set_user("Administrator")

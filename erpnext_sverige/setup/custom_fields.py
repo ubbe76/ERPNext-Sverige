@@ -48,6 +48,17 @@ def _get_base_custom_fields():
 				"insert_after": "se_f_skatt",
 				"description": _("Kundfakturor får ett OCR-nummer (betalningsreferens med kontrollsiffra)."),
 			},
+			{
+				"fieldname": "se_momsperiod",
+				"label": _("Redovisningsperiod för moms"),
+				"fieldtype": "Select",
+				"options": "Månad\nKvartal\nÅr",
+				"default": "År",
+				"insert_after": "se_use_ocr",
+				"description": _(
+					"Enligt Skatteverkets beslut. År är bolagets räkenskapsår. Styr momsdeklarationens period."
+				),
+			},
 		],
 		"Bank Account": [
 			{
