@@ -304,6 +304,9 @@ Lönefrågor (personal, frånvaro, stämpling och löneunderlag till lönesystem
 
 Krav: en [bench](https://github.com/frappe/bench) med `frappe` och `erpnext` på branchen `version-16`.
 
+Senast testad med frappe 16.36.1 och erpnext 16.37.0 (2026-10-04). CI kör testerna mot senaste `version-16` av
+frappe och erpnext vid varje pull request.
+
 ```bash
 cd ~/frappe-bench
 bench get-app https://github.com/ubbe76/ERPNext-Sverige --branch version-16
