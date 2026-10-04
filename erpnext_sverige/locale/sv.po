@@ -1054,11 +1054,29 @@ msgstr ""
 "<br>\n"
 "Värdet ska ändras vid varje uppdatering av klientprogramvara med samma programvaru-ID."
 
+msgid "Accounts Payable Ageing"
+msgstr "Åldersanalys leverantörsreskontra"
+
+msgid "Accounts Receivable Ageing"
+msgstr "Åldersanalys kundreskontra"
+
+msgid "Active Customers"
+msgstr "Aktiva kunder"
+
+msgid "Active Suppliers"
+msgstr "Aktiva leverantörer"
+
 msgid "AMC Expiry (Serial)"
 msgstr "Utgångsdatum för serviceavtal (Serienummer)"
 
 msgid "AMC Expiry Date"
 msgstr "Utgångsdatum för serviceavtal"
+
+msgid "Annual Purchase"
+msgstr "Årsinköp"
+
+msgid "Annual Sales"
+msgstr "Årsförsäljning"
 
 msgid "API"
 msgstr "API"
@@ -1104,6 +1122,9 @@ msgstr "API-begärandelogg"
 
 msgid "API Secret"
 msgstr "API-hemlighet"
+
+msgid "Average Sales Order Value"
+msgstr "Genomsnittligt ordervärde"
 
 msgid "AWB Number"
 msgstr "AWB-nummer"
@@ -5117,6 +5138,9 @@ msgstr "Ignorera kreditgränskontroll vid försäljningsorder"
 msgid "Bypass restricted IP Address check If Two Factor Auth Enabled"
 msgstr "Ignorera begränsad IP-adresskontroll om tvåfaktorsautentisering är aktiverad"
 
+msgid "Category-wise Asset Value"
+msgstr "Tillgångsvärde per kategori"
+
 msgid "CC"
 msgstr "Kopia till"
 
@@ -8987,6 +9011,9 @@ msgstr "Leverera till"
 
 msgid "Delivery To Date"
 msgstr "Leverans till datum"
+
+msgid "Delivery Trends"
+msgstr "Leveranstrender"
 
 msgid "Delivery Trip"
 msgstr "Leveransrutt"
@@ -13280,6 +13307,12 @@ msgstr "IMAP-mappverifiering misslyckades"
 msgid "IMAP Folder name cannot be empty."
 msgstr "IMAP-mappnamn kan inte vara tomt."
 
+msgid "Incoming Bills (Purchase Invoice)"
+msgstr "Inkommande fakturor (leverantörsfakturor)"
+
+msgid "Incoming Leads"
+msgstr "Nya potentiella kunder"
+
 msgid "IP Address"
 msgstr "IP-adress"
 
@@ -15414,6 +15447,9 @@ msgstr "Artikelserienummer"
 msgid "Item Shortage Report"
 msgstr "Artikelbristrapport"
 
+msgid "Item Shortage Summary"
+msgstr "Artikelbrist"
+
 msgid "Item Supplier"
 msgstr "Artikelleverantör"
 
@@ -15581,6 +15617,9 @@ msgstr "Artikel {0}: Orderkvantitet {1} kan inte vara lägre än minsta orderkva
 
 msgid "Item {0}: Ordered qty {1} {2} exceeds the minimum order qty {3} {2} by {4} {2} due to purchase UOM rounding."
 msgstr "Artikel {0}: Orderkvantitet {1} {2} överskrider lägsta orderkvantitet {3} {2} med {4} {2} på grund av inköpsenhetsavrundning."
+
+msgid "Item-wise Annual Sales"
+msgstr "Årsförsäljning per artikel"
 
 msgid "Item-wise Price List Rate"
 msgstr "Artikelbaserat prislistepris"
@@ -16481,6 +16520,9 @@ msgstr "Platsdetaljer"
 msgid "Location Name"
 msgstr "Platsnamn"
 
+msgid "Location-wise Asset Value"
+msgstr "Tillgångsvärde per plats"
+
 msgid "Log API Requests"
 msgstr "Logga API-begäran"
 
@@ -16654,6 +16696,9 @@ msgstr "Lojalitetsprogramtyp"
 
 msgid "Loyalty scheme this customer earns points under. Auto-assigned if a matching program exists."
 msgstr "Lojalitetsprogram där kund tjänar poäng. Tilldelas automatiskt om samstämt program finns."
+
+msgid "Material Request Analysis"
+msgstr "Analys av materialbegäran"
 
 msgid "MIT License"
 msgstr "MIT-licens"
@@ -17799,6 +17844,9 @@ msgstr "Min enhet"
 
 msgid "My Workspaces"
 msgstr "Mina arbetsytor"
+
+msgid "New Assets (This Year)"
+msgstr "Nya tillgångar (i år)"
 
 msgid "NOTE: If you add states or transitions in the table, it will be reflected in the Workflow Builder but you will have to position them manually. Also Workflow Builder is currently in <b>BETA</b>."
 msgstr "OBS: Om du lägger till tillstånd eller övergångar i tabellen kommer det att återspeglas i Arbetsflödesgeneratorn, men du måste placera dem manuellt. Arbetsflödesgeneratorn är för närvarande i <b>BETA</b>."
@@ -19067,6 +19115,18 @@ msgstr "OAuth är aktiverad men inte auktoriserad. Använd knappen \"Auktorisera
 msgid "OCR"
 msgstr "OCR-nummer"
 
+msgid "Oldest Items"
+msgstr "Äldsta artiklar"
+
+msgid "Open Opportunity"
+msgstr "Öppna affärsmöjligheter"
+
+msgid "Opportunities via Campaigns"
+msgstr "Affärsmöjligheter via kampanjer"
+
+msgid "Opportunity Trends"
+msgstr "Trender för affärsmöjligheter"
+
 msgid "OTP App"
 msgstr "OTP-app"
 
@@ -19830,6 +19890,9 @@ msgstr "Utgående (SMTP) inställningar"
 
 msgid "Outgoing Bills"
 msgstr "Utgående fakturor"
+
+msgid "Outgoing Bills (Sales Invoice)"
+msgstr "Utgående fakturor (kundfakturor)"
 
 msgid "Outgoing Emails (Last 7 days)"
 msgstr "Utgående e-post (senaste 7 dagarna)"
@@ -26099,6 +26162,9 @@ msgstr "Körtid i sekunder"
 msgid "S.O. No."
 msgstr "Försäljningsordernummer"
 
+msgid "Sales Orders Count"
+msgstr "Antal försäljningsorder"
+
 msgid "SCIO Detail"
 msgstr "SCIO-detalj"
 
@@ -30207,6 +30273,12 @@ msgstr "Artikelgruppens målavvikelse per distrikt"
 msgid "Territory Targets"
 msgstr "Distriktsmål"
 
+msgid "Territory Wise Opportunity Count"
+msgstr "Affärsmöjligheter per distrikt"
+
+msgid "Territory Wise Sales"
+msgstr "Försäljning per distrikt"
+
 msgid "Territory-wise Sales"
 msgstr "Distriktsbaserad försäljning"
 
@@ -31030,6 +31102,9 @@ msgstr "Tidrapportsdetalj"
 msgid "Timesheet for tasks."
 msgstr "Tidrapport för uppgifter."
 
+msgid "Timesheet Working Hours"
+msgstr "Tidrapporterade timmar"
+
 msgid "Timespan"
 msgstr "Tidsintervall"
 
@@ -31303,6 +31378,9 @@ msgstr "Toppfältposter"
 msgid "Top Center"
 msgstr "Toppcenter"
 
+msgid "Top Customers"
+msgstr "Största kunder"
+
 msgid "Top Errors"
 msgstr "Toppfel"
 
@@ -31311,6 +31389,9 @@ msgstr "Toppvänster"
 
 msgid "Top Right"
 msgstr "Topphöger"
+
+msgid "Top Suppliers"
+msgstr "Största leverantörer"
 
 msgid "Total (Company Currency)"
 msgstr "Totalt (bolagsvaluta)"
@@ -31374,6 +31455,9 @@ msgstr "Total tillgång"
 
 msgid "Total Asset Cost"
 msgstr "Total tillgångskostnad"
+
+msgid "Total Assets"
+msgstr "Antal tillgångar"
 
 msgid "Total Background Workers"
 msgstr "Totalt antal bakgrundstjänster"
@@ -31513,6 +31597,12 @@ msgstr "Total intäkt"
 msgid "Total Income This Year"
 msgstr "Total intäkt i år"
 
+msgid "Total Incoming Bills"
+msgstr "Inkommande fakturor"
+
+msgid "Total Incoming Payment"
+msgstr "Inbetalningar"
+
 msgid "Total Incoming Value (Receipt)"
 msgstr "Totalt ingående värde (inleverans)"
 
@@ -31576,8 +31666,14 @@ msgstr "Totala övriga avgifter"
 msgid "Total Outgoing"
 msgstr "Totalt utgående"
 
+msgid "Total Outgoing Bills"
+msgstr "Utgående fakturor"
+
 msgid "Total Outgoing Emails"
 msgstr "Totalt utgående e-post "
+
+msgid "Total Outgoing Payment"
+msgstr "Utbetalningar"
 
 msgid "Total Outgoing Value (Consumption)"
 msgstr "Totalt utgående värde (förbrukning)"
@@ -33328,6 +33424,9 @@ msgstr "Verifikattyp"
 
 msgid "Voucher-wise Balance"
 msgstr "Verifikatbaserat saldo"
+
+msgid "Warehouse wise Stock Value"
+msgstr "Lagervärde per lager"
 
 msgid "WIP Composite Asset"
 msgstr "Pågående arbete – sammansatt tillgång"
