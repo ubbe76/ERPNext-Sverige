@@ -9728,6 +9728,15 @@ msgstr "Dokument upplåst"
 msgid "Document follow is not enabled for this user."
 msgstr "Följ dokument är inte aktiverat för denna användare."
 
+msgid "Document has been cancelled"
+msgstr "Dokumentet är annullerat"
+
+msgid "Document is in draft state"
+msgstr "Dokumentet är ett utkast"
+
+msgid "Document not Relinked"
+msgstr "Dokumentet har inte länkats om"
+
 msgid "Document renamed from {0} to {1}"
 msgstr "Dokumentnamn ändrat från {0} till {1}"
 
@@ -30786,6 +30795,9 @@ msgstr "Detta är plats där åtgärder utförs."
 
 msgid "This is a location where raw materials are available."
 msgstr "Detta är plats där råmaterial finns tillgängligt."
+
+msgid "This is a preview of the email to be sent. A PDF of the document will automatically be attached with the email."
+msgstr "Detta är en förhandsvisning av e-postmeddelandet som ska skickas. En PDF av dokumentet bifogas automatiskt."
 
 msgid "This is a root account and cannot be edited."
 msgstr "Detta är kontoklass och kan inte ändras."
