@@ -30345,8 +30345,11 @@ msgstr "Bolag {0} är inte registrerat i Sydafrika. Momsrevisionsrapport är end
 msgid "The company {0} is not in United Arab Emirates. UAE VAT 201 report is only available for companies in United Arab Emirates."
 msgstr "Bolag {0} finns inte i Förenade Arabemiraten. UAE VAT 201-rapport är endast tillgänglig för bolag i Förenade Arabemiraten."
 
+msgid "The completed quantity {0} of an operation {1} cannot be greater than the completed quantity {2} of a previous operation {3}."
+msgstr "Klar kvantitet {0} för operation {1} kan inte vara större än klar kvantitet {2} för föregående operation {3}."
+
 msgid "The completed quantity {0} of an operation {1} cannot be greater than the manufactured quantity {2} of a previous operation {3}. Submit the manufacturing entry for the operation {3} first."
-msgstr "Färdigställd kvantitet {0} för åtgärd {1} kan inte vara högre än producerad kvantitet {2} för tidigare åtgärd {3}. Godkänn produktionspost för åtgärd {3} först."
+msgstr "Klar kvantitet {0} för operation {1} kan inte vara större än producerad kvantitet {2} för föregående operation {3}. Godkänn produktionsposten för operation {3} först."
 
 msgid "The configured SMTP server does not support DSN (Delivery Status Notification)."
 msgstr "Konfigurerad SMTP-server har inte stöd för DSN (leveransstatusavisering)."
@@ -34723,6 +34726,9 @@ msgstr "{0}s {1} får inte infalla före {2}s förväntade startdatum."
 
 msgid "{0}, Row {1}"
 msgstr "{0}, rad {1}"
+
+msgid "{0}, complete the operation {1} before the operation {2}."
+msgstr "Enligt ordningen i tillverkningsordern måste operation {1} slutföras före operation {2}."
 
 msgid "{0}: Cannot set Amend without Cancel"
 msgstr "{0}: Kan inte ändra utan att annullera"
