@@ -2,15 +2,28 @@
 
 ## v0.3.0 – 2026-10-05 (pre-release)
 
+Frakten är en egen app. Använder ni frakt: installera ERPNext Sverige Frakt **innan** siten migreras till 0.3.0.
+
 ### Ändrat
 
 - **Frakten är en egen app:** transportbokning via Sendify har flyttat till
   [ERPNext Sverige Frakt](https://github.com/ubbe76/ERPNext-Sverige-Frakt). Data och inställningar följer med,
-  men fraktappen måste installeras **innan** siten migreras (se dess README).
+  men fraktappen måste installeras **innan** siten migreras (se dess README). Skrivbordsikonen för Frakt finns
+  också i fraktappen.
 - Det automatiska kontovalet bokför fraktartiklar på 3520 via hooken `erpnext_sverige_fraktartiklar`, som
   fraktappen anmäler sig till, i stället för att läsa Fraktinställningar.
+- **Testade versioner:** README anger att appen senast testades med frappe 16.36.1 och erpnext 16.37.0, och
+  `pyproject.toml` kräver frappe och erpnext version 16, vilket `bench get-app` kontrollerar.
 - Den tomma modulen Manufacturing SE är borttagen.
-- Översikternas kort och diagram i ERPNext har svenska rubriker.
+
+### Översättningar
+
+- Översikternas kort och diagram i ERPNext har svenska rubriker (33 st), till exempel Åldersanalys
+  kundreskontra och Lagervärde per lager. Ett test kräver svensk text för nya rubriker.
+- Strängar som frappe 16.36 och erpnext 16.37 försämrat är rättade: "Dokumentet är annullerat",
+  "Dokumentet är ett utkast", "e-postmeddelandet".
+- Felet när operationer startas i fel ordning är helt svenskt ("Enligt ordningen i tillverkningsordern måste
+  operation … slutföras före …"), och kvantitetsfelen säger "operation" i stället för "åtgärd".
 
 ## v0.2.0 – 2026-10-03 (pre-release)
 
