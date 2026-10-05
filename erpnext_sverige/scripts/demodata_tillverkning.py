@@ -344,7 +344,8 @@ def _artiklar(company: str, lager: dict) -> None:
 				],
 			}
 		)
-		if frakt:
+		# Fraktmåtten finns bara med fraktappen (ERPNext Sverige Frakt)
+		if frakt and "erpnext_sverige_frakt" in frappe.get_installed_apps():
 			kollityp, langd, bredd, hojd = frakt
 			doc.update(
 				{
