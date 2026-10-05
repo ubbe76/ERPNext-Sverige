@@ -89,7 +89,7 @@ Fynd:
      närvaro finns i Frappe HRMS, som är installerat tillsammans med appen `hrms_sverige`.
    - Mappning mellan aktivitetstyper/frånvaroorsaker och lönearter per lönesystem
 6. [x] **Transportbokning i Sverige** via fraktaggregatorn Sendify, byggt på ERPNext:s Shipment
-   (Försändelse): priser, bokning, fraktsedel, etikett och spårning. Se README, "Frakt via Sendify".
+   (Försändelse): priser, bokning, fraktsedel, etikett och spårning. Flyttad till appen ERPNext Sverige Frakt i 0.3.0.
    - [ ] Prova riktiga bokningar (i dag provat mot Sendifys sandlåda)
 7. [ ] **Breddat stöd för e-faktura i Sverige**
    - Utgående: skapa Peppol BIS Billing 3.0 (UBL) från kundfaktura och kreditnota.

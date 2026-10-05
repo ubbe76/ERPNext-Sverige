@@ -62,6 +62,15 @@ def resolve_freight_account(tax_category: str | None) -> str | None:
 	return SALES_FOREIGN.get((tax_category, GOODS))
 
 
+def fraktartiklar() -> set[str]:
+	"""Artiklar som frakten faktureras som. Fraktappen anmäler dem med hooken `erpnext_sverige_fraktartiklar`."""
+	return {
+		artikel
+		for hook in frappe.get_hooks("erpnext_sverige_fraktartiklar")
+		for artikel in frappe.get_attr(hook)()
+	}
+
+
 def set_accounts_by_tax_category(doc, method=None):
 	"""doc_events-hook för Sales Invoice och Purchase Invoice (validate)."""
 	if not doc.tax_category or not doc.company:
@@ -77,7 +86,7 @@ def set_accounts_by_tax_category(doc, method=None):
 		"Company", doc.company, "enable_perpetual_inventory"
 	)
 
-	fraktartikel = side == SALES and frappe.db.get_single_value("Fraktinstallningar", "fraktartikel")
+	frakt = fraktartiklar() if side == SALES else set()
 
 	for row in doc.get("items"):
 		if not row.item_code:
@@ -92,7 +101,7 @@ def set_accounts_by_tax_category(doc, method=None):
 		if perpetual_inventory and is_stock_item:
 			continue
 
-		if fraktartikel and row.item_code == fraktartikel:
+		if row.item_code in frakt:
 			number = resolve_freight_account(doc.tax_category)
 		else:
 			number = resolve_account(

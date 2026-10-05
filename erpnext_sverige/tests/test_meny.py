@@ -1,9 +1,9 @@
-"""Skrivbordsikoner och sidomenyer: Frakt och Svensk bokföring ska synas i ERPNext:s meny."""
+"""Skrivbordsikoner och sidomenyer: Svensk bokföring ska synas i ERPNext:s meny (Frakt finns i fraktappen)."""
 
 import frappe
 from frappe.tests import IntegrationTestCase
 
-ICONS = {"Frakt": "ERPNext", "Svensk bokföring": "Accounting"}
+ICONS = {"Svensk bokföring": "Accounting"}
 
 
 class TestMeny(IntegrationTestCase):

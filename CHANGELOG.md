@@ -1,5 +1,17 @@
 # Ändringslogg
 
+## v0.3.0 – 2026-10-05 (pre-release)
+
+### Ändrat
+
+- **Frakten är en egen app:** transportbokning via Sendify har flyttat till
+  [ERPNext Sverige Frakt](https://github.com/ubbe76/ERPNext-Sverige-Frakt). Data och inställningar följer med,
+  men fraktappen måste installeras **innan** siten migreras (se dess README).
+- Det automatiska kontovalet bokför fraktartiklar på 3520 via hooken `erpnext_sverige_fraktartiklar`, som
+  fraktappen anmäler sig till, i stället för att läsa Fraktinställningar.
+- Den tomma modulen Manufacturing SE är borttagen.
+- Översikternas kort och diagram i ERPNext har svenska rubriker.
+
 ## v0.2.0 – 2026-10-03 (pre-release)
 
 ### Nytt

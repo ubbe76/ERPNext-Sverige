@@ -1,9 +1,12 @@
+from unittest.mock import patch
+
 import frappe
 from frappe.tests import IntegrationTestCase, UnitTestCase
 
 from erpnext_sverige.accounting.account_selection import (
 	PURCHASE,
 	SALES,
+	fraktartiklar,
 	resolve_account,
 	resolve_freight_account,
 )
@@ -49,6 +52,36 @@ class TestResolveAccount(UnitTestCase):
 		self.assertIsNone(resolve_account(SALES, "Okänd", 25, GOODS))
 
 
+FRAKTHOOK = "erpnext_sverige_fraktartiklar"
+_get_hooks = frappe.get_hooks
+
+
+def _testfraktartiklar():
+	return ["TEST-SE-VARA-12"]
+
+
+def med_fraktartikelhook():
+	"""Som när fraktappen är installerad och anmäler sin fraktartikel."""
+	sokvag = f"{__name__}._testfraktartiklar"
+	return patch.object(
+		frappe,
+		"get_hooks",
+		lambda hook=None, *a, **k: [sokvag] if hook == FRAKTHOOK else _get_hooks(hook, *a, **k),
+	)
+
+
+class TestFraktartiklar(UnitTestCase):
+	def test_utan_hook_finns_ingen_fraktartikel(self):
+		# Som utan fraktappen (på en testsite kan den vara installerad)
+		utan = lambda hook=None, *a, **k: [] if hook == FRAKTHOOK else _get_hooks(hook, *a, **k)  # noqa: E731
+		with patch.object(frappe, "get_hooks", utan):
+			self.assertEqual(fraktartiklar(), set())
+
+	def test_fraktartiklar_fran_hook(self):
+		with med_fraktartikelhook():
+			self.assertEqual(fraktartiklar(), {"TEST-SE-VARA-12"})
+
+
 class TestAccountSelectionOnInvoices(IntegrationTestCase):
 	@classmethod
 	def setUpClass(cls):
@@ -85,6 +118,11 @@ class TestAccountSelectionOnInvoices(IntegrationTestCase):
 
 		si = _sales_invoice(self.customer_se, [self.service])
 		self.assertEqual(si.items[0].income_account, self.account("3001"))
+
+	def test_fraktartikel_fran_hook_far_3520(self):
+		with med_fraktartikelhook():
+			si = _sales_invoice(self.customer_se, [self.goods_12])
+		self.assertEqual(si.items[0].income_account, self.account("3520"))
 
 	def test_manual_account_is_kept(self):
 		si = _sales_invoice(self.customer_se, [self.service], income_account=self.account("3590"))
