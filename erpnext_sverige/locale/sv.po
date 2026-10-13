@@ -6033,6 +6033,9 @@ msgstr "Rensa tabell"
 msgid "Clear User Permissions"
 msgstr "Rensa användarbehörigheter"
 
+msgid "Clear cache and reload"
+msgstr "Rensa cacheminnet och ladda om"
+
 msgid "Clear the email message and add the template"
 msgstr "Rensa e-postmeddelande och lägg till mall"
 
@@ -8719,6 +8722,9 @@ msgstr "Standardmomsmallar för försäljning,inköp och artiklar är skapade. "
 
 msgid "Default value for {0} must be in the list of options."
 msgstr "Standardvärde för {0} måste vara i listan med alternativ."
+
+msgid "Default {0}"
+msgstr "{0} (standard)"
 
 msgid "DefaultValue"
 msgstr "Standardvärde"
