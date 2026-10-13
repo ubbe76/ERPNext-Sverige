@@ -22,9 +22,9 @@ Appen installeras ovanpå ERPNext och anpassar systemet för svenska bolag, utan
 
 ERPNext:s svenska översättning skriver isär sammansatta ord, använder engelska versaler och har många rena
 felöversättningar. Appen levererar en egen översättningskatalog (`erpnext_sverige/locale/sv.po`) med drygt
-11 000 rättade strängar från Frappe och ERPNext. Katalogen laddas efter deras egna, och därför ersätter den
-deras översättningar. Alla ERPNext-moduler är granskade, och begreppen följer svensk bokförings- och
-affärsterminologi:
+13 000 rättade och nyöversatta strängar från Frappe och ERPNext. Katalogen laddas efter deras egna, och därför
+ersätter den deras översättningar. Alla ERPNext-moduler är granskade, och begreppen följer svensk bokförings-
+och affärsterminologi:
 
 | Engelska | ERPNext | ERPNext Sverige |
 |---|---|---|
@@ -331,6 +331,9 @@ Stilregler och ordlista:
   Transportör (Carrier). ERPNext:s standardlager Stores heter Lager.
 - Tillverkning: Operation (inte Åtgärd), Operationsföljd (Routing), Arbetsstation (Workstation),
   Tillverkningsorder (Work Order), Operationskort (Job Card), Färdigartikel (Finished Good).
+- Frappe: Arbetsyta (Workspace), Sidofält (Sidebar), Dock/dockan (Dock, rail), Anslagstavla (Kanban Board),
+  Introduktion (Onboarding), Utlösare och Åtgärd (Trigger/Action i automatiseringar), Godkänn (Submit),
+  Snippet (sparade block i utskriftsformatredigeraren).
 - Utskriftsmallarnas egna etiketter har `msgctxt "Swedish print"` och ändras bara medvetet.
 - Var försiktig med korta ord som delas med andra sammanhang ("Left" är också justeringen Vänster).
 
