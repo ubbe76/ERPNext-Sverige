@@ -3730,6 +3730,9 @@ msgstr "Auktoriserat värde"
 msgid "Authors / Maintainers"
 msgstr "Författare / underhållare"
 
+msgid "Auto Assign"
+msgstr "Tilldela automatiskt"
+
 msgid "Auto Create Exchange Rate Revaluation"
 msgstr "Automatiskt skapa växelkursomvärdering"
 
@@ -10481,6 +10484,9 @@ msgstr "Aktivera oföränderlig bokföring"
 msgid "Enable Incoming"
 msgstr "Aktivera inkommande"
 
+msgid "Enable Item Search Index"
+msgstr "Aktivera sökindex för artiklar"
+
 msgid "Enable Item-wise Inventory Account"
 msgstr "Aktivera artikelbaserat lagerkonto"
 
@@ -14676,6 +14682,9 @@ msgstr "Ogiltigt telefonnummer"
 msgid "Invalid Posting Time"
 msgstr "Ogiltig registreringstid"
 
+msgid "Invalid Price List"
+msgstr "Ogiltig prislista"
+
 msgid "Invalid Primary Role"
 msgstr "Ogiltig primär roll"
 
@@ -14711,6 +14720,9 @@ msgstr "Ogiltig retur"
 
 msgid "Invalid Sales Invoices"
 msgstr "Ogiltiga kundfakturor"
+
+msgid "Invalid Sample Size"
+msgstr "Ogiltig provstorlek"
 
 msgid "Invalid Schedule"
 msgstr "Ogiltigt schema"
@@ -27390,6 +27402,9 @@ msgstr "Antal serienummer"
 
 msgid "Serial No Ledger"
 msgstr "Serienummerregister"
+
+msgid "Serial No Not Reserved"
+msgstr "Serienumret är inte reserverat"
 
 msgid "Serial No Range"
 msgstr "Serienummerintervall"
