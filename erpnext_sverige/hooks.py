@@ -94,6 +94,9 @@ jinja = {
 after_install = "erpnext_sverige.setup.custom_fields.create_custom_fields"
 after_migrate = "erpnext_sverige.setup.custom_fields.create_custom_fields"
 
+# Dockans etiketter översätts inte av frappe 16.51
+boot_session = "erpnext_sverige.boot.oversatt_dockan"
+
 # Uninstallation
 # ------------
 

@@ -42,3 +42,17 @@ class TestMeny(IntegrationTestCase):
 		if is_desktop_icons_page():
 			self.assertEqual(frappe.db.get_value("Desktop Icon", MENY, "parent_icon"), "Accounting")
 			self.assertFalse(frappe.db.get_value("Desktop Icon", MENY, "hidden"))
+
+	def test_dockans_etiketter_oversatta(self):
+		# frappe 16.51 översätter inte dockans titlar; boot_session-hooken gör det
+		from erpnext_sverige.boot import oversatt_dockan
+
+		self.assertIn("erpnext_sverige.boot.oversatt_dockan", frappe.get_hooks("boot_session"))
+		bootinfo = frappe._dict(dock={"erpnext": [{"title": "Stock"}, {"title": MENY}, {"title": None}]})
+		previous = frappe.local.lang
+		frappe.local.lang = "sv"
+		try:
+			oversatt_dockan(bootinfo)
+		finally:
+			frappe.local.lang = previous
+		self.assertEqual([rad["title"] for rad in bootinfo.dock["erpnext"]], ["Lager", MENY, None])
