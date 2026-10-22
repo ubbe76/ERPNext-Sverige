@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/images/erpnext-sverige-dark.svg">
-    <img alt="ERPNext Sverige" src=".github/images/erpnext-sverige.svg" width="420">
+    <source media="(prefers-color-scheme: dark)" srcset=".github/images/svensk-erp-dark.svg">
+    <img alt="Svensk ERP" src=".github/images/svensk-erp.svg" width="345">
   </picture>
 </p>
 
