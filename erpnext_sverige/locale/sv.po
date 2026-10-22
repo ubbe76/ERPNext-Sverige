@@ -48,6 +48,363 @@ msgstr " Virtuell artikel"
 msgid " Skip Material Transfer"
 msgstr " Hoppa över materialöverföring"
 
+msgid "% of Lost Quotations"
+msgstr "% förlorade offerter"
+
+msgid "'Days Since Last Order' must be greater than zero"
+msgstr "'Dagar sedan senaste order' måste vara större än noll"
+
+msgid "Account {0} must be a non-group account of type Bank"
+msgstr "Konto {0} måste vara av typen Bank och får inte vara en grupp"
+
+msgid "Additional Discount per Stock Unit"
+msgstr "Extra rabatt per lagerenhet"
+
+msgid "Cancel Maintenance Visits {0} before cancelling this Maintenance Visit"
+msgstr "Annullera servicebesöken {0} innan du annullerar det här servicebesöket"
+
+msgid "Cancelled transactions cannot be deleted when Immutable Ledger is enabled."
+msgstr "Annullerade transaktioner kan inte raderas när oföränderlig bokföring är aktiverad."
+
+msgid "Cannot add an open task under completed Parent Task {0}."
+msgstr "Det går inte att lägga en öppen uppgift under den klara överordnade uppgiften {0}."
+
+msgid "Cannot create Intercompany {0}. All items in the source {1} have already been fully ordered. Please check the existing linked {2}s."
+msgstr "Kan inte skapa koncernintern {0}. Alla artiklar i {1} är redan helt beställda. Kontrollera befintliga kopplade {2}."
+
+msgid "Cannot create a Subcontracting Order against Purchase Order {0} because it is {1}."
+msgstr "Kan inte skapa en underleverantörsorder mot inköpsorder {0} eftersom den är {1}."
+
+msgid "Cannot create recurring document: no exchange rate found for {0} to {1} on {2}. Please create a Currency Exchange record."
+msgstr "Kan inte skapa återkommande dokument: ingen växelkurs från {0} till {1} den {2}. Lägg in en växelkurs."
+
+msgid "Cannot log time against cancelled Tasks: {0}"
+msgstr "Kan inte registrera tid på annullerade uppgifter: {0}"
+
+msgid "Cannot regenerate Stock Closing Entry {0} because the later Stock Closing Entry {1} is built on it. Cancel {1} first."
+msgstr "Kan inte generera om lagerstängningspost {0} eftersom den senare lagerstängningsposten {1} bygger på den. Annullera {1} först."
+
+msgid "Cannot set Project to Completed"
+msgstr "Kan inte sätta projektet som klart"
+
+msgid "Cannot set the status of a Purchase Order to {0}."
+msgstr "Kan inte sätta status för en inköpsorder till {0}."
+
+msgid "Cannot update items of Purchase Order {0} because it is {1}."
+msgstr "Kan inte uppdatera artiklarna i inköpsorder {0} eftersom den är {1}."
+
+msgid "Company {0} does not match the company {1} of {2} {3}"
+msgstr "Bolag {0} stämmer inte med bolaget {1} för {2} {3}"
+
+msgid "Creation"
+msgstr "Skapad"
+
+msgid "Currency must be {0} to match {1} {2}"
+msgstr "Valutan måste vara {0} för att stämma med {1} {2}"
+
+msgid "Currency of the outstanding amount. Defaults to the Company currency."
+msgstr "Valuta för utestående belopp. Standard är bolagets valuta."
+
+msgid "Customer {0} does not match the customer of Maintenance Schedule {1}"
+msgstr "Kund {0} stämmer inte med kunden i serviceschema {1}"
+
+msgid "Days Since Last {0}"
+msgstr "Dagar sedan senaste {0}"
+
+msgid "Desk"
+msgstr "Skrivbord"
+
+msgid "Different Customer"
+msgstr "Annan kund"
+
+msgid "Discounts Cannot Be Combined"
+msgstr "Rabatterna kan inte kombineras"
+
+msgid "Dock"
+msgstr "Dock"
+
+msgid "Enable Automatically Create New Batch when entering Opening Stock for a batched item."
+msgstr "Aktivera \"Automatiskt skapa nytt parti\" när du lägger in ingående lager för en artikel med parti."
+
+msgid "Every day from {0} to {1} is a holiday for Sales Person {2}."
+msgstr "Alla dagar från {0} till {1} är lediga för säljare {2}."
+
+msgid "Exchange Rate Not Found"
+msgstr "Växelkurs saknas"
+
+msgid "Geo"
+msgstr "Geo"
+
+msgid "Global"
+msgstr "Gemensam"
+
+msgid "Hidden by its visibility condition"
+msgstr "Dold av sitt synlighetsvillkor"
+
+msgid "Immutable Ledger Enabled"
+msgstr "Oföränderlig bokföring är aktiverad"
+
+msgid "Invalid Cloud Settings data."
+msgstr "Ogiltiga data för molninställningar."
+
+msgid "Invalid Cloud Settings operation."
+msgstr "Ogiltig åtgärd för molninställningar."
+
+msgid "Invalid Cloud Settings query."
+msgstr "Ogiltig fråga för molninställningar."
+
+msgid "Invalid Cloud Settings time window."
+msgstr "Ogiltigt tidsfönster för molninställningar."
+
+msgid "Invalid Company"
+msgstr "Ogiltigt bolag"
+
+msgid "Invalid Parent Task"
+msgstr "Ogiltig överordnad uppgift"
+
+msgid "Invalid Project"
+msgstr "Ogiltigt projekt"
+
+msgid "Invalid UOM"
+msgstr "Ogiltig enhet"
+
+msgid "Last {0} Amount"
+msgstr "Senaste belopp ({0})"
+
+msgid "Last {0} Date"
+msgstr "Senaste datum ({0})"
+
+msgid "Letter head"
+msgstr "Brevhuvud"
+
+msgid "Margins"
+msgstr "Marginaler"
+
+msgid "Merge rows with the same account head in the ledger for Journal Entries and Payment Entries only."
+msgstr "Slå ihop rader med samma konto i huvudboken, bara för verifikationer och betalningsposter."
+
+msgid "Multiple {0} records match {1}. Please select the Party ID."
+msgstr "Flera {0} matchar {1}. Välj part-ID."
+
+msgid "Must be positive. If the unit rate would change the opening amount through rounding, the invoice uses quantity 1 and records this quantity in the description."
+msgstr "Måste vara positivt. Om à-priset skulle ändra det ingående beloppet genom avrundning får fakturan kvantitet 1 och kvantiteten skrivs i beskrivningen."
+
+msgid "No Customer Group"
+msgstr "Ingen kundgrupp"
+
+msgid "No active Subcontracting BOM found for Finished Good {0}. Please select the Service Item manually for these rows."
+msgstr "Ingen aktiv stycklista för underleverantör för färdigartikel {0}. Välj serviceartikel för de här raderna manuellt."
+
+msgid "Not printed: no values for this record"
+msgstr "Skrivs inte ut: posten saknar värden"
+
+msgid "Number of {0}s"
+msgstr "Antal ({0})"
+
+msgid "Only a submitted Purchase Order can be held, closed or re-opened."
+msgstr "Bara en godkänd inköpsorder kan spärras, stängas eller öppnas igen."
+
+msgid "Operation Row"
+msgstr "Operationsrad"
+
+msgid "Operation {0} is added multiple times in the work order {1}"
+msgstr "Operation {0} finns flera gånger i tillverkningsorder {1}"
+
+msgid "Operation {0} is added multiple times in the work order {1}. Please select the operation row."
+msgstr "Operation {0} finns flera gånger i tillverkningsorder {1}. Välj operationsrad."
+
+msgid "Original Quantity: {0}"
+msgstr "Ursprunglig kvantitet: {0}"
+
+msgid "PDF renderer"
+msgstr "PDF-renderare"
+
+msgid "Page numbers"
+msgstr "Sidnummer"
+
+msgid "Parent Task {0} is not in Project {1}. Pick a group task of the same project."
+msgstr "Överordnad uppgift {0} hör inte till projekt {1}. Välj en gruppuppgift i samma projekt."
+
+msgid "Pilot returned an invalid domain."
+msgstr "Pilot returnerade en ogiltig domän."
+
+msgid "Print Format {0} is not valid for {1}"
+msgstr "Utskriftsformat {0} gäller inte för {1}"
+
+msgid "Progress % for a task must be between 0 and 100."
+msgstr "Förlopp i % för en uppgift måste vara mellan 0 och 100."
+
+msgid "Project Template {0} is disabled"
+msgstr "Projektmall {0} är inaktiverad"
+
+msgid "Project {0} is only {1} complete. Complete or cancel its tasks first."
+msgstr "Projekt {0} är bara klart till {1}. Gör klart eller annullera dess uppgifter först."
+
+msgid "Reply-To Addresses still include {0}. Change it to {1} as well?"
+msgstr "Svara till-adresserna innehåller fortfarande {0}. Vill du ändra den till {1} också?"
+
+msgid "Row # {0}: Cannot return {1}, only {2} {3} of its component {4} is left to return"
+msgstr "Rad # {0}: Kan inte returnera {1}, bara {2} {3} av komponenten {4} återstår att returnera"
+
+msgid "Row #{0}: Cannot change the UOM or conversion factor of Item {1} after part of it was received or delivered."
+msgstr "Rad #{0}: Kan inte ändra enhet eller konverteringsfaktor för artikel {1} när en del av den har tagits emot eller levererats."
+
+msgid "Row #{0}: Item {1} does not match the item of its schedule row"
+msgstr "Rad #{0}: Artikel {1} stämmer inte med artikeln på schemaraden"
+
+msgid "Row #{0}: Item {1} must be a stock item with Supply Raw Materials for Purchase enabled for a Subcontracting Material Request"
+msgstr "Rad #{0}: Artikel {1} måste vara en lagerartikel med \"Leverera råmaterial för inköp\" aktiverat för en materialbegäran till underleverantör"
+
+msgid "Row #{0}: Objective {1} is not part of Quality Goal {2}"
+msgstr "Rad #{0}: Mål {1} ingår inte i kvalitetsmålsättning {2}"
+
+msgid "Row #{0}: Parameter {1} is already added"
+msgstr "Rad #{0}: Parameter {1} finns redan"
+
+msgid "Row #{0}: Parameter {1} is not part of Quality Feedback Template {2}"
+msgstr "Rad #{0}: Parameter {1} ingår inte i kvalitetsåterkopplingsmall {2}"
+
+msgid "Row #{0}: Quantity must be a positive number"
+msgstr "Rad #{0}: Kvantiteten måste vara ett positivt tal"
+
+msgid "Row {0} is not part of Request for Quotation {1}."
+msgstr "Rad {0} ingår inte i offertförfrågan {1}."
+
+msgid "Row {0}: Account {1} must be a {2} account"
+msgstr "Rad {0}: Konto {1} måste vara av typen {2}"
+
+msgid "Row {0}: Activity Type {1} is disabled"
+msgstr "Rad {0}: Aktivitetstyp {1} är inaktiverad"
+
+msgid "Row {0}: Conversion Factor must be greater than zero."
+msgstr "Rad {0}: Konverteringsfaktorn måste vara större än noll."
+
+msgid "Row {0}: Number of visits can not be more than the {1} days between Start and End Date"
+msgstr "Rad {0}: Antal besök kan inte vara fler än de {1} dagarna mellan start- och slutdatum"
+
+msgid "Row {0}: Select the time log of Timesheet {1} that this amount bills"
+msgstr "Rad {0}: Välj den tidspost i tidrapport {1} som beloppet fakturerar"
+
+msgid "Row {0}: Task {1} ends after its parent task {2}"
+msgstr "Rad {0}: Uppgift {1} slutar efter sin överordnade uppgift {2}"
+
+msgid "Row {0}: Task {1} is not a Template Task"
+msgstr "Rad {0}: Uppgift {1} är inte en malluppgift"
+
+msgid "Row {0}: The same time log of Timesheet {1} is added more than once"
+msgstr "Rad {0}: Samma tidspost i tidrapport {1} finns mer än en gång"
+
+msgid "Row {0}: Timesheet {1} has no unbilled billable time logs"
+msgstr "Rad {0}: Tidrapport {1} har inga ofakturerade debiterbara tidsposter"
+
+msgid "Row {0}: {1} {2} visits need an End Date of {3}. Change the End Date or the Number of Visits."
+msgstr "Rad {0}: {1} besök ({2}) kräver slutdatum {3}. Ändra slutdatum eller antal besök."
+
+msgid "Sales Invoice (due)"
+msgstr "Kundfaktura (förfallodatum)"
+
+msgid "Save the Project before duplicating it"
+msgstr "Spara projektet innan du duplicerar det"
+
+msgid "Schedule Conflict"
+msgstr "Schemakonflikt"
+
+msgid "Schedule rows {0} do not belong to Maintenance Schedule {1}"
+msgstr "Schemaraderna {0} hör inte till serviceschema {1}"
+
+msgid "Select Operation Row"
+msgstr "Välj operationsrad"
+
+msgid "Select a submitted Maintenance Schedule for the scheduled visits"
+msgstr "Välj ett godkänt serviceschema för de schemalagda besöken"
+
+msgid "Serial No {0} is still in stock in Warehouse {1}"
+msgstr "Serienummer {0} finns fortfarande i lager {1}"
+
+msgid "Serial No {0} was sold to Customer {1}, not {2}"
+msgstr "Serienummer {0} såldes till kund {1}, inte {2}"
+
+msgid "Serial Number Series is mandatory when entering Opening Stock for a serialized item."
+msgstr "Serienummerserie krävs när du lägger in ingående lager för en artikel med serienummer."
+
+msgid "Service Item Not Set"
+msgstr "Serviceartikel saknas"
+
+msgid "Show Completed Orders"
+msgstr "Visa klara order"
+
+msgid "Spacing (mm)"
+msgstr "Avstånd (mm)"
+
+msgid "Stock Closing Entry {0} must be submitted to generate the closing balance"
+msgstr "Lagerstängningspost {0} måste vara godkänd för att utgående saldo ska kunna tas fram"
+
+msgid "Supplier Scorecard refresh failed"
+msgstr "Uppdateringen av leverantörsresultatkortet misslyckades"
+
+msgid "Supplier Scorecard standing of {0}: {1}"
+msgstr "Leverantörsresultatkortets ställning för {0}: {1}"
+
+msgid "Supplier Scorecard {0} already has a submitted period overlapping {1} to {2}"
+msgstr "Leverantörsresultatkort {0} har redan en godkänd period som överlappar {1} till {2}"
+
+msgid "Task {0} has child tasks in another project. Move them out of this group first."
+msgstr "Uppgift {0} har underuppgifter i ett annat projekt. Flytta ut dem ur gruppen först."
+
+msgid "Tax-exclusive additional discount carried from a source document, per stock unit."
+msgstr "Extra rabatt exklusive moms, överförd från ett källdokument, per lagerenhet."
+
+msgid "The Supplier Scorecard standing of {0} is now {1}."
+msgstr "Leverantörsresultatkortets ställning för {0} är nu {1}."
+
+msgid "The cash or non-trade discount cannot be combined with discounts carried from other documents."
+msgstr "Kassarabatten eller den icke-handelsrelaterade rabatten kan inte kombineras med rabatter som förts över från andra dokument."
+
+msgid "The cash or non-trade discount cannot be combined with the discount of {0}."
+msgstr "Kassarabatten eller den icke-handelsrelaterade rabatten kan inte kombineras med rabatten i {0}."
+
+msgid "The criteria formula fails when every variable is {0}. Check its syntax and guard divisions by a variable, for example: {1}"
+msgstr "Kriterieformeln misslyckas när alla variabler är {0}. Kontrollera syntaxen och skydda divisioner med en variabel, till exempel: {1}"
+
+msgid "To Date cannot be a future date"
+msgstr "Till datum kan inte ligga i framtiden"
+
+msgid "Total Consumed Material Cost"
+msgstr "Total kostnad för förbrukat material"
+
+msgid "Total Lost Quotations"
+msgstr "Antal förlorade offerter"
+
+msgid "Total Lost Value"
+msgstr "Totalt förlorat värde"
+
+msgid "Total {0} Considered"
+msgstr "Totalt medräknat ({0})"
+
+msgid "Total {0} Value"
+msgstr "Totalt värde ({0})"
+
+msgid "Typography"
+msgstr "Typografi"
+
+msgid "Use POST for a Cloud Settings action."
+msgstr "Använd POST för en åtgärd i molninställningar."
+
+msgid "User {0} has no read or select permission on {1}"
+msgstr "Användare {0} saknar läs- eller valbehörighet för {1}"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Write Off Account must be a Profit and Loss account"
+msgstr "Avskrivningskontot måste vara ett resultatkonto"
+
+msgid "You are not permitted to view the timesheets of this project."
+msgstr "Du har inte behörighet att se projektets tidrapporter."
+
+msgid "Zoom"
+msgstr "Zoom"
+
 msgid "\"Company History\""
 msgstr "\"Bolagshistorik\""
 
@@ -34478,6 +34835,9 @@ msgstr "som benämning"
 msgid "as a percentage of finished item quantity"
 msgstr "som procentsats av färdigartikelkvantitet"
 
+msgid "auto"
+msgstr "auto"
+
 msgid "based_on"
 msgstr "Baserad på"
 
@@ -34534,6 +34894,15 @@ msgstr "via dataimport"
 
 msgid "via Notification"
 msgstr "via avisering"
+
+msgid "widget"
+msgstr "widget"
+
+msgid "wkhtmltopdf is deprecated and will be removed in version 17. Chrome is the supported renderer."
+msgstr "wkhtmltopdf är föråldrat och tas bort i version 17. Chrome är den renderare som stöds."
+
+msgid "wkhtmltopdf is deprecated and will be removed in version 17. Switch this format to Chrome."
+msgstr "wkhtmltopdf är föråldrat och tas bort i version 17. Byt till Chrome för det här formatet."
 
 msgid "you must select Capital Work in Progress Account in accounts table"
 msgstr "Välj konto för pågående kapitalarbete i kontotabellen"
@@ -34606,6 +34975,9 @@ msgstr "{0} mot försäljningsorder {1}"
 
 msgid "{0} already has a Parent Procedure {1}."
 msgstr "{0} har redan en överordnad procedur {1}."
+
+msgid "{0} cannot be a group"
+msgstr "{0} kan inte vara en grupp"
 
 msgid "{0} cannot be changed with opened Opening Entries."
 msgstr "{0} kan inte ändras med öppna öppningsposter."
@@ -34787,6 +35159,9 @@ msgstr "{0} giltiga serienummer för artikel {1}"
 msgid "{0} view is currently unsupported in Custom Financial Report."
 msgstr "{0} vy stöds för närvarande inte i anpassad bokslutsrapport."
 
+msgid "{0} was moved after the task it depends on. {1}"
+msgstr "{0} flyttades till efter uppgiften den är beroende av. {1}"
+
 msgid "{0} {1} Partially Reconciled"
 msgstr "{0} {1} delvis avstämd"
 
@@ -34810,6 +35185,9 @@ msgstr "{0} {1} är kopplad till {2}, men partskontot är {3}"
 
 msgid "{0} {1} is not in any active Fiscal Year"
 msgstr "{0} {1} är inte under något aktivt räkenskapsår"
+
+msgid "{0} {1} is not linked to Supplier {2}"
+msgstr "{0} {1} är inte kopplad till leverantör {2}"
 
 msgid "{0} {1} via CSV File"
 msgstr "{0} {1} via CSV-fil"

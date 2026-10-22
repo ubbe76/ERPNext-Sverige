@@ -70,6 +70,10 @@ Fynd:
    EU-försäljning/export, bankgiro/plusgiro/bankkonto/IBAN/BIC från bolagets bankkonto, OCR-nummer
    (inställning på bolaget). Svenska eller engelska efter kundens språk.
    - [x] **PDF-generator**: wkhtmltopdf 0.12.6.1 (med patchad Qt) är installerat.
+   - [ ] **Byt till Chrome före frappe v17**: wkhtmltopdf är föråldrat sedan frappe 16.52 och tas bort i v17.
+     Kör `bench setup-chrome` (laddar ner Chromium till benchen), välj PDF-generator "chrome" i
+     Utskriftsinställningar och provskriv alla svenska mallar (faktura, kreditfaktura, offert, orderbekräftelse,
+     följesedel, inköpsorder) till PDF: sidbrytningar, marginaler, brevhuvud, sidfot och OCR-raden.
    - [x] Svenskt talformat (`# ###,##`) och SEK med "kr" efter beloppet samt måndag som första veckodag (`set_swedish_regional_settings`, ingår i grunduppsättningen)
    - [ ] Lägg in bolagets adress och bankkonto (Bank Account med bankgiro) på riktiga siten
 4. [x] **Bankfiler**
