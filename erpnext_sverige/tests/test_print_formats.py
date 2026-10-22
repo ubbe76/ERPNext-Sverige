@@ -223,6 +223,12 @@ class TestDefaultPrintFormats(PrintTestCase):
 			frappe.clear_cache(doctype=doctype)
 			self.assertEqual(frappe.get_meta(doctype).default_print_format, print_format, doctype)
 
+	def test_formats_use_chrome_for_pdf(self):
+		# wkhtmltopdf är föråldrat sedan frappe 16.52 och tas bort i v17
+		for print_format in PRINT_FORMATS.values():
+			pdf_generator = frappe.db.get_value("Print Format", print_format, "pdf_generator")
+			self.assertEqual(pdf_generator, "chrome", print_format)
+
 	def test_own_print_format_is_kept(self):
 		own = frappe.get_doc(
 			{
