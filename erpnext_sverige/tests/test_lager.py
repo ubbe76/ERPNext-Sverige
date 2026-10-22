@@ -29,14 +29,21 @@ class TestLager(IntegrationTestCase):
 			).insert()
 		return f"{namn} - {COMPANY_ABBR}"
 
+	def standardlager(self):
+		# Nyare erpnext v16 har standardlagret på bolaget, äldre i Lagerinställningar
+		if frappe.get_meta("Company").has_field("default_warehouse"):
+			return "Company", COMPANY
+		return "Stock Settings", "Stock Settings"
+
 	def test_patchen_dope_om_butiker(self):
 		butiker = self.lager("Butiker")
-		frappe.db.set_single_value("Stock Settings", "default_warehouse", butiker)
+		doctype, name = self.standardlager()
+		frappe.db.set_value(doctype, name, "default_warehouse", butiker)
 		lager_i_stallet_for_butiker.execute()
 		ny = f"Lager - {COMPANY_ABBR}"
 		self.assertFalse(frappe.db.exists("Warehouse", butiker))
 		self.assertEqual(frappe.db.get_value("Warehouse", ny, "warehouse_name"), "Lager")
-		self.assertEqual(frappe.db.get_single_value("Stock Settings", "default_warehouse"), ny)
+		self.assertEqual(frappe.db.get_value(doctype, name, "default_warehouse"), ny)
 
 	def test_patchen_hoppar_over_om_lager_finns(self):
 		butiker, lager = self.lager("Butiker"), self.lager("Lager")
