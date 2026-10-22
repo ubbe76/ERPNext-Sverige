@@ -1,8 +1,8 @@
 """ERPNext:s standardlager Stores översattes till "Butiker" (affärer). Nu heter det "Lager".
 
 ERPNext letar upp standardlagret med det översatta namnet (_("Stores")), så befintliga lager döps om. rename_doc
-uppdaterar alla länkar (artiklars standardlager, lagerinställningar, lagertransaktioner). Finns redan ett lager
-med det nya namnet lämnas bolagets lager orört.
+uppdaterar alla länkar (artiklars och bolagets standardlager, lagerinställningar, lagertransaktioner). Finns
+redan ett lager med det nya namnet lämnas bolagets lager orört.
 """
 
 import frappe
