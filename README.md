@@ -83,7 +83,9 @@ Fakturamallen har det som mervärdesskattelagen kräver:
 
 Mallen följer kundens språk: svenska, eller engelska för kunder med engelska som språk.
 
-PDF kräver att wkhtmltopdf är installerat, eller att Chrome-generatorn väljs i Utskriftsinställningar.
+Mallarna skapar PDF med Chrome (wkhtmltopdf är föråldrat sedan frappe 16.52 och tas bort i v17). Chromium
+laddas ner till benchen första gången en PDF skapas, eller i förväg med `bench setup-chrome`. Välj också
+PDF-generator "chrome" i Utskriftsinställningar, så att ERPNext:s övriga format använder Chrome i webbläsaren.
 
 ### Bankfiler
 
